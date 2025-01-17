@@ -17,8 +17,15 @@ import { User } from '../../interfaces/user';
 import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthenticatorService } from '../../services/authenticator.service';
-//import { userDialogComponent } from '../../forms/utilizadores-edit/utilizadores-edit.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from '../../app.component';
+import { provideAnimations } from '@angular/platform-browser/animations';
+
+bootstrapApplication(AppComponent, {
+  providers: [provideAnimations()]
+});
 
 @Component({
   selector: 'app-user',
@@ -35,7 +42,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatListModule,
     MatButtonModule,
     RouterModule,
-    MatTableModule,
     MatCardModule,
     ReactiveFormsModule,
     MatCheckboxModule,
@@ -45,9 +51,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 })
 export class UserComponent implements OnInit {
   displayedColumns: string[] = [
+    'userID',
     'name',
     'email',
-    'role',
     'status',
     'acoes',
   ];
@@ -58,19 +64,55 @@ export class UserComponent implements OnInit {
   dataSource!: MatTableDataSource<User>;
 
   constructor(
-    private utilizadoresService: UserService,
+    private userService: UserService,
     private dialog: MatDialog,
     private router: Router,
     public authService: AuthenticatorService
   ) {}
 
-
   ngOnInit(): void {
-    //this.getAllUtilizadores();
+    this.getAllUsers();
   }
+
+  filterChange(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  getAllUsers(): void {
+    this.userService.getAllUsers().subscribe({
+      next: (data: User[]) => {
+        this.user = data;
+        this.user = this.user.map((user) => {
+          return { ...user };
+        });
+        console.log('USERS:', this.user);
+
+        this.dataSource = new MatTableDataSource(this.user);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.dataSource.filterPredicate = (
+          data: User,
+          filter: string
+        ) => {
+          const dataStr = data.userID + data.name + data.email;
+          return dataStr.toLowerCase().includes(filter.toLowerCase());
+        };
+      },
+      error: (error: any) => {
+        console.error('Erro ao carregar USERS:', error);
+      },
+    });
+  }
+
+  showDetails(email: any) {
+    // this.router.navigate(['/user', userID]);
+    console.log('ESTOU_AQUI');
+  }
+
+
+
 }
-
-
 
 
 

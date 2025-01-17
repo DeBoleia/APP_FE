@@ -19,8 +19,9 @@
 				<p><strong>Phone Number:</strong> {{ user?.phoneNumber || 'Not Provided' }}</p>
 				<p><strong>NIF:</strong> {{ user?.NIF || 'Not Provided' }}</p>
 				<p><strong>Birth Date:</strong>
-				<span *ngIf="user?.birthDate; else noBirthDate">{{ user?.birthDate | date }}</span>
-				<ng-template #noBirthDate>N/A</ng-template></p>
+					<span *ngIf="user?.birthDate; else noBirthDate">{{ user?.birthDate | date }}</span>
+					<ng-template #noBirthDate>N/A</ng-template>
+				</p>
 				<p><strong>Role:</strong> {{ user?.role || 'Not Provided' }}</p>
 			</div>
 		</mat-card-content>
@@ -34,7 +35,8 @@
 				<div formArrayName="cars" class="cars-container">
 					<mat-card *ngFor="let carCtrl of carsFormArray.controls; let i = index;" [formGroupName]="i" class="car-card">
 						<mat-card-header>
-							<mat-card-title>Car {{ i + 1 }}</mat-card-title>
+							<mat-card-title>Car {{ i + 1 }} </mat-card-title>
+							
 						</mat-card-header>
 						<mat-card-content>
 							<p><strong>Brand:</strong> {{ carCtrl.get('brand')?.value || 'Not Provided' }}</p>

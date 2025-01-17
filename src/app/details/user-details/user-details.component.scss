@@ -14,3 +14,11 @@
     box-sizing: border-box;
     min-width: 200px;
 }
+
+mat-card {
+    //max-width: 1200px; /* Defina a largura máxima do card */
+    //flex: 1 1 calc(98%);
+	width: 98%; /* Garante que o card não ultrapasse o limite da largura */
+    margin: 0 auto; /* Centraliza o card horizontalmente */
+    padding: 16px; /* Padding opcional para um melhor espaçamento */
+}

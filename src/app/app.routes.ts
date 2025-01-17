@@ -1,3 +1,15 @@
 import { Routes } from '@angular/router';
+import { UserComponent } from './component/user/user.component';
+import { UserDetailsComponent } from './details/user-details/user-details.component';
+import { LoginComponent } from './component/login/login.component';
+import { RegisterComponent } from './component/register/register.component';
 
-export const routes: Routes = [];
+
+export const routes: Routes = [
+	{ path: "user", component: UserComponent/*, canActivate: [AuthGuard], data: { requiresAuth: true} */},
+	{ path: "user/:userID", component: UserDetailsComponent/*, canActivate: [AuthGuard], data: { requiresAuth: true} */},
+	{ path: "login", component: LoginComponent },
+	{ path: "register", component: RegisterComponent },
+
+
+];

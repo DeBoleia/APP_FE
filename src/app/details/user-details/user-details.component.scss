@@ -1,0 +1,16 @@
+.badge {
+    margin-left: 0px;
+}
+
+.cars-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.car-card {
+    flex: 1 1 calc(25% - 16px); /* 4 cards por linha, com espaçamento */
+    box-sizing: border-box;
+    min-width: 200px;
+}

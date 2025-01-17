@@ -1,1 +1,66 @@
-<p>user-details works!</p>
+<div class="utilizador-details-container">
+	<div class="details-header">
+		<h2 id="title">Personal Information</h2>
+		<!-- <button mat-button (click)="editUtilizador(user)">Edit</button> -->
+	</div>
+
+	<mat-card>
+		<mat-card-content>
+			<h3 style="text-align: center;">General Info</h3>
+			<mat-divider></mat-divider><br>
+			<div class="info-group">
+				<p><strong>Name:</strong> {{ user?.name || 'Not Provided' }}</p>
+				<p><strong>Email:</strong> {{ user?.email || 'Not Provided' }}</p>
+				<p><strong>Status:</strong>&nbsp;
+					<span class="badge" [ngClass]="user?.status === 'active' ? 'bg-success' : 'bg-danger'">
+						{{ user?.status || 'Não informado' }}
+					</span>
+				</p>
+				<p><strong>Phone Number:</strong> {{ user?.phoneNumber || 'Not Provided' }}</p>
+				<p><strong>NIF:</strong> {{ user?.NIF || 'Not Provided' }}</p>
+				<p><strong>Birth Date:</strong>
+				<span *ngIf="user?.birthDate; else noBirthDate">{{ user?.birthDate | date }}</span>
+				<ng-template #noBirthDate>N/A</ng-template></p>
+				<p><strong>Role:</strong> {{ user?.role || 'Not Provided' }}</p>
+			</div>
+		</mat-card-content>
+	</mat-card>
+	
+	<br>
+	
+	
+		<mat-card-content>
+			<form [formGroup]="userForm">
+				<div formArrayName="cars" class="cars-container">
+					<mat-card *ngFor="let carCtrl of carsFormArray.controls; let i = index;" [formGroupName]="i" class="car-card">
+						<mat-card-header>
+							<mat-card-title>Car {{ i + 1 }}</mat-card-title>
+						</mat-card-header>
+						<mat-card-content>
+							<p><strong>Brand:</strong> {{ carCtrl.get('brand')?.value || 'Not Provided' }}</p>
+							<p><strong>Model:</strong> {{ carCtrl.get('model')?.value || 'Not Provided' }}</p>
+							<p><strong>Color:</strong> {{ carCtrl.get('color')?.value || 'Not Provided' }}</p>
+							<p><strong>License Plate:</strong> {{ carCtrl.get('licensePlate')?.value || 'Not Provided' }}</p>
+						</mat-card-content>
+					</mat-card>
+				</div>
+			</form>
+		</mat-card-content>
+
+
+	<br>
+
+	<!-- <mat-card-content *ngIf="utilizador?.tipoUtilizador === 'cliente'">
+		<br>
+		<h3>Histórico de Reservas</h3>
+		<mat-divider></mat-divider>
+		<app-reservas></app-reservas>
+	</mat-card-content> -->
+
+	<br>
+
+	<!-- <div class="desativacao" *ngIf="utilizador?.tipoUtilizador === 'cliente'">
+		<button mat-raised-button class="desativar-button" (click)="desativarConta()">Desativar
+			Conta</button>
+	</div> -->
+</div>

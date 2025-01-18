@@ -8,25 +8,27 @@ import { Trip } from '../../interfaces/trip';
   selector: 'app-trip',
   imports: [
     CommonModule
-
   ],
   templateUrl: './trip.component.html',
   styleUrl: './trip.component.scss'
 })
-export class TripComponent implements OnInit{
+export class TripComponent implements OnInit {
 
   trips: Trip[] = [];
 
-  constructor( 
-    private tripsService : TripsService
-  ) { }
+  constructor(
+    private tripsService: TripsService
+  ) { 
+    console.log('TRIPS COMPONENT');
+  }
 
   ngOnInit() {
-    this.tripsService.getTrips().subscribe(
+    console.log('TRIPS COMPONENT');
+    this.tripsService.getAllTrips().subscribe(
       (data: Trip[]) => {
         this.trips = data;
       }
     );
-    console.log(this.trips);
+    console.log('TRIPS INFORMATION: ', this.trips);
   }
 }

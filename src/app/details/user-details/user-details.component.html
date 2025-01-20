@@ -1,13 +1,22 @@
 <div class="utilizador-details-container">
 	<div class="details-header">
-		<h2 id="title">Personal Information</h2>
+		<!-- <h2 id="title">Personal Information</h2> -->
 		<!-- <button mat-button (click)="editUtilizador(user)">Edit</button> -->
 	</div>
 
+	<br>
+
 	<mat-card>
 		<mat-card-content>
-			<h3 style="text-align: center;">General Info</h3>
-			<mat-divider></mat-divider><br>
+			<div style="display: flex; align-items: center; position: relative; width: 100%;">
+				<div style="flex: 1; text-align: center;">
+				  <h3 style="margin: 0;">Personal Info</h3>
+				</div>
+				<button style="position: absolute; right: 0;" color="primary" (click)="editUser(user)">edit</button>
+			  </div>
+			  
+			  <mat-divider></mat-divider><br>
+			<br>
 			<div class="info-group">
 				<p><strong>Name:</strong> {{ user?.name || 'Not Provided' }}</p>
 				<p><strong>Email:</strong> {{ user?.email || 'Not Provided' }}</p>
@@ -22,7 +31,24 @@
 					<span *ngIf="user?.birthDate; else noBirthDate">{{ user?.birthDate | date }}</span>
 					<ng-template #noBirthDate>N/A</ng-template>
 				</p>
-				<p><strong>Role:</strong> {{ user?.role || 'Not Provided' }}</p>
+				<p><strong>Passenger Rating:</strong> {{ user?.passengerRating || 'Not Provided' }}</p>
+				<p><strong>Passenger Rating Count:</strong> {{ user?.passengerRatingCount || 'Not Provided' }}</p>
+
+			</div>
+		</mat-card-content>
+	</mat-card>
+
+	<br>
+
+	<mat-card>
+		<mat-card-content>
+			<h3 style="text-align: center;">Driver Info </h3>
+			<mat-divider></mat-divider><br>
+			<div class="info-group">
+				<p><strong>Driver Rating:</strong> {{ user?.driverRating || 'Not Provided' }}</p>
+				<p><strong>Driver Rating Count:</strong> {{ user?.driverRatingCount || 'Not Provided' }}</p>
+				<p><strong>Driver License:</strong> {{ user?.driversLicense || 'Not Provided' }}</p>
+
 			</div>
 		</mat-card-content>
 	</mat-card>

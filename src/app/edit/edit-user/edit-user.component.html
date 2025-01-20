@@ -1,0 +1,91 @@
+<div>
+	<br>
+	<h4 mat-dialog-title style="text-align: center; margin-left: 20px; padding: 0 20px;"> {{ isEditing ? 'Editar Utilizador' : 'Adicionar Novo Utilizador' }}</h4>
+	<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+	  <mat-dialog-content>
+  
+		<!-- Nome -->
+		<mat-form-field appearance="outline">
+		  <mat-label>Name</mat-label>
+		  <input matInput formControlName="name" placeholder="Digite o nome do utilizador" />
+		</mat-form-field>
+  
+		<!-- Email -->
+		<mat-form-field appearance="outline">
+		  <mat-label>Email</mat-label>
+		  <input matInput type="email" formControlName="email" placeholder="Digite o email" />
+		</mat-form-field>
+  
+		<!-- Telefone -->
+		<mat-form-field appearance="outline">
+		  <mat-label>Phone Number</mat-label>
+		  <input matInput type="tel" formControlName="phoneNumber" placeholder="Digite o telefone" />
+		</mat-form-field>
+  
+		<!-- NIF -->
+		<mat-form-field appearance="outline">
+		  <mat-label>NIF</mat-label>
+		  <input matInput formControlName="NIF" placeholder="Digite o NIF" />
+		</mat-form-field>
+  
+		<!-- Data de Nascimento -->
+		<mat-form-field appearance="outline">
+		  <mat-label>Birth Date</mat-label>
+		  <input matInput [matDatepicker]="nascimentoPicker" formControlName="birthDate" />
+		  <mat-datepicker-toggle matSuffix [for]="nascimentoPicker"></mat-datepicker-toggle>
+		  <mat-datepicker #nascimentoPicker></mat-datepicker>
+		</mat-form-field>
+  
+		<!-- Morada
+		<h6>Morada:</h6>
+		<mat-form-field appearance="outline">
+		  <mat-label>Rua</mat-label>
+		  <input matInput formControlName="rua" placeholder="Digite a rua" />
+		</mat-form-field>
+  
+		<mat-form-field appearance="outline">
+		  <mat-label>Localidade</mat-label>
+		  <input matInput formControlName="localidade" placeholder="Digite a localidade" />
+		</mat-form-field>
+  
+		<mat-form-field appearance="outline">
+		  <mat-label>Código Postal</mat-label>
+		  <input matInput formControlName="codigoPostal" placeholder="Digite o código postal" />
+		</mat-form-field>
+  
+		<mat-form-field appearance="outline">
+		  <mat-label>Localidade Postal</mat-label>
+		  <input matInput formControlName="localidadePostal" placeholder="Digite a localidade postal" />
+		</mat-form-field>
+  
+		<mat-form-field appearance="outline">
+		  <mat-label>País</mat-label>
+		  <input matInput formControlName="pais" placeholder="Digite o país" />
+		</mat-form-field> -->
+  
+		<div *ngIf="showWarning" style="color: red; margin-top: 10px;">
+		  Tem a certeza que quer passar a inativo?
+		</div>
+		<br>
+  
+		<!-- <mat-form-field appearance="fill">
+		  <mat-label>Status</mat-label>
+		  <mat-select formControlName="status" (selectionChange)="onStatusChange($event.value)">
+			<mat-option [value]="'active'">Ativo</mat-option>
+			<mat-option [value]="'inactive'">Inativo</mat-option>
+		  </mat-select>
+		</mat-form-field> -->
+  
+  
+  
+  
+	  </mat-dialog-content>
+  
+	  <div mat-dialog-actions>
+		<button mat-button (click)="onCancel()">Cancelar</button>
+		<button mat-button color="primary" [disabled]="!userForm.valid">
+		  {{ isEditing ? 'Salvar' : 'Criar' }}
+		</button>
+	  </div>
+	</form>
+  </div>

@@ -12,7 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-//import { UserDialogComponent } from '../../forms/utilizadores-edit/utilizadores-edit.component';
+import { UserDialogComponent } from '../../edit/edit-user/edit-user.component';
 import Swal from 'sweetalert2';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MessageService } from '../../services/message.service';
@@ -39,10 +39,10 @@ import { MatDivider } from '@angular/material/divider';
 })
 
 export class UserDetailsComponent implements OnInit {
-	// user: any;
+	user: any;
 	// cars: Cars[] = [];
 
-	user: User | null = null;
+	//user: User | null = null;
 	cars: Cars[] = [];
 	errorMessage: { [key: string]: any } = {};
 	
@@ -58,7 +58,7 @@ export class UserDetailsComponent implements OnInit {
 		private route: ActivatedRoute,
 		private userService: UserService,
 		private router: Router,
-		public authService: AuthenticatorService,
+		public authenticatorService: AuthenticatorService,
 		private dialog: MatDialog,
 		private messageService: MessageService,
 		private fb: FormBuilder // Aqui foi corrigido, removendo a duplicação
@@ -238,11 +238,7 @@ export class UserDetailsComponent implements OnInit {
 				.subscribe({
 					next: (response) => {
 						console.log('Utilizador atualizado com sucesso!');
-						Swal.fire(
-							'Sucesso',
-							'O utilizador foi atualizado com sucesso!',
-							'success'
-						);
+						
 
 						this.userForm.patchValue({
 							status: formData.status,
@@ -256,11 +252,7 @@ export class UserDetailsComponent implements OnInit {
 					},
 					error: (error) => {
 						console.error('Erro ao atualizar utilizador:', error);
-						Swal.fire(
-							'Erro',
-							'Houve um erro ao atualizar o utilizador.',
-							'error'
-						);
+						
 					},
 				});
 		} else {
@@ -277,58 +269,65 @@ export class UserDetailsComponent implements OnInit {
 		this.userForm.patchValue({ ...this.user! });
 	}
 
-	// editUtilizador(user: User): void {
-	// 	const dialogRef = this.dialog.open(UserDialogComponent, {
-	// 		width: '1200px',
-	// 		data: { utilizador: this.user },
-	// 		autoFocus: true,
-	// 		disableClose: true,
-	// 	});
+	// editUser() {
+	// 	console.log('Editar utilizador', this.user);
+	// 	this.router.navigate(['/user', this.user?.userID, 'edit']);
+	//   }
 
-	// 	dialogRef.afterClosed().subscribe((result) => {
-	// 		if (result) {
-	// 			const updatedUtilizador: Utilizadores = {
-	// 				...this.utilizador,
-	// 				nome: result.nome ?? this.utilizador.nome,
-	// 				email: result.email ?? this.utilizador.email,
-	// 				telefone: result.telefone ?? this.utilizador.telefone,
-	// 				NIF: result.NIF ? result.NIF.toString() : this.utilizador.NIF,
-	// 				dataNascimento:
-	// 					result.dataNascimento ?? this.utilizador.dataNascimento,
-	// 				status: result.status ?? this.utilizador.status,
-	// 				morada: {
-	// 					rua: result.rua ?? this.utilizador.morada?.rua ?? '',
-	// 					localidade:
-	// 						result.localidade ?? this.utilizador.morada?.localidade ?? '',
-	// 					codigoPostal:
-	// 						result.codigoPostal ?? this.utilizador.morada?.codigoPostal ?? '',
-	// 					localidadePostal:
-	// 						result.localidadePostal ??
-	// 						this.utilizador.morada?.localidadePostal ??
-	// 						'',
-	// 					pais: result.pais ?? this.utilizador.morada?.pais ?? '',
-	// 				},
-	// 			};
+	editUser(user: User): void {
+		const dialogRef = this.dialog.open(UserDialogComponent, {
+			width: '1200px',
+			data: { utilizador: this.user },
+			autoFocus: true,
+			disableClose: true,
+		});
 
-	// 			this.utilizadoresService
-	// 				.updateUtilizadoresByEmail(this.utilizador.email, updatedUtilizador)
-	// 				.subscribe({
-	// 					next: () => {
-	// 						console.log('Utilizador atualizado com sucesso! CCC');
-	// 						this.router
-	// 							.navigate(['/utilizadores', updatedUtilizador.email])
-	// 							.then(() => {
-	// 								this.loadUtilizadorData();
-	// 							});
-	// 					},
-	// 					error: (error) => {
-	// 						console.error('Erro ao atualizar utilizador:', error);
-	// 						this.messageService.showSnackbar(error.error.error, 'error');
-	// 					},
-	// 				});
-	// 		}
-	// 	});
-	// }
+		dialogRef.afterClosed().subscribe((result) => {
+			console.log(':', result);
+			if (result) {
+				const updatedUser: User = {
+					...this.user,
+					name: result.nome ?? this.user.name,
+					email: result.email ?? this.user.email,
+					telefone: result.telefone ?? this.user.phoneNumber,
+					NIF: result.NIF ? result.NIF.toString() : this.user.NIF,
+					birthDate:
+						result.birthDate ?? this.user.birthDate,
+					status: result.status ?? this.user.status,
+					// morada: {
+					// 	rua: result.rua ?? this.utilizador.morada?.rua ?? '',
+					// 	localidade:
+					// 		result.localidade ?? this.utilizador.morada?.localidade ?? '',
+					// 	codigoPostal:
+					// 		result.codigoPostal ?? this.utilizador.morada?.codigoPostal ?? '',
+					// 	localidadePostal:
+					// 		result.localidadePostal ??
+					// 		this.utilizador.morada?.localidadePostal ??
+					// 		'',
+					// 	pais: result.pais ?? this.utilizador.morada?.pais ?? '',
+					// },
+				};
+				console.log('Utilizador atualizado:', updatedUser);
+
+				this.userService
+					.updateUserByUserID(this.user.userID, updatedUser)
+					.subscribe({
+						next: () => {
+							console.log('Utilizador atualizado com sucesso! CCC');
+							this.router
+								.navigate(['/user', updatedUser.userID])
+								.then(() => {
+									this.loadUserData();
+								});
+						},
+						error: (error) => {
+							console.error('Erro ao atualizar utilizador:', error);
+							//this.messageService.showSnackbar(error.error.error, 'error');
+						},
+					});
+			}
+		});
+	}
 
 	// getStatusLabel(status: string | null): string {
 	// 	if (!status) return '';

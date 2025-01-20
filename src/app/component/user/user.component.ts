@@ -67,7 +67,7 @@ export class UserComponent implements OnInit {
     private userService: UserService,
     private dialog: MatDialog,
     private router: Router,
-    public authService: AuthenticatorService
+    public authenticatorService: AuthenticatorService
   ) {}
 
   ngOnInit(): void {
@@ -105,8 +105,8 @@ export class UserComponent implements OnInit {
     });
   }
 
-  showDetails(email: any) {
-    // this.router.navigate(['/user', userID]);
+  showDetails(userID: string) {
+    this.router.navigate(['/user', userID]);
     console.log('ESTOU_AQUI');
   }
 

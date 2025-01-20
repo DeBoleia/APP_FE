@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Validators, FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Cars, User } from '../../interfaces/user';
 import { UserService } from '../../services/user.service';
@@ -18,6 +18,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MessageService } from '../../services/message.service';
 import { MatDivider } from '@angular/material/divider';
 
+import { MatSelectModule } from '@angular/material/select';
+import { CarsService } from '../../services/cars.service';
+
+
+
 
 @Component({
 	selector: 'app-user-details',
@@ -32,7 +37,8 @@ import { MatDivider } from '@angular/material/divider';
 		MatInputModule,
 		MatButtonModule,
 		MatCheckboxModule,
-		MatDivider
+		MatDivider,
+		MatSelectModule,
 	],
 	templateUrl: './user-details.component.html',
 	styleUrl: './user-details.component.scss'
@@ -47,6 +53,9 @@ export class UserDetailsComponent implements OnInit {
 	errorMessage: { [key: string]: any } = {};
 	
 	userForm!: FormGroup;
+	editingIndex: number | null = null;
+
+	originalCarData: any[] = [];
 	
 	isEditing: boolean = false;
 	isCreating: boolean = false;
@@ -61,7 +70,8 @@ export class UserDetailsComponent implements OnInit {
 		public authenticatorService: AuthenticatorService,
 		private dialog: MatDialog,
 		private messageService: MessageService,
-		private fb: FormBuilder
+		private fb: FormBuilder,
+		private carsService: CarsService
 	) {
 		this.userForm = this.fb.group({
 			userID: [''],
@@ -100,7 +110,8 @@ export class UserDetailsComponent implements OnInit {
 		  this.userID = userIDFromToken;
 		  console.log('userID DO TOKEN @@ :', this.userID);
 		  this.loadAllData(this.userID); 
-		  this.isEditing = true;  // Garantir que os dados sejam carregados aqui
+		  this.isEditing = true;
+		  this.loadCarBrands();
 		} else {
 		  console.error('userID não encontrado no token!');
 		  return;
@@ -255,33 +266,60 @@ export class UserDetailsComponent implements OnInit {
         return this.userForm.get('cars') as FormArray;
     }
 
-	onSubmit(): void {
-		if (this.userForm.valid) {
+	isAllCarsValid(): boolean {
+		let allCarsValid = true;
+		this.carsFormArray.controls.forEach(carFormGroup => {
+		  if (!carFormGroup.valid) {
+			allCarsValid = false;
+		  }
+		});
+		return allCarsValid;
+	  }
+
+	  onSubmit(): void {
+		if (this.userForm.valid && this.isAllCarsValid()) {
 			const formData = this.userForm.value;
 			formData.status = formData.status === 'ativo' ? 'active' : 'inactive';
-
+	
 			console.log('Dados do formulário antes de enviar:', formData);
-
+	
+			// Atualizar o utilizador
 			this.userService
 				.updateUserByUserID(formData.userID, formData)
 				.subscribe({
 					next: (response) => {
 						console.log('Utilizador atualizado com sucesso!');
-						
-
+	
 						this.userForm.patchValue({
 							status: formData.status,
 						});
-
+	
 						if (this.user) {
 							this.user.status = formData.status === 'active' ? 'active' : 'inactive';
 						}
-
+	
+						// Chamar updateCar para cada carro modificado
+						this.carsFormArray.controls.forEach((carGroup, index) => {
+							const carData = carGroup.value;
+							if (this.originalCarData[index] && JSON.stringify(this.originalCarData[index]) !== JSON.stringify(carData)) {
+								// Se os dados do carro foram alterados, faz o update
+								const carID = carData.licensePlate; // Você pode usar outro campo como identificador
+								this.carsService.updateCar(this.userID, carData).subscribe({
+									next: () => {
+										console.log(`Carro ${carID} atualizado com sucesso!`);
+									},
+									error: (error) => {
+										console.error(`Erro ao atualizar o carro ${carID}:`, error);
+									},
+								});
+							}
+						});
+	
+						// Recarregar os dados do utilizador após atualização
 						this.loadUserData();
 					},
 					error: (error) => {
 						console.error('Erro ao atualizar utilizador:', error);
-						
 					},
 				});
 		} else {
@@ -357,6 +395,186 @@ export class UserDetailsComponent implements OnInit {
 			}
 		});
 	}
+
+	brandOptions: string[] = []; 
+	//brandOptions = getCarBrands(); // Exemplo de opções para "brand"
+	modelOptions: string[] = []; 
+	colorOptions = [
+		'Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Purple', 'Pink', 'Brown', 'Black', 'White', 'Gray', 'Cyan', 'Magenta', 
+		'Lime', 'Indigo', 'Violet', 'Maroon', 'Olive', 'Teal', 'Navy', 'Gold', 'Silver', 'Beige', 'Turquoise', 'Lavender'
+	  ];
+
+	  loadCarBrands(): void {
+		this.carsService.getCarBrands().subscribe(
+		  (response) => {
+			console.log('Marcas de carros recebidas:', response);
+			this.brandOptions = response;  // Atribui as marcas recebidas do backend
+		  },
+		  (error) => {
+			console.error('Error fetching car brands:', error);
+		  }
+		);
+	  }
+
+	  loadCarModels(brand: string): void {
+		console.log('Marca recebida para carregar modelos:', brand);
+	  
+		this.carsService.getCarModels(brand).subscribe(
+		  (response) => {
+			if (response && response.length > 0) {
+			  console.log(`Modelos de carros para ${brand}:`, response);
+			  this.modelOptions = response;
+			  console.log('modelOptions atualizados:', this.modelOptions);  // Verifica se os modelos estão a ser atribuídos corretamente
+			} else {
+			  console.warn('Nenhum modelo encontrado para:', brand);
+			  this.modelOptions = [];
+			}
+		  },
+		  (error) => {
+			console.error('Erro ao buscar modelos de carros:', error);
+		  }
+		);
+	  }
+	  loadModelsForExistingBrand(index: number): void {
+		const car = this.carsFormArray.at(index);
+		const brand = car.get('brand')?.value;
+		
+		if (brand) {
+		  this.carsService.getCarModels(brand).subscribe(
+			(response) => {
+			  if (response && response.length > 0) {
+				console.log(`Modelos de carros para ${brand}:`, response);
+				this.modelOptionsMap[index] = response;
+			  }
+			},
+			(error) => {
+			  console.error('Erro ao buscar modelos de carros:', error);
+			}
+		  );
+		}
+	  }
+	  
+	  // Update the editCar method
+	  editCar(index: number): void {
+		this.editingIndex = index;
+		const car = this.carsFormArray.at(index).value;
+		this.originalCarData[index] = { ...car };
+		
+		// Load models for the existing brand when entering edit mode
+		this.loadModelsForExistingBrand(index);
+	  }
+	  
+	  // Update the onBrandChange method
+	  onBrandChange(selectedBrand: string | null, index: number): void {
+		console.log(`Evento disparado - Marca selecionada para carro ${index}:`, selectedBrand);
+		
+		if (selectedBrand && selectedBrand.trim() !== '') {
+		  this.carsService.getCarModels(selectedBrand).subscribe(
+			(response) => {
+			  if (response && response.length > 0) {
+				console.log(`Modelos de carros para ${selectedBrand}:`, response);
+				this.modelOptionsMap[index] = response;
+				
+				// Only reset model if brand changed
+				const currentModel = this.carsFormArray.at(index).get('model')?.value;
+				if (!this.modelOptionsMap[index].includes(currentModel)) {
+				  this.carsFormArray.at(index).patchValue({ model: '' });
+				}
+			  }
+			},
+			(error) => {
+			  console.error('Erro ao buscar modelos de carros:', error);
+			}
+		  );
+		} else {
+		  this.modelOptionsMap[index] = [];
+		  this.carsFormArray.at(index).patchValue({ model: '' });
+		}
+	  }
+
+	  modelOptionsMap: { [key: number]: string[] } = {};
+
+	addCar() {
+		this.carsFormArray.push(this.fb.group({
+		  brand: ['', [Validators.required]],
+		  model: ['', [Validators.required]],
+		  color: ['', [Validators.required]],
+		  licensePlate: ['', [Validators.required]]
+		}));
+	  }
+	
+	// editCar(index: number): void {
+	// 	// Defina o índice do carro para indicar que ele está em edição
+	// 	this.editingIndex = index;
+	// 	// Salvar os dados originais antes de começar a edição
+	// 	const car = this.carsFormArray.at(index).value;
+	// 	this.originalCarData[index] = { ...car }; // Copiar os dados para o array originalCarData
+	// }
+	
+	// 2. Alterar a verificação do estado de edição
+	isEditing1(index: number): boolean {
+		return this.editingIndex === index; // Verifica se o carro está no estado de edição
+	}
+	
+	// 3. Manter a lógica de salvar e cancelar
+	saveCar(index: number): void {
+		console.log('Dados salvos:', this.carsFormArray.at(index).value);
+		const carData = this.carsFormArray.at(index).value;
+		
+		// Verificar se os dados foram alterados
+		if (this.originalCarData[index] && JSON.stringify(this.originalCarData[index]) !== JSON.stringify(carData)) {
+			// Chamar o método updateCar para atualizar o carro no backend
+			this.carsService.updateCar(this.userID, carData).subscribe({
+				next: () => {
+					console.log(`Carro ${carData.licensePlate} atualizado com sucesso!`);
+				},
+				error: (error) => {
+					console.error(`Erro ao atualizar o carro ${carData.licensePlate}:`, error);
+				}
+			});
+		}
+		
+		// Limpar dados originais após salvar
+		this.originalCarData[index] = null; 
+		this.editingIndex = null; // Sai do modo de edição
+	}
+	
+	cancelEdit(index: number): void {
+		// Repopular o formulário com os dados originais
+		if (this.originalCarData[index]) {
+			this.carsFormArray.at(index).patchValue(this.originalCarData[index]);
+		}
+		this.originalCarData[index] = null; // Limpar os dados originais
+		this.editingIndex = null; // Sai do modo de edição
+	}
+
+
+	deleteCar(index: number): void {
+		const car = this.carsFormArray.at(index).value;
+		const licensePlate = car.licensePlate;
+	  
+		if (licensePlate) {
+		  // Chama o serviço para excluir o carro
+		  this.carsService.deleteCarByLicensePlate(this.userID, licensePlate).subscribe({
+			next: (response) => {
+			  console.log(`Carro com placa ${licensePlate} excluído com sucesso`);
+			  // Atualiza a lista de carros após a exclusão
+			  this.carsFormArray.removeAt(index);
+			},
+			error: (error) => {
+			  console.error('Erro ao excluir carro:', error);
+			}
+		  });
+		} else {
+		  console.warn('Placa do carro não encontrada!');
+		}
+	  }
+
+	  
+
+
+
+
 
 	// getStatusLabel(status: string | null): string {
 	// 	if (!status) return '';

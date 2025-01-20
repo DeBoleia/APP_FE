@@ -41,7 +41,7 @@ export const CUSTOM_DATE_FORMATS = {
 };
 
 @Component({
-  selector: 'app-utilizadores-dialog',
+  selector: 'app-user-dialog',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -95,11 +95,11 @@ export class UserDialogComponent implements OnInit {
     console.log('INITFORM STATUS: ', status);
 
     this.userForm = this.fb.group({
-      nome: [this.data.user?.name || '', Validators.required],
+      name: [this.data.user?.name || '', Validators.required],
       email: [this.data.user?.email || '', Validators.required],
-      telefone: [this.data.user?.phoneNumber || '', /* Validators.required */],
+      phoneNumber: [this.data.user?.phoneNumber || '', /* Validators.required */],
       NIF: [this.data.user?.NIF || '', /* Validators.required */],
-      dataNascimento: [
+      birthDate: [
         this.data.user?.birthDate || '',
         /* Validators.required */,
       ],

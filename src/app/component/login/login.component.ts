@@ -49,14 +49,14 @@ export class LoginComponent {
 
       // Se a conta estiver inativa, exibe a mensagem e não faz login
       if (this.isAccountInactive) {
-        //this.messageService.showSnackbar('Conta desativada. Por favor, reative-a.', 'error');
+        this.messageService.showSnackbar('Conta desativada. Por favor, reative-a.', 'error');
         return;
       }
 
       this.authenticatorService.login(email, password).subscribe({
         next: (response: LoginResponse) => {
           if (response.userToken) {
-            //this.messageService.showSnackbar('Login efetuado com sucesso!', 'success');
+            this.messageService.showSnackbar('Login efetuado com sucesso!', 'success');
             this.authenticatorService.saveToken(response.userToken);
             this.router.navigateByUrl(this.authenticatorService.getTargetUrl());
           }
@@ -67,7 +67,7 @@ export class LoginComponent {
               this.isAccountInactive = true;
             }
           }
-          //this.messageService.showSnackbar("Erro: " + err.error.error, "error", 3000);
+          this.messageService.showSnackbar("Erro: " + err.error.error, "error", 3000);
           this.errorMessage = "Login falhou. Por favor, tente novamente.";
         },
       });
@@ -82,14 +82,14 @@ export class LoginComponent {
     console.log("Email:", email);
 
     if (!email) {
-      //this.messageService.showSnackbar('Por favor, insira o seu e-mail antes de ativar a conta.', 'error');
+      this.messageService.showSnackbar('Por favor, insira o seu e-mail antes de ativar a conta.', 'error');
       return;
     }
 
     this.authenticatorService.changeStatusByEmail2(email).subscribe({
       next: (response) => {
         console.log('Resposta ao tentar ativar a conta:', response);
-        //this.messageService.showSnackbar('Conta ativada com sucesso!', 'success');
+        this.messageService.showSnackbar('Conta ativada com sucesso!', 'success');
         this.isAccountInactive = false;
 
         this.loginForm.reset();
@@ -102,7 +102,7 @@ export class LoginComponent {
         } else {
           console.log('Erro inesperado:', error);
         }
-        //this.messageService.showSnackbar("Erro ao ativar a conta. Por favor, tente novamente.", "error");
+        this.messageService.showSnackbar("Erro ao ativar a conta. Por favor, tente novamente.", "error");
       }
     });
   }

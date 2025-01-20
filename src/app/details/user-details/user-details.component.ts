@@ -61,7 +61,7 @@ export class UserDetailsComponent implements OnInit {
 		public authenticatorService: AuthenticatorService,
 		private dialog: MatDialog,
 		private messageService: MessageService,
-		private fb: FormBuilder // Aqui foi corrigido, removendo a duplicação
+		private fb: FormBuilder
 	) {
 		this.userForm = this.fb.group({
 			userID: [''],
@@ -94,33 +94,60 @@ export class UserDetailsComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.userForm = this.fb.group({
-			userID: [''],
-			name: [''],
-			email: [''],
-			role: [''],
-			phoneNumber: [''],
-			NIF: [''],
-			birthDate: [''],
-			status: [''],
-			driverRating: [''],
-			driverRatingCount: [''],
-			passengerRating: [''],
-			passengerRatingCount: [''],
-			driversLicense: [''],
-			cars: this.fb.array([])
-		});
+		const userIDFromToken = this.authenticatorService.getUserID();
+	  
+		if (userIDFromToken) {
+		  this.userID = userIDFromToken;
+		  console.log('userID DO TOKEN @@ :', this.userID);
+		  this.loadAllData(this.userID); 
+		  this.isEditing = true;  // Garantir que os dados sejam carregados aqui
+		} else {
+		  console.error('userID não encontrado no token!');
+		  return;
+		}
+	  }
+
+	// ngOnInit(): void {
+	// 	const userIDFromToken = this.authenticatorService.getUserID();
+
+	// 	if (userIDFromToken) {
+	// 	  this.userID = userIDFromToken;
+	// 	  console.log('userID DO TOKEN @@ :', this.userID);
+	// 	} else {
+	// 	  console.error('userID não encontrado no token!');
+	// 	  return;
+	// 	}
+	// 	this.userForm = this.fb.group({
+	// 		userID: [''],
+	// 		name: [''],
+	// 		email: [''],
+	// 		role: [''],
+	// 		phoneNumber: [''],
+	// 		NIF: [''],
+	// 		birthDate: [''],
+	// 		status: [''],
+	// 		driverRating: [''],
+	// 		driverRatingCount: [''],
+	// 		passengerRating: [''],
+	// 		passengerRatingCount: [''],
+	// 		driversLicense: [''],
+	// 		cars: this.fb.array([])
+	// 	});
+
+	// 	this.userForm.get('userID')?.setValue(this.userID);
+
+	// 	this.loadAllData(this.userID);
 	
-		// Atribuir o userID corretamente da rota
-		this.route.paramMap.subscribe(params => {
-			this.userID = params.get('userID') || ''; 
-			if (this.userID) {
-				this.loadAllData(this.userID);
-			} else {
-				console.error('userID não encontrado na rota!');
-			}
-		});
-	}
+	// 	// Atribuir o userID corretamente da rota
+	// 	// this.route.paramMap.subscribe(params => {
+	// 	// 	this.userID = params.get('userID') || ''; 
+	// 	// 	if (this.userID) {
+	// 	// 		this.loadAllData(this.userID);
+	// 	// 	} else {
+	// 	// 		console.error('userID não encontrado na rota!');
+	// 	// 	}
+	// 	// });
+	// }
 	
 	// ngOnInit(): void {
 	// 	// const userIDFromToken = this.authenticatorService.getUserEmail();
@@ -172,6 +199,7 @@ export class UserDetailsComponent implements OnInit {
 					this.user = data;
 					if (this.user) {
 						this.populateUserForm(this.user);
+						this.isEditing = true;
 					}
 				},
 				error: (error) => {
@@ -185,6 +213,7 @@ export class UserDetailsComponent implements OnInit {
 
 	populateUserForm(user: User): void {
 		console.log('Função populateUserForm chamada');
+		console.log('Dados do utiliz:', user );
 		if (user) {
 			this.userForm.patchValue({
 				userID: user.userID || '',
@@ -277,7 +306,7 @@ export class UserDetailsComponent implements OnInit {
 	editUser(user: User): void {
 		const dialogRef = this.dialog.open(UserDialogComponent, {
 			width: '1200px',
-			data: { utilizador: this.user },
+			data: { user: this.user },
 			autoFocus: true,
 			disableClose: true,
 		});
@@ -287,9 +316,9 @@ export class UserDetailsComponent implements OnInit {
 			if (result) {
 				const updatedUser: User = {
 					...this.user,
-					name: result.nome ?? this.user.name,
+					name: result.name ?? this.user.name,
 					email: result.email ?? this.user.email,
-					telefone: result.telefone ?? this.user.phoneNumber,
+					telefone: result.phoneNumber ?? this.user.phoneNumber,
 					NIF: result.NIF ? result.NIF.toString() : this.user.NIF,
 					birthDate:
 						result.birthDate ?? this.user.birthDate,

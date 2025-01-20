@@ -121,6 +121,13 @@ export class AuthenticatorService {
     return decodedToken.email || null;
   }
 
+  getUserID(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+    const decodedToken: any = jwtDecode(token);
+    return decodedToken.userID || null;
+  }
+
   getUserStatus(): string | null {
     const token = this.getToken();
     if (!token) return null;

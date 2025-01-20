@@ -1,7 +1,8 @@
 <div>
 	<br>
 	<h4 mat-dialog-title style="text-align: center; margin-left: 20px; padding: 0 20px;"> {{ isEditing ? 'Editar Utilizador' : 'Adicionar Novo Utilizador' }}</h4>
-	<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+	<!-- <form [formGroup]="userForm" (ngSubmit)="onSubmit()"> -->
+	<form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="onSubmit()">
 	  <mat-dialog-content>
   
 		<!-- Nome -->

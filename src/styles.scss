@@ -1,0 +1,21 @@
+// Global cursor styles
+a, 
+button,
+[role="button"],
+[routerLink],
+.clickable,
+mat-button,
+.nav-link,
+.logo-item {
+  cursor: pointer !important;
+}
+
+// For images within clickable elements
+a img,
+button img,
+[role="button"] img,
+[routerLink] img,
+.clickable img,
+.logo-item img {
+  cursor: pointer !important;
+}

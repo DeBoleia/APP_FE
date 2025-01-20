@@ -28,16 +28,19 @@
     <div class="container">
       <router-outlet></router-outlet>
     </div>
-    <div>
-  </div>
 
-  <!-- Footer 
+  <!-- Back to Top Button -->
+@if (showBackToTop) {
+  <button (click)="scrollToTop()" 
+          class="btn btn-primary back-to-top" 
+          title="Go to top">
+      ↑
+  </button>
+}
+
+<!-- Footer -->
+<div>
   <footer class="footer">
-    @if(message) {
-    <div class="{{ message.type }} w-100">
-      {{ message.text }}
-    </div>
-    }
+    © 2025 DeBoleia
   </footer>
 </div>
--->

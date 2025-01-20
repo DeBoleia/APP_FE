@@ -1,1 +1,43 @@
-<router-outlet></router-outlet>
+<div class="app-container">
+  <div class="content-wrapper">
+    <!-- Navigation -->
+    <ul class="nav nav-tabs">
+      <div class="nav-left">
+        <li class="nav-item logo-item">
+          <img src="/DeBoleiaLogo.png" alt="DeBoleia Logo">
+          <a class="nav-link" routerLink="/">DeBoleia</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/rides">Find Rides</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/offers">Offer a ride</a>
+        </li>
+      </div>
+      <div class="nav-right">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/register">Register</a>
+        </li>
+      </div>
+    </ul>
+
+    <!-- Main content -->
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+    <div>
+  </div>
+
+  <!-- Footer 
+  <footer class="footer">
+    @if(message) {
+    <div class="{{ message.type }} w-100">
+      {{ message.text }}
+    </div>
+    }
+  </footer>
+</div>
+-->

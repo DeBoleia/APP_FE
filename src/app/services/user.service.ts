@@ -24,7 +24,7 @@ export class UserService {
 
   // Common headers, assuming 'verifyToken' middleware checks the token from local storage or session storage
   private getHeaders() {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('userToken');
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
     });
@@ -71,6 +71,9 @@ export class UserService {
 
   // Update user by userID
   updateUserByUserID(userID: string, userData: any): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    console.log('Token recuperado:', token);
+    console.log('USER DATA USERSERVICE:', userData);
     return this.http.put<any>(`${this.apiUrl}/id/${userID}`, userData, { headers: this.getHeaders() }).pipe(
       catchError(this.handleError)
     );

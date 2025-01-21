@@ -354,6 +354,7 @@ export class UserDetailsComponent implements OnInit {
 	  
 	  // Update the editCar method
 	  editCar(index: number): void {
+		this.isAddingCar = false; 
 		this.editingIndex = index;
 		const car = this.carsFormArray.at(index).value;
 		this.originalCarData[index] = { ...car };
@@ -415,7 +416,7 @@ export class UserDetailsComponent implements OnInit {
 	}
 
 	handleSave(index: number): void {
-		if (this.isEditing1(index)) {
+		if (!this.isAddingCar && this.isEditing1(index)) {
 		  this.saveCarUpdate(index);
 		} else {
 		  this.saveCar(index);

@@ -9,8 +9,8 @@ import { BehaviorSubject, map } from 'rxjs';
   templateUrl: './map-display.component.html',
   styleUrl: './map-display.component.scss'
 })
-export class MapDisplayComponent implements OnInit, OnChanges, AfterViewInit {
-  @ViewChild('map', { static: false }) map!: GoogleMap;
+export class MapDisplayComponent implements OnInit {
+  @ViewChild('map', { static: true }) map!: GoogleMap;
 
   zoom = 13;
   center!: google.maps.LatLngLiteral;
@@ -30,16 +30,6 @@ export class MapDisplayComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(private directionsService: MapDirectionsService) {}
 
   ngOnInit(): void {
-    // Initialize `from` and `to` if they are not already set.
-    if (!this.from || !this.to) {
-      console.warn('Inputs not provided. Using default locations.');
-      this.from = new google.maps.LatLng(this.markers[0].lat, this.markers[0].lng);
-      this.to = new google.maps.LatLng(this.markers[1].lat, this.markers[1].lng);
-    }
-    this.calculateCenter();
-  }
-
-  ngOnChanges(): void {
     if (this.from && this.to) {
       this.getDirections(this.from, this.to);
     } else if (this.from) {
@@ -47,14 +37,8 @@ export class MapDisplayComponent implements OnInit, OnChanges, AfterViewInit {
     } else if (this.to) {
       this.gotoLocation(this.to);
     }
-    this.calculateCenter();
   }
 
-  ngAfterViewInit(): void {
-    if (this.from) {
-      this.gotoLocation(this.from);
-    }
-  }
 
   gotoLocation(location: google.maps.LatLng | google.maps.LatLngLiteral) {
     const position =
@@ -63,7 +47,7 @@ export class MapDisplayComponent implements OnInit, OnChanges, AfterViewInit {
         : location;
 
     if (this.map && this.map.googleMap) {
-      this.map.googleMap.panTo(position); // Access the raw Google Maps instance.
+      this.map.googleMap.panTo(position);
       this.zoom = 13;
       this.directionsResult$.next(undefined);
     } else {
@@ -100,16 +84,5 @@ export class MapDisplayComponent implements OnInit, OnChanges, AfterViewInit {
           console.error('Error fetching directions:', err);
         },
       });  
-  }
-
-  calculateCenter(): void {
-    const totalMarkers = this.markers.length;
-    const sumLat = this.markers.reduce((acc, marker) => acc + marker.lat, 0);
-    const sumLng = this.markers.reduce((acc, marker) => acc + marker.lng, 0);
-
-    this.center = {
-      lat: sumLat / totalMarkers,
-      lng: sumLng / totalMarkers
-    };
   }
 }

@@ -1,0 +1,39 @@
+.main {
+	height: calc(100vh - 80px);
+}
+
+mat-grid-list {
+	position: absolute;
+	margin-top: 10px;
+	padding-left: 10px;
+	left: 5px;
+	width: calc(100vw - 5px);
+}
+
+mat-grid-tile {
+	background-color: aqua;
+	overflow-x: scroll;
+	overflow-y: scroll;
+}
+
+.search {
+	height: calc(100vh - 80px);
+	// height: 100%;
+}
+
+.trips-display {
+	min-height: calc(100vh - 80px);
+}
+
+.cards {
+	position: relative;
+	margin: auto;
+}
+// .cards:first-child {
+// 	margin-top: 150px;
+// }
+
+.cards {
+	display: flex;
+	flex-direction: column;
+}

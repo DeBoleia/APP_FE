@@ -8,6 +8,7 @@ import { HomeComponent } from './component/home/home.component';
 import { TripComponent } from './component/trip/trip.component';
 import { TripCardComponent } from './component/trip-card/trip-card.component';
 import { FindTripsComponent } from './component/find-trips/find-trips.component';
+import { MapDisplayComponent } from './component/map-display/map-display.component';
 
 export const routes: Routes = [
 	{ path: '', component: HomeComponent },
@@ -17,5 +18,6 @@ export const routes: Routes = [
 	{ path: "user/:userID", component: UserDetailsComponent/*, canActivate: [AuthGuard], data: { requiresAuth: true} */ },
 	{ path: "login", component: LoginComponent },
 	{ path: "register", component: RegisterComponent },
-	{ path: "trips", component: FindTripsComponent }
+	{ path: "trips", component: FindTripsComponent },
+	{ path: "map", component: MapDisplayComponent }
 ];

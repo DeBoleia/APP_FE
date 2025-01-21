@@ -8,7 +8,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
   standalone: true,
   imports: [
     RouterOutlet,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -19,5 +19,7 @@ export class AppComponent {
 
 
 bootstrapApplication(AppComponent, {
-  providers: [provideAnimations()]
-}).catch(err => console.error(err));
+  providers: []
+}).catch(err => console.error(err));  providers: [
+
+  ]

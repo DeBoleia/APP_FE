@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogContent, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -8,9 +8,16 @@ import { MatInputModule } from '@angular/material/input';
 import { Trip } from '../../interfaces/trip';
 import { MatDivider } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list'
+import { NgModule } from '@angular/core';
+import { GoogleMapsModule, MapDirectionsService } from '@angular/google-maps';
+import { TripCardComponent } from "../../component/trip-card/trip-card.component";
+import { MapDisplayComponent } from "../../component/map-display/map-display.component";
+
+
 
 @Component({
   selector: 'app-trip-detail',
+  standalone: true,
   imports: [
     CommonModule,
     MatFormFieldModule,
@@ -21,30 +28,50 @@ import { MatGridListModule } from '@angular/material/grid-list'
     MatDialogContent,
     MatDialogActions,
     MatDialogModule,
-    MatGridListModule
+    MatGridListModule,
+    GoogleMapsModule,
+    MapDisplayComponent
+],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   templateUrl: './trip-detail.component.html',
   styleUrl: './trip-detail.component.scss'
 })
 
 export class TripDetailComponent implements OnInit {
-  trip!: Trip;
+  trip!: any;
+  center: google.maps.LatLngLiteral = { lat: 40.73061, lng: -73.935242 };
+  zoom = 12;
+  markers = [
+    { lat: 40.73061, lng: -73.935242 },
+    { lat: 40.74988, lng: -73.968285 }
+  ];
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<TripDetailComponent>,
+    private directionService: MapDirectionsService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
 
   ngOnInit(): void {
     this.trip = this.data?.trip || {
       tripCode: "TRP12345",
-      car: "Toyota Corolla 2020",
+      car: {
+        brand: "Tesla",
+        model: "Model 3",
+        color: "Black",
+        plate: "00-AA-00"
+      },
       status: "inOffer",
       nrSeats: 4,
       estimatedCost: 100.0,
       pricePerPerson: 25.0,
-      driver: "John Doe",
+      driver: {
+        name: "John Doe",
+        rating: 3.0,
+      },
       passengers: ["Jane Smith", "Mark Johnson"],
       origin: {
         municipality: "Lisbon",

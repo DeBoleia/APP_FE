@@ -92,7 +92,7 @@ export class AuthenticatorService {
   }
 
   getToken(): string | null {
-    console.log('token @@@ decoded==> :', localStorage.getItem(this.tokenKey));
+    // console.log('token @@@ decoded==> :', localStorage.getItem(this.tokenKey));
     return localStorage.getItem(this.tokenKey);
   }
 

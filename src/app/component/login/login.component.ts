@@ -28,7 +28,7 @@ interface LoginResponse {
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string | null = null;
-  isAccountInactive: boolean = false;
+  isAccountInactive: boolean = true;
 
   constructor(
     private fb: FormBuilder,
@@ -46,7 +46,8 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-
+      console.log("Email:", email);
+      console.log("STATUS:", this.isAccountInactive)
       // Se a conta estiver inativa, exibe a mensagem e não faz login
       if (this.isAccountInactive) {
         this.messageService.showSnackbar('Conta desativada. Por favor, reative-a.', 'error');

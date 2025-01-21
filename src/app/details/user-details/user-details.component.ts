@@ -542,22 +542,26 @@ export class UserDetailsComponent implements OnInit {
 	// 	}
 	// }
 
-	// desativarConta() {
-	// 	this.messageService.showConfirmationDialog(
-	// 		'Tem certeza que deseja desativar esta conta? (Insira o seu email para validar)',
-	// 		'Desativar conta',
-	// 		this.authService.getUserEmail() || '').subscribe(result => {
-	// 			if (result) {
-	// 				this.userService.desativarConta(this.authService.getUserId()).subscribe(
-	// 					() => {
-	// 						this.messageService.showSnackbar('Conta desativada com sucesso!', 'success');
-	// 						this.authService.logout();
-	// 					},
-	// 					(error) => {
-	// 						console.error('Erro ao desativar Conta', error);
-	// 						this.messageService.showSnackbar('Erro ao criar Reserva: ' + error.error.message, 'error');
-	// 					});
-	// 			}
-	// 		});
-	// 	}
+	desativarConta() {
+		this.messageService.showConfirmationDialog(
+			'Tem certeza que deseja desativar esta conta? (Insira o seu email para validar)',
+			'Desativar conta',
+			this.authenticatorService.getUserEmail() || '').subscribe(result => {
+				if (result) {
+					this.userService.changeStatusByEmail(
+						this.authenticatorService.getUserEmail() ?? '',  
+						{ status: 'inactive' }
+					  ).subscribe(
+						() => {
+						  this.messageService.showSnackbar('Conta desativada com sucesso!', 'success');
+						  this.authenticatorService.logout();
+						},
+						(error) => {
+						  console.error('Erro ao desativar Conta', error);
+						  this.messageService.showSnackbar('Erro ao desativar Conta: ' + error.error.message, 'error');
+						}
+					  );
+				}
+			});
+		}
 }

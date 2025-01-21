@@ -1,34 +1,53 @@
 <div class="main">
-	<mat-grid-list cols="5" rowHeight="1:1">
-		<mat-grid-tile class="search" colspan="2">
-			<!-- <div class="search-filter">
-				<mat-form-field appearance="fill">
-					<mat-label>Origin</mat-label>
-					<input matInput placeholder="Enter origin">
+
+	<div class="col-left">
+		<div class="search-filter">
+			<h1 id="title">FIND YOUR RIDE TODAY</h1>
+			<p id="subtitle">Discover the best rides at unbeatable prices. Your journey starts here!</p>
+			<div class="search-input">
+				<mat-icon>my_location</mat-icon>
+				<mat-form-field appearance="outline">
+					<mat-label>parish</mat-label>
+					<input matInput placeholder="Enter parish">
 				</mat-form-field>
-				<mat-form-field appearance="fill">
-					<mat-label>Destination</mat-label>
-					<input matInput placeholder="Enter destination">
+				<mat-form-field appearance="outline">
+					<mat-label>municipality</mat-label>
+					<input matInput placeholder="Enter municipality">
 				</mat-form-field>
-				<mat-form-field appearance="fill">
-					<mat-label>Date</mat-label>
-					<input matInput [matDatepicker]="picker" placeholder="Choose a date">
-					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-					<mat-datepicker #picker></mat-datepicker>
+				<mat-form-field appearance="outline">
+					<mat-label>district</mat-label>
+					<input matInput placeholder="Enter district">
 				</mat-form-field>
-				<button mat-raised-button color="primary">Search</button>
-			</div> -->
-		</mat-grid-tile>
-		<mat-grid-tile class="trips-display" colspan="3">
-			<div class="cards">
-				<app-trip-card></app-trip-card>
-				<app-trip-card></app-trip-card>
-				<app-trip-card></app-trip-card>
-				<app-trip-card></app-trip-card>
-				<app-trip-card></app-trip-card>
-				<app-trip-card></app-trip-card>
-				<app-trip-card></app-trip-card>
 			</div>
-		</mat-grid-tile>
-	</mat-grid-list>
+			<div class="search-input">
+				<mat-icon>pin_drop</mat-icon>
+				<mat-form-field appearance="outline">
+					<mat-label>parish</mat-label>
+					<input matInput placeholder="Enter parish">
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>municipality</mat-label>
+					<input matInput placeholder="Enter municipality">
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>district</mat-label>
+					<input matInput placeholder="Enter district">
+				</mat-form-field>
+			</div>
+			<button mat-raised-button color="primary">Search</button>
+		</div>
+	</div>
+
+
+	<div class="col-right">
+		<div class="cards">
+			<app-trip-card></app-trip-card>
+			<app-trip-card></app-trip-card>
+			<app-trip-card></app-trip-card>
+			<app-trip-card></app-trip-card>
+			<app-trip-card></app-trip-card>
+			<app-trip-card></app-trip-card>
+			<app-trip-card></app-trip-card>
+		</div>
+	</div>
 </div>

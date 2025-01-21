@@ -13,6 +13,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
+
 export class AppComponent {
   title = 'APP_FE';
 }

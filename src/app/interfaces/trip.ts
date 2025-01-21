@@ -1,6 +1,6 @@
 export interface Trip {
 	tripCode: string;
-	car: string;
+	car: any;
 	status: 'created' | 'inOffer' | 'closed' | 'ongoing' | 'arrived' | 'finished' | 'canceled';
 	nrSeats: number;
 	estimatedCost?: number;

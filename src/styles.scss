@@ -1,4 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+// Global cursor styles
+a, 
+button,
+[role="button"],
+[routerLink],
+.clickable,
+mat-button,
+.nav-link,
+.logo-item {
+  cursor: pointer !important;
+}
+
+// For images within clickable elements
+a img,
+button img,
+[role="button"] img,
+[routerLink] img,
+.clickable img,
+.logo-item img {
+  cursor: pointer !important;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

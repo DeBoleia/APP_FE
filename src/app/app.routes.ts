@@ -6,6 +6,9 @@ import { LoginComponent } from './component/login/login.component';
 
 import { HomeComponent } from './component/home/home.component';
 import { RegisterComponent } from './component/register/register.component';
+import { HomeComponent } from './component/home/home.component';
+import { ApplicationComponent } from './component/application/application.component';
+import { TripComponent } from './component/trip/trip.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -15,7 +18,9 @@ export const routes: Routes = [
 	{ path: "user/:userID", component: UserDetailsComponent/*, canActivate: [AuthGuard], data: { requiresAuth: true} */},
 	{ path: "login", component: LoginComponent },
 	{ path: "register", component: RegisterComponent },
-
+	{ path: "home", component: HomeComponent },
+	{ path: "application", component: ApplicationComponent },
+	{ path: "trip", component: TripComponent },
 
 ];
   

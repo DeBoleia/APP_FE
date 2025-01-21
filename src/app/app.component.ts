@@ -1,107 +1,78 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { AuthenticatorService } from './services/authenticator.service';
 import { CommonModule } from '@angular/common';
-import { LoadingService } from './services/loading-service.service';
-import { RouterLink } from '@angular/router';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import {MatMenuModule} from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
-
-import { ViewChild } from '@angular/core'; //fred
-import { MatSidenav } from '@angular/material/sidenav'; //fred
-
-import { Router } from '@angular/router';
-// import { UtilizadoresService } from './services/utilizadores.service';
-// import { Utilizadores } from './interfaces/utilizadores';
-//import { StatusService } from './services/status.service';
-
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    MatSidenavModule,
-    MatListModule,
-    MatToolbarModule,
-    MatIconModule,
-    CommonModule,
-    RouterLink,
-    MatProgressSpinnerModule,
-    MatMenuModule,
-    MatButtonModule
-  ],
+  imports: [RouterOutlet, RouterLink, CommonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent { 
-  title = 'AGENCIA_UPSKILL';
-  currentStatus: string = '';
-  message: { title: string, text: string; type: string } | null = null;
-  isLoading: boolean = true;
-  userRole: string | null = null;
-  userID: string | null = null;
-  userStatus: string | null = null;
-  @ViewChild('drawer') drawer!: MatSidenav;
-
+export class AppComponent implements OnInit {
+  showBackToTop = false;
 
   constructor(
-    public authenticatorService: AuthenticatorService,
-    public loadingService: LoadingService,
-    //private statusService: StatusService,
+    private auth: AuthenticatorService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
-    // console.log("STATUS ORIGINAL:", this.currentStatus );
-    // this.statusService.currentStatus$.subscribe(status => {
-    //   if (status === 'active') {
-    //     this.currentStatus = 'ativo';
-    //   } else {
-    //     this.currentStatus = 'inativo';
-    //   }
-    //   // console.log('Status no AnotherComponent:', this.currentStatus);
-    // });
-    // this.currentStatus = this.authService.getUserStatus() ?? 'defaultStatus';
-  
-    // this.loadingService.loading$.subscribe((loading) => {
-    //   setTimeout(() => {
-    //     this.isLoading = loading;
-    //   }, 500); // Adiciona um delay de 500ms
-    // });
-    this.userID = this.authenticatorService.getUserID();
-    console.log('User ID onInit:', this.userID); 
-
-    this.userRole = this.authenticatorService. getUserRole()
-    console.log('User ROLE onInit:', this.userRole); 
-
-    this.userStatus = this.authenticatorService.getUserStatus();
-    console.log('User Status onInit:', this.userStatus);
+    console.log('Current user role:', this.auth.getUserRole());
   }
 
-  onProfileClick() {
-    this.userRole = this.authenticatorService. getUserRole()
-    console.log('User Email no clique:', this.userRole); 
-    //this.router.navigate(['/user', this.userID]);
-
+  isLoggedIn(): boolean {
+    return this.auth.isLoggedIn();
   }
 
-  // para recolha automatica ao fim de 1000 (1s)
-  closeDrawerAfterDelay(): void {
-    setTimeout(() => {
-      this.drawer.close();
-    }, 500);
+  isAdmin(): boolean {
+    const role = this.auth.getUserRole();
+    return role === 'admin';
   }
 
+  getUserId(): string | null {
+    return this.auth.getUserId();
+  }
 
-  // logoutAndClose(): void {
-  //   this.authService.logout();
-  //   this.closeDrawerAfterDelay();
-  // }
+  logout(): void {
+    this.auth.logout();
+  }
 
+  manageApplications(): void {
+    if (this.isLoggedIn()) {
+      this.router.navigate(['/application']);
+    } else {
+      this.auth.saveTargetUrl('/application');
+      this.router.navigate(['/login']);
+    }
+  }
+
+  manageTrips(): void {
+    if (this.isLoggedIn()) {
+      this.router.navigate(['/trip']);
+    } else {
+      this.auth.saveTargetUrl('/trip');
+      this.router.navigate(['/login']);
+    }
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    this.showBackToTop = window.scrollY > 300;
+  }
+
+  scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
 }
+
+
+bootstrapApplication(AppComponent, {
+  providers: [provideAnimations()]
+}).catch(err => console.error(err));

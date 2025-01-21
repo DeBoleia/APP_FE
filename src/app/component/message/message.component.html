@@ -4,10 +4,10 @@
 	  <p>{{ data.text }}</p>
 	  <ng-container *ngIf="data.requiresCodeInput">
 		<mat-form-field appearance="outline" style="width: 100%;">
-		  <mat-label>Digite o código para confirmar</mat-label>
+		  <mat-label>Insert the code to confirm</mat-label>
 		  <input matInput [(ngModel)]="inputCode" (input)="validateCode()" />
 		</mat-form-field>
-		<p *ngIf="!isCodeValid && inputCode" style="color: red;">Código incorreto.</p>
+		<p *ngIf="!isCodeValid && inputCode" style="color: red;">Invalid code.</p>
 	  </ng-container>
 	</div>
 	<div mat-dialog-actions>
@@ -19,10 +19,10 @@
 		  [disabled]="data.requiresCodeInput && !isCodeValid">
 		  Confirmar
 		</button>
-		<button mat-raised-button color="accent" (click)="onClose()">Cancelar</button>
+		<button mat-raised-button color="accent" (click)="onClose()">Cancel</button>
 	  </ng-container>
 	  <ng-template #messageActions>
-		<button mat-raised-button color="primary" (click)="onClose()">Fechar</button>
+		<button mat-raised-button color="primary" (click)="onClose()">Close</button>
 	  </ng-template>
 	</div>
   </div>

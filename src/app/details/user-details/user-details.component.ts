@@ -106,7 +106,7 @@ export class UserDetailsComponent implements OnInit {
 		  this.isEditing = true;
 		  this.loadCarBrands();
 		} else {
-		  console.error('userID não encontrado no token!');
+		  console.error('userID not found in the token!');
 		  return;
 		}
 	  }
@@ -117,7 +117,7 @@ export class UserDetailsComponent implements OnInit {
 		if (this.userID) {
 			this.userService.getUserByUserID(this.userID).subscribe({
 				next: (data) => {
-					console.log('Dados carregados:', data);
+					console.log('Data has been loaded:', data);
 					this.user = data;
 					if (this.user) {
 						this.populateUserForm(this.user);
@@ -125,11 +125,11 @@ export class UserDetailsComponent implements OnInit {
 					}
 				},
 				error: (error) => {
-					console.error('Erro ao carregar dados do utilizador:', error);
+					console.error('Error loading user data:', error);
 				},
 			});
 		} else {
-			console.error('userID não definido para carregar dados!');
+			console.error('Cannot load data: userID is not defined!');
 		}
 	}
 
@@ -199,7 +199,7 @@ export class UserDetailsComponent implements OnInit {
 				.updateUserByUserID(formData.userID, formData)
 				.subscribe({
 					next: (response) => {
-						console.log('Utilizador atualizado com sucesso!');
+						console.log('User successfully updated!');
 	
 						this.userForm.patchValue({
 							status: formData.status,
@@ -217,10 +217,10 @@ export class UserDetailsComponent implements OnInit {
 								const carID = carData.licensePlate; // Você pode usar outro campo como identificador
 								this.carsService.updateCar(this.userID, carData).subscribe({
 									next: () => {
-										console.log(`Carro ${carID} atualizado com sucesso!`);
+										console.log(`Car ${carID} successfully updated!`);
 									},
 									error: (error) => {
-										console.error(`Erro ao atualizar o carro ${carID}:`, error);
+										console.error(`Error while updating the car ${carID}:`, error);
 									},
 								});
 							}
@@ -230,7 +230,7 @@ export class UserDetailsComponent implements OnInit {
 						this.loadUserData();
 					},
 					error: (error) => {
-						console.error('Erro ao atualizar utilizador:', error);
+						console.error('Error while updating the user:', error);
 					},
 				});
 		} else {
@@ -274,13 +274,13 @@ export class UserDetailsComponent implements OnInit {
 						result.birthDate ?? this.user.birthDate,
 					status: result.status ?? this.user.status,
 				};
-				console.log('Utilizador atualizado:', updatedUser);
+				console.log('User updated:', updatedUser);
 
 				this.userService
 					.updateUserByUserID(this.user.userID, updatedUser)
 					.subscribe({
 						next: () => {
-							console.log('Utilizador atualizado com sucesso! CCC');
+							console.log('User successfully updated!');
 							this.router
 								.navigate(['/user', updatedUser.userID])
 								.then(() => {
@@ -288,7 +288,7 @@ export class UserDetailsComponent implements OnInit {
 								});
 						},
 						error: (error) => {
-							console.error('Erro ao atualizar utilizador:', error);
+							console.error('Error while updating user:', error);
 							this.messageService.showSnackbar(error.error.error, 'error');
 						},
 					});
@@ -306,7 +306,7 @@ export class UserDetailsComponent implements OnInit {
 	  loadCarBrands(): void {
 		this.carsService.getCarBrands().subscribe(
 		  (response) => {
-			console.log('Marcas de carros recebidas:', response);
+			console.log('Car brands returned:', response);
 			this.brandOptions = response;  // Atribui as marcas recebidas do backend
 		  },
 		  (error) => {
@@ -316,21 +316,21 @@ export class UserDetailsComponent implements OnInit {
 	  }
 
 	  loadCarModels(brand: string): void {
-		console.log('Marca recebida para carregar modelos:', brand);
+		console.log('Brand returned to load models:', brand);
 	  
 		this.carsService.getCarModels(brand).subscribe(
 		  (response) => {
 			if (response && response.length > 0) {
-			  console.log(`Modelos de carros para ${brand}:`, response);
+			  console.log(`Car models for brand ${brand}:`, response);
 			  this.modelOptions = response;
-			  console.log('modelOptions atualizados:', this.modelOptions);
+			  console.log('modelOptions updated:', this.modelOptions);
 			} else {
-			  console.warn('Nenhum modelo encontrado para:', brand);
+			  console.warn('No model was found for:', brand);
 			  this.modelOptions = [];
 			}
 		  },
 		  (error) => {
-			console.error('Erro ao buscar modelos de carros:', error);
+			console.error('Error fetching car models:', error);
 		  }
 		);
 	  }
@@ -342,12 +342,12 @@ export class UserDetailsComponent implements OnInit {
 		  this.carsService.getCarModels(brand).subscribe(
 			(response) => {
 			  if (response && response.length > 0) {
-				console.log(`Modelos de carros para ${brand}:`, response);
+				console.log(`Car models for ${brand}:`, response);
 				this.modelOptionsMap[index] = response;
 			  }
 			},
 			(error) => {
-			  console.error('Erro ao buscar modelos de carros:', error);
+			  console.error('Error fetching car models:', error);
 			}
 		  );
 		}
@@ -372,7 +372,7 @@ export class UserDetailsComponent implements OnInit {
 		  this.carsService.getCarModels(selectedBrand).subscribe(
 			(response) => {
 			  if (response && response.length > 0) {
-				console.log(`Modelos de carros para ${selectedBrand}:`, response);
+				console.log(`Car models for ${selectedBrand}:`, response);
 				this.modelOptionsMap[index] = response;
 				
 				// Only reset model if brand changed
@@ -383,7 +383,7 @@ export class UserDetailsComponent implements OnInit {
 			  }
 			},
 			(error) => {
-			  console.error('Erro ao buscar modelos de carros:', error);
+			  console.error('Error while fetching car models:', error);
 			}
 		  );
 		} else {
@@ -425,7 +425,7 @@ export class UserDetailsComponent implements OnInit {
 	  }
 	
 	saveCarUpdate(index: number): void {
-		console.log('Dados salvos:', this.carsFormArray.at(index).value);
+		console.log('Data saved:', this.carsFormArray.at(index).value);
 		const carData = this.carsFormArray.at(index).value;
 		
 		// Verificar se os dados foram alterados
@@ -433,10 +433,10 @@ export class UserDetailsComponent implements OnInit {
 			// Chamar o método updateCar para atualizar o carro no backend
 			this.carsService.updateCar(this.userID, carData).subscribe({
 				next: () => {
-					console.log(`Carro ${carData.licensePlate} atualizado com sucesso!`);
+					console.log(`Car ${carData.licensePlate} successfully updated!`);
 				},
 				error: (error) => {
-					console.error(`Erro ao atualizar o carro ${carData.licensePlate}:`, error);
+					console.error(`Error while updating ${carData.licensePlate}:`, error);
 				}
 			});
 		}
@@ -464,16 +464,16 @@ export class UserDetailsComponent implements OnInit {
 		  // Chama o serviço para excluir o carro
 		  this.carsService.deleteCarByLicensePlate(this.userID, licensePlate).subscribe({
 			next: (response) => {
-			  console.log(`Carro com placa ${licensePlate} excluído com sucesso`);
+			  console.log(`Car with the license plate ${licensePlate} successfully removed.`);
 			  // Atualiza a lista de carros após a exclusão
 			  this.carsFormArray.removeAt(index);
 			},
 			error: (error) => {
-			  console.error('Erro ao excluir carro:', error);
+			  console.error('Error while removing car:', error);
 			}
 		  });
 		} else {
-		  console.warn('Placa do carro não encontrada!');
+		  console.warn('License plate not found!');
 		}
 	  }
 

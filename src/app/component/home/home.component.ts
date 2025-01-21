@@ -16,7 +16,7 @@ export class HomeComponent {
   ) { }
 
   tripDetails() {
-    const dialogRef = TripDetailComponent.openDialog(this.dialog);
+   TripDetailComponent.openDialog(this.dialog);
   }
 
 }

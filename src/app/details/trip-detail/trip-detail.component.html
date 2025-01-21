@@ -1,70 +1,112 @@
 <mat-dialog-content>
-	<h2>Detalhes da Viagem</h2>
-	<mat-divider></mat-divider>
-
-	<div class="content">
-		<!-- Driver Section -->
-		<div class="driver">
-			<img src="/avatar.png" alt="Avatar" class="avatar">
-			<div class="driver-details">
-				<span class="driver-name">{{ trip.driver.name }}</span>
-				<div class="rating">
-					<ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-						<span [class.filled]="i < trip.driver.rating">&#9733;</span>
-					</ng-container>
+	<h2 style="display: flex; justify-content: space-between; align-items: center;">
+		<span>Trip Details: {{ trip.tripCode }}</span>
+		<span class="badge" [ngClass]="{
+			'bg-primary': trip.status === 'created',
+			'bg-success': trip.status === 'inOffer',
+			'bg-secondary': trip.status === 'closed',
+			'bg-warning': trip.status === 'ongoing',
+			'bg-info': trip.status === 'arrived',
+			'bg-dark': trip.status === 'finished',
+			'bg-danger': trip.status === 'canceled'
+		  }">
+			{{ trip.status === 'inOffer' ? 'In Offer' : (trip.status | titlecase) }}
+		</span>
+	</h2>
+	<mat-card class="driver-card" style="background-color: black; color: white;">
+		<mat-card-content>
+			<div class="driver-car-container" style="display: flex; justify-content: space-between;">
+				<div class="driver" style="flex: 1; margin-right: 10px;">
+					<img src="/avatar.png" alt="Avatar" class="avatar">
+					<div class="driver-details">
+						<span class="driver-name">{{ trip.driver.name }}</span>
+						<div class="rating">
+							<ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+								<span [class.filled]="i < trip.driver.rating">&#9733;</span>
+							</ng-container>
+						</div>
+					</div>
+				</div>
+				<!-- Car Section -->
+				<div class="car" style="flex: 1;">
+					<div class="car-details">
+						<span class="car-info" style="display: flex; align-items: center;">
+							<mat-icon style="color: green;">directions_car</mat-icon>
+							<strong style="margin-left: 5px;">Car: </strong> {{ trip.car.brand }} - {{trip.car.model}}
+							({{ trip.car.color }})
+						</span>
+						<span class="car-plate" style="display: flex; align-items: center;">
+							<mat-icon style="color: green;">confirmation_number</mat-icon>
+							<strong style="margin-left: 5px;">Plate: </strong> {{ trip.car.plate }}
+						</span>
+						<span class="car-seats" style="display: flex; align-items: center;">
+							<mat-icon style="color: green;">event_seat</mat-icon>
+							<strong style="margin-left: 5px;">Seats available: </strong> {{ trip.nrSeats -
+							trip.passengers.length }}/{{ trip.nrSeats }}
+						</span>
+					</div>
 				</div>
 			</div>
+		</mat-card-content>
+	</mat-card>
+	<!-- <mat-card>
+		<mat-card-content> -->
+	<div style="margin: 20px;">
+		<div style="display: flex; align-items: center; margin: 5px; justify-content: center;">
+			{{ trip.departureDate | date: 'fullDate' }}
+			<mat-icon style="color: green;">calendar_today</mat-icon>
 		</div>
-
-		<!-- Car Section -->
-		<div class="car">
-			<div class="car-details">
-				<span class="car-info"><strong>Car:</strong> {{ trip.car.brand }} - {{trip.car.model}}</span>
-				<span class="car-color"><strong>Color:</strong> {{ trip.car.color }}</span>
-				<span class="car-plate"><strong>Plate:</strong> {{ trip.car.plate }}</span>
-				<span class="car-seats"><strong>Seats available:</strong> {{ trip.nrSeats -
-					trip.passengers.length }}/{{ trip.nrSeats }}</span>
-			</div>
+		<div style="display: flex; align-items: center; margin: 5px; justify-content: center;">
+			{{ trip.departureDate | date: 'shortTime' }}
+			<mat-icon style="color: green;">access_time</mat-icon>
+		</div>
+	</div>
+	<div class="map-info" style="display: flex; justify-content: space-around; margin-top: 5px; margin-bottom: 10;">
+		<div class="from-info" style="flex: 1; text-align: center;">
+			<mat-icon style="color: green;">location_on</mat-icon>
+			<p style="margin: 0;"><strong>From:</strong></p>
+			<p style="margin: 0;">{{ trip.origin.parish }} - {{ trip.origin.municipality }}, {{ trip.origin.district }}</p>
+		</div>
+		<div class="to-info" style="flex: 1; text-align: center; margin-bottom: 10px;">
+			<mat-icon style="color: green;">location_on</mat-icon>
+			<p  style="margin: 0;"><strong>To:</strong></p>
+			<p  style="margin: 0;">{{ trip.destination.parish }} - {{ trip.destination.municipality }}, {{ trip.destination.district }}</p>
 		</div>
 	</div>
 	<app-map-display></app-map-display>
-	<div class="trip-info">
-		<p><strong>Código da Viagem:</strong> {{ trip.tripCode }}</p>
-		<p><strong>Carro:</strong> {{ trip.car }}</p>
-		<p><strong>Status:</strong> {{ trip.status }}</p>
-		<p><strong>Assentos Disponíveis:</strong> {{ trip.nrSeats }}</p>
-		<p *ngIf="trip.estimatedCost"><strong>Custo Estimado:</strong> €{{ trip.estimatedCost }}</p>
-		<p *ngIf="trip.pricePerPerson"><strong>Preço por Pessoa:</strong> €{{ trip.pricePerPerson }}</p>
-		<p><strong>Motorista:</strong> {{ trip.driver }}</p>
+	<div class="trip-info" style="display: flex; justify-content: space-between; margin: 20px;">
+		<ul class="list-group" style="flex: 1;">
+			<li *ngIf="trip.estimatedCost" style="display: flex; align-items: center;">
+				<mat-icon style="color: green;">attach_money</mat-icon>
+				<strong style="margin-left: 5px;">Custo Total Estimado: </strong> €{{ trip.estimatedCost }}
+			</li>
+		</ul>
+		<ul class="list-group" style="flex: 1;">
+			<li *ngIf="trip.pricePerPerson" style="display: flex; align-items: center;">
+				<mat-icon style="color: green;">person</mat-icon>
+				<strong style="margin-left: 5px;">Preço por Pessoa: </strong> €{{ trip.pricePerPerson }}
+			</li>
+		</ul>
 	</div>
 
-	<mat-divider></mat-divider>
-
-	<h3>Passageiros</h3>
-	<ul>
-		<li *ngFor="let passenger of trip.passengers">{{ passenger }}</li>
-	</ul>
-
-	<mat-divider></mat-divider>
-
-	<h3>Origem</h3>
-	<p><strong>Município:</strong> {{ trip.origin.municipality }}</p>
-	<p><strong>Freguesia:</strong> {{ trip.origin.parish }}</p>
-	<p><strong>Distrito:</strong> {{ trip.origin.district }}</p>
-
-	<mat-divider></mat-divider>
-
-	<h3>Destino</h3>
-	<p><strong>Município:</strong> {{ trip.destination.municipality }}</p>
-	<p><strong>Freguesia:</strong> {{ trip.destination.parish }}</p>
-	<p><strong>Distrito:</strong> {{ trip.destination.district }}</p>
-
-	<mat-divider></mat-divider>
-
-	<div class="dates">
-		<p><strong>Data de Partida:</strong> {{ trip.departureDate | date: 'short' }}</p>
-		<p><strong>Criado em:</strong> {{ trip.createdAt | date: 'short' }}</p>
-	</div>
+	<!-- </mat-card-content>
+</mat-card> -->
+	<mat-expansion-panel hideToggle>
+		<mat-expansion-panel-header>
+			<mat-panel-title> See who is traveling with you! </mat-panel-title>
+		</mat-expansion-panel-header>
+		<ul>
+			<li *ngFor="let passenger of trip.passengers" style="display: flex; align-items: center;">
+				{{ passenger.name.split(' ')[0] }}
+				<div class="rating" style="margin-left: 10px;">
+					<ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+						<span [class.filled]="i < passenger.rating">&#9733;</span>
+					</ng-container>
+				</div>
+			</li>
+		</ul>
+	</mat-expansion-panel>
+	<br>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">

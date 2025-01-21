@@ -12,6 +12,9 @@ import { NgModule } from '@angular/core';
 import { GoogleMapsModule, MapDirectionsService } from '@angular/google-maps';
 import { TripCardComponent } from "../../component/trip-card/trip-card.component";
 import { MapDisplayComponent } from "../../component/map-display/map-display.component";
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatCard, MatCardModule } from '@angular/material/card';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 
@@ -24,13 +27,17 @@ import { MapDisplayComponent } from "../../component/map-display/map-display.com
     MatInputModule,
     MatButtonModule,
     ReactiveFormsModule,
-    MatDivider,
+    // MatDivider,
     MatDialogContent,
     MatDialogActions,
     MatDialogModule,
     MatGridListModule,
     GoogleMapsModule,
-    MapDisplayComponent
+    MapDisplayComponent,
+    MatIcon,
+    MatIconModule,
+    MatCardModule,
+    MatExpansionModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
@@ -66,7 +73,16 @@ export class TripDetailComponent implements OnInit {
         name: "John Doe",
         rating: 3.0,
       },
-      passengers: ["Jane Smith", "Mark Johnson"],
+      passengers: [
+        {
+          name: "Jane Smith",
+          rating: 4.0
+        },
+        {
+          name: "Mark Johnson",
+          rating: 5.0
+        }
+      ],
       origin: {
         municipality: "Lisbon",
         parish: "Avenidas Novas",

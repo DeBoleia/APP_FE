@@ -22,3 +22,14 @@ mat-card {
     margin: 0 auto; /* Centraliza o card horizontalmente */
     padding: 16px; /* Padding opcional para um melhor espaçamento */
 }
+
+
+.card-container2 {
+    display: flex; /* Coloca os cartões lado a lado */
+    gap: 15px; /* Espaçamento de 15px entre os cartões */
+  }
+  
+//   mat-card {
+//     flex: 1; /* Distribui espaço uniformemente entre os cartões */
+//     max-width: 50%; /* Evita que os cartões fiquem muito largos */
+//   }

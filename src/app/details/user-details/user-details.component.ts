@@ -21,9 +21,6 @@ import { MatDivider } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { CarsService } from '../../services/cars.service';
 
-
-
-
 @Component({
 	selector: 'app-user-details',
 	standalone: true,
@@ -47,16 +44,12 @@ import { CarsService } from '../../services/cars.service';
 export class UserDetailsComponent implements OnInit {
 	user: any;
 	// cars: Cars[] = [];
-
 	//user: User | null = null;
 	cars: Cars[] = [];
 	errorMessage: { [key: string]: any } = {};
-	
 	userForm!: FormGroup;
 	editingIndex: number | null = null;
-
 	originalCarData: any[] = [];
-	
 	isEditing: boolean = false;
 	isCreating: boolean = false;
 	originalUser: User | null = null;
@@ -87,7 +80,7 @@ export class UserDetailsComponent implements OnInit {
 			passengerRating: [''],
 			passengerRatingCount: [''],
 			driversLicense: [''],
-			cars: this.fb.array([])  // Definindo o FormArray
+			cars: this.fb.array([])
 		});
 	}
 
@@ -117,88 +110,6 @@ export class UserDetailsComponent implements OnInit {
 		  return;
 		}
 	  }
-
-	// ngOnInit(): void {
-	// 	const userIDFromToken = this.authenticatorService.getUserID();
-
-	// 	if (userIDFromToken) {
-	// 	  this.userID = userIDFromToken;
-	// 	  console.log('userID DO TOKEN @@ :', this.userID);
-	// 	} else {
-	// 	  console.error('userID não encontrado no token!');
-	// 	  return;
-	// 	}
-	// 	this.userForm = this.fb.group({
-	// 		userID: [''],
-	// 		name: [''],
-	// 		email: [''],
-	// 		role: [''],
-	// 		phoneNumber: [''],
-	// 		NIF: [''],
-	// 		birthDate: [''],
-	// 		status: [''],
-	// 		driverRating: [''],
-	// 		driverRatingCount: [''],
-	// 		passengerRating: [''],
-	// 		passengerRatingCount: [''],
-	// 		driversLicense: [''],
-	// 		cars: this.fb.array([])
-	// 	});
-
-	// 	this.userForm.get('userID')?.setValue(this.userID);
-
-	// 	this.loadAllData(this.userID);
-	
-	// 	// Atribuir o userID corretamente da rota
-	// 	// this.route.paramMap.subscribe(params => {
-	// 	// 	this.userID = params.get('userID') || ''; 
-	// 	// 	if (this.userID) {
-	// 	// 		this.loadAllData(this.userID);
-	// 	// 	} else {
-	// 	// 		console.error('userID não encontrado na rota!');
-	// 	// 	}
-	// 	// });
-	// }
-	
-	// ngOnInit(): void {
-	// 	// const userIDFromToken = this.authenticatorService.getUserEmail();
-
-	// 	// if (emailFromToken) {
-	// 	//   this.email = emailFromToken;
-	// 	//   console.log('EMAIL DO TOKEN:', this.email);
-	// 	// } else {
-	// 	//   console.error('Email não encontrado no token!');
-	// 	//   return;
-	// 	// }
-
-	// 	this.userForm = this.fb.group({
-	// 		userID: [''],
-	// 		name: [''],
-	// 		email: [''],
-	// 		role: [''],
-	// 		phoneNumber: [''],
-	// 		NIF: [''],
-	// 		birthDate: [''],
-	// 		status: [''],
-	// 		driverRating: [''],
-	// 		driverRatingCount: [''],
-	// 		passengerRating: [''],
-	// 		passengerRatingCount: [''],
-	// 		driversLicense: [''],
-	// 		cars: this.fb.group({
-	// 			brand: [''],
-	// 			model: [''],
-	// 			color: [''],
-	// 			licensePlate: [''],
-	// 		}),
-
-
-	// 	});
-
-	// 	this.userForm.get('userID')?.setValue(this.userID);
-
-	// 	this.loadAllData(this.userID);
-	// }
 
 	loadAllData(userID: string): void {
 		console.log('Chamando API para obter utilizadores com userID:', this.userID);
@@ -361,18 +272,6 @@ export class UserDetailsComponent implements OnInit {
 					birthDate:
 						result.birthDate ?? this.user.birthDate,
 					status: result.status ?? this.user.status,
-					// morada: {
-					// 	rua: result.rua ?? this.utilizador.morada?.rua ?? '',
-					// 	localidade:
-					// 		result.localidade ?? this.utilizador.morada?.localidade ?? '',
-					// 	codigoPostal:
-					// 		result.codigoPostal ?? this.utilizador.morada?.codigoPostal ?? '',
-					// 	localidadePostal:
-					// 		result.localidadePostal ??
-					// 		this.utilizador.morada?.localidadePostal ??
-					// 		'',
-					// 	pais: result.pais ?? this.utilizador.morada?.pais ?? '',
-					// },
 				};
 				console.log('Utilizador atualizado:', updatedUser);
 
@@ -389,7 +288,7 @@ export class UserDetailsComponent implements OnInit {
 						},
 						error: (error) => {
 							console.error('Erro ao atualizar utilizador:', error);
-							//this.messageService.showSnackbar(error.error.error, 'error');
+							this.messageService.showSnackbar(error.error.error, 'error');
 						},
 					});
 			}
@@ -397,7 +296,6 @@ export class UserDetailsComponent implements OnInit {
 	}
 
 	brandOptions: string[] = []; 
-	//brandOptions = getCarBrands(); // Exemplo de opções para "brand"
 	modelOptions: string[] = []; 
 	colorOptions = [
 		'Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Purple', 'Pink', 'Brown', 'Black', 'White', 'Gray', 'Cyan', 'Magenta', 
@@ -424,7 +322,7 @@ export class UserDetailsComponent implements OnInit {
 			if (response && response.length > 0) {
 			  console.log(`Modelos de carros para ${brand}:`, response);
 			  this.modelOptions = response;
-			  console.log('modelOptions atualizados:', this.modelOptions);  // Verifica se os modelos estão a ser atribuídos corretamente
+			  console.log('modelOptions atualizados:', this.modelOptions);
 			} else {
 			  console.warn('Nenhum modelo encontrado para:', brand);
 			  this.modelOptions = [];
@@ -494,14 +392,14 @@ export class UserDetailsComponent implements OnInit {
 
 	  modelOptionsMap: { [key: number]: string[] } = {};
 
-	addCar() {
-		this.carsFormArray.push(this.fb.group({
-		  brand: ['', [Validators.required]],
-		  model: ['', [Validators.required]],
-		  color: ['', [Validators.required]],
-		  licensePlate: ['', [Validators.required]]
-		}));
-	  }
+	// addCar() {
+	// 	this.carsFormArray.push(this.fb.group({
+	// 	  brand: ['', [Validators.required]],
+	// 	  model: ['', [Validators.required]],
+	// 	  color: ['', [Validators.required]],
+	// 	  licensePlate: ['', [Validators.required]]
+	// 	}));
+	//   }
 	
 	// editCar(index: number): void {
 	// 	// Defina o índice do carro para indicar que ele está em edição
@@ -511,13 +409,20 @@ export class UserDetailsComponent implements OnInit {
 	// 	this.originalCarData[index] = { ...car }; // Copiar os dados para o array originalCarData
 	// }
 	
-	// 2. Alterar a verificação do estado de edição
+
 	isEditing1(index: number): boolean {
 		return this.editingIndex === index; // Verifica se o carro está no estado de edição
 	}
+
+	handleSave(index: number): void {
+		if (this.isEditing1(index)) {
+		  this.saveCarUpdate(index);
+		} else {
+		  this.saveCar(index);
+		}
+	  }
 	
-	// 3. Manter a lógica de salvar e cancelar
-	saveCar(index: number): void {
+	saveCarUpdate(index: number): void {
 		console.log('Dados salvos:', this.carsFormArray.at(index).value);
 		const carData = this.carsFormArray.at(index).value;
 		
@@ -570,7 +475,52 @@ export class UserDetailsComponent implements OnInit {
 		}
 	  }
 
-	  
+
+  		isAddingCar: boolean = false;
+
+
+
+		  addCar() {
+			this.isAddingCar = true;
+			const newCarGroup = this.fb.group({
+			  brand: [''],
+			  model: [''],
+			  color: [''],
+			  licensePlate: ['']
+			});
+			this.carsFormArray.push(newCarGroup);
+			const newIndex = this.carsFormArray.length - 1;
+			this.editingIndex = newIndex;
+		  }
+		
+		  saveCar(index: number): void {
+			const carData = this.carsFormArray.at(index).value;
+			
+			// Verify if we have all required data
+			if (!carData.brand || !carData.model || !carData.color || !carData.licensePlate) {
+			  Swal.fire('Error', 'Please fill in all car details', 'error');
+			  return;
+			}
+		
+			this.carsService.createCarInUser(this.userID, carData).subscribe({
+			  next: (response) => {
+				console.log('Car created successfully:', response);
+				Swal.fire('Success', 'Car added successfully', 'success');
+				
+				// Reset flags
+				this.editingIndex = null;
+				this.isAddingCar = false;
+				
+				// Reload user data to get updated cars list
+				this.loadAllData(this.userID);
+			  },
+			  error: (error) => {
+				console.error('Error creating car:', error);
+				Swal.fire('Error', 'Failed to add car. Please try again.', 'error');
+			  }
+			});
+		  }
+		
 
 
 

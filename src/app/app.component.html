@@ -7,67 +7,69 @@
           <img src="/DeBoleiaLogo.png" alt="DeBoleia Logo">
           <a class="nav-link" routerLink="/home">DeBoleia</a>
         </li>
-        
+
         @if (isLoggedIn()) {
-          @if (isAdmin()) {
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/user">Manage Users</a>
-            </li>
-          } @else {
-            <li class="nav-item">
-              <a class="nav-link" (click)="manageApplications()">Find Rides</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" (click)="manageTrips()">Offer a ride</a>
-            </li>
-          }
+        @if (isAdmin()) {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/cars">Manage Car Database</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/user">Manage Users</a>
+        </li>
+        } @else {
+        <li class="nav-item">
+          <a class="nav-link" (click)="manageApplications()">Find Rides</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="manageTrips()">Offer a ride</a>
+        </li>
+        }
         }
       </div>
 
       <div class="nav-right">
         @if (!isLoggedIn()) {
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/login">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/register">Register</a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/register">Register</a>
+        </li>
         } @else {
-          @if (!isAdmin()) {
-            <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/user', getUserId()]">Edit Profile</a>
-            </li>
-          }
-          <li class="nav-item">
-            <a class="nav-link" (click)="logout()">Logout</a>
-          </li>
+        @if (!isAdmin()) {
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/user', getUserId()]">Edit Profile</a>
+        </li>
+        }
+        <li class="nav-item">
+          <a class="nav-link" (click)="logout()">Logout</a>
+        </li>
         }
       </div>
     </ul>
+
     <!-- Main content -->
     <div class="container">
       <router-outlet></router-outlet>
     </div>
 
-  <!-- Back to Top Button -->
-@if (showBackToTop) {
-  <button (click)="scrollToTop()" 
-          class="btn btn-primary back-to-top" 
-          title="Go to top">
+    <!-- Back to Top Button -->
+    @if (showBackToTop) {
+    <button (click)="scrollToTop()" class="btn btn-primary back-to-top" title="Go to top">
       ↑
-  </button>
-}
+    </button>
+    }
 
-<!-- Footer -->
-<div>
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-left">
-        <a href="/rgpd" class="footer-link">RGPD</a>
-      </div>
-      <div class="footer-center">
-        © 2025 DeBoleia
-      </div>
+    <!-- Footer -->
+    <div>
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-left">
+            <a href="/rgpd" class="footer-link">RGPD</a>
+          </div>
+          <div class="footer-center">
+            © 2025 DeBoleia
+          </div>
+        </div>
+      </footer>
     </div>
-  </footer>
-</div>

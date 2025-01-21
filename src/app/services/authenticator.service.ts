@@ -65,7 +65,9 @@ export class AuthenticatorService {
   saveToken(token: string): void {
     const decodedToken: any = jwtDecode(token);
     localStorage.setItem(this.tokenKey, token);
-    localStorage.setItem(this.tokenRole, decodedToken.userRole);
+    const role = decodedToken.role || decodedToken.userRole;
+    console.log('Extracted role:', role);
+    localStorage.setItem(this.tokenRole, role);
     localStorage.setItem(this.tokenUserID, decodedToken.userID);
     localStorage.setItem(this.tokenStatus, decodedToken.userStatus);
   }
@@ -75,7 +77,9 @@ export class AuthenticatorService {
   }
 
   getUserRole(): string | null {
-    return localStorage.getItem(this.tokenRole);
+    const role = localStorage.getItem(this.tokenRole);
+    console.log('Retrieved role from localStorage:', role);
+    return role;
   }
 
   getUserId(): string | null {

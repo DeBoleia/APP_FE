@@ -30,7 +30,6 @@ export class AppComponent implements OnInit {
 
   isAdmin(): boolean {
     const role = this.auth.getUserRole();
-    console.log('Checking admin role:', role); // Debug log
     return role === 'admin';
   }
 

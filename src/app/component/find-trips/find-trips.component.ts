@@ -1,26 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { TripCardComponent } from "../trip-card/trip-card.component";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDivider } from '@angular/material/divider';
 @Component({
   selector: 'app-find-trips',
   imports: [
     MatGridListModule,
     TripCardComponent,
     MatFormFieldModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
+    MatDivider
 
   ],
   templateUrl: './find-trips.component.html',
   styleUrl: './find-trips.component.scss'
 })
-export class FindTripsComponent {
+export class FindTripsComponent implements OnInit {
 
+  constructor() { }
+
+  ngOnInit(): void {
+    
+  }
 }

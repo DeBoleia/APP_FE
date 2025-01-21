@@ -1,39 +1,68 @@
 .main {
-	height: calc(100vh - 80px);
-}
-
-mat-grid-list {
+	display: flex;
+	flex-direction: row;
 	position: absolute;
-	margin-top: 10px;
-	padding-left: 10px;
-	left: 5px;
-	width: calc(100vw - 5px);
+	// top: 56px;
+	left: 0;
+	width: 100vw;
+	height: calc(100vh - 56px);
+	overflow: hidden;
 }
 
-mat-grid-tile {
-	background-color: aqua;
+#title {
+	color: black;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	margin: auto;
+	margin-bottom: 25px;
+}
+
+#subtitle {
+	color: black;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	margin: auto;
+	margin-bottom: 50px;
+}
+
+.col-right {
+	// position: absolute;
+	width: 100%;
+	height: 100%;
 	overflow-x: scroll;
 	overflow-y: scroll;
 }
 
-.search {
-	height: calc(100vh - 80px);
-	// height: 100%;
+.col-left {
+	background-color: transparent !important;
+	padding-top: 10%;
+	padding-left: 20px;
+	margin: auto;
+	width: 100%;
+	height: 100%;
+	overflow-x: scroll;
+	overflow-y: hidden;
 }
 
 .trips-display {
-	min-height: calc(100vh - 80px);
+	height: 100%;
 }
 
 .cards {
 	position: relative;
 	margin: auto;
-}
-// .cards:first-child {
-// 	margin-top: 150px;
-// }
-
-.cards {
 	display: flex;
 	flex-direction: column;
+}
+
+.search-filter {
+	width: 90%;
+	display: flex;
+	flex-direction: column;
+}
+
+.search-input {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	// vertical-align: middle;
+	align-items: baseline;
 }

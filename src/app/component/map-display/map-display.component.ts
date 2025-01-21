@@ -19,7 +19,6 @@ export class MapDisplayComponent implements OnInit {
     { lat: 41.1622, lng: -8.5890 }
   ];
 
-  // Input properties with default values
   @Input() from: google.maps.LatLng = new google.maps.LatLng(41.1403, -8.6110);
   @Input() to: google.maps.LatLng = new google.maps.LatLng(41.1622, -8.5890);
 
@@ -30,13 +29,14 @@ export class MapDisplayComponent implements OnInit {
   constructor(private directionsService: MapDirectionsService) {}
 
   ngOnInit(): void {
-    if (this.from && this.to) {
-      this.getDirections(this.from, this.to);
-    } else if (this.from) {
-      this.gotoLocation(this.from);
-    } else if (this.to) {
-      this.gotoLocation(this.to);
-    }
+    this.center = this.calculateCenter();
+    // if (this.from && this.to) {
+    //   this.getDirections(this.from, this.to);
+    // } else if (this.from) {
+    //   this.gotoLocation(this.from);
+    // } else if (this.to) {
+    //   this.gotoLocation(this.to);
+    // }
   }
 
 
@@ -84,5 +84,20 @@ export class MapDisplayComponent implements OnInit {
           console.error('Error fetching directions:', err);
         },
       });  
+  }
+
+  calculateCenter() {
+    if (this.from && this.to) {
+      return {
+        lat: (this.from.lat() + this.to.lat()) / 2,
+        lng: (this.from.lng() + this.to.lng()) / 2,
+      };
+    } else if (this.from) {
+      return { lat: this.from.lat(), lng: this.from.lng() };
+    } else if (this.to) {
+      return { lat: this.to.lat(), lng: this.to.lng() };
+    } else {
+      return { lat: 41.1403, lng: -8.6110 };
+    }
   }
 }

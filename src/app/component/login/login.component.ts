@@ -28,7 +28,7 @@ interface LoginResponse {
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string | null = null;
-  isAccountInactive: boolean = true;
+  isAccountInactive: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -64,7 +64,7 @@ export class LoginComponent {
         },
         error: (err) => {
           if (err.error && typeof err.error === 'object' && err.error.error) {
-            if (typeof err.error.error === 'string' && err.error.error.includes('desativada pelo usuário')) {
+            if (typeof err.error.error === 'string' && err.error.error.includes('Your account is inactive')) {
               this.isAccountInactive = true;
             }
           }

@@ -4,6 +4,7 @@ import { AuthenticatorService } from './services/authenticator.service';
 import { CommonModule } from '@angular/common';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { RgpdComponent } from './component/rgpd/rgpd.component';
 
 @Component({
   selector: 'app-root',

@@ -6,7 +6,6 @@ import { LoginComponent } from './component/login/login.component';
 
 import { HomeComponent } from './component/home/home.component';
 import { RegisterComponent } from './component/register/register.component';
-import { HomeComponent } from './component/home/home.component';
 import { ApplicationComponent } from './component/application/application.component';
 import { TripComponent } from './component/trip/trip.component';
 

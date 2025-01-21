@@ -1,69 +1,67 @@
-<h1 id="title">Registar</h1>
-
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-	<div class="form-group mb-3">
-		<label for="name" class="form-label">Nome</label>
-		<input id="name" formControlName="name" type="text" class="form-control" [ngClass]="{
-'is-invalid': registerForm.get('name')?.invalid && registerForm.get('name')?.touched
-}" />
-		<div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="invalid-feedback">
-			O nome de usuário deve ter pelo menos 3 caracteres.
+<div class="login-container">
+	<h2 id="title">Registar</h2>
+	<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="formulario">
+		<div class="form-group mb-3">
+			<label for="name" class="form-label">Nome</label>
+			<input id="name" formControlName="name" type="text" class="form-control" [ngClass]="{
+				'is-invalid': registerForm.get('name')?.invalid && registerForm.get('name')?.touched
+			}" />
+			<div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="invalid-feedback">
+				O nome de usuário deve ter pelo menos 3 caracteres.
+			</div>
 		</div>
-	</div>
 
-	<div class="form-group mb-3">
-		<label for="email" class="form-label">Email</label>
-		<input id="email" formControlName="email" type="email" class="form-control" [ngClass]="{
-	'is-invalid': registerForm.get('email')?.invalid && registerForm.get('email')?.touched
-}" />
-		<div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="invalid-feedback">
-			Insira um email válido.
+		<div class="form-group mb-3">
+			<label for="email" class="form-label">Email</label>
+			<input id="email" formControlName="email" type="email" class="form-control" [ngClass]="{
+				'is-invalid': registerForm.get('email')?.invalid && registerForm.get('email')?.touched
+			}" />
+			<div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="invalid-feedback">
+				Insira um email válido.
+			</div>
 		</div>
-	</div>
 
-	<div class="form-group mb-3">
-		<label for="phoneNumber" class="form-label">phoneNumber</label>
-		<input id="phoneNumber" formControlName="phoneNumber" type="text" class="form-control" [ngClass]="{
-	'is-invalid': registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched
-	}" />
-		<div *ngIf="registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched" class="invalid-feedback">
-			phoneNumber
+		<div class="form-group mb-3">
+			<label for="phoneNumber" class="form-label">Telefone</label>
+			<input id="phoneNumber" formControlName="phoneNumber" type="text" class="form-control" [ngClass]="{
+				'is-invalid': registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched
+			}" />
+			<div *ngIf="registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched" class="invalid-feedback">
+				Por favor insira um número de telefone válido.
+			</div>
 		</div>
-	</div>
 
-	<div class="form-group mb-3">
-		<label for="password" class="form-label">Senha</label>
-		<input id="password" formControlName="password" type="password" class="form-control" [ngClass]="{
-'is-invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched
-}" />
-		<div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
-			class="invalid-feedback">
-			A senha deve ter pelo menos 6 caracteres.
+		<div class="form-group mb-3">
+			<label for="password" class="form-label">Senha</label>
+			<input id="password" formControlName="password" type="password" class="form-control" [ngClass]="{
+				'is-invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched
+			}" />
+			<div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="invalid-feedback">
+				A senha deve ter pelo menos 6 caracteres.
+			</div>
 		</div>
-	</div>
 
-
-	<div class="form-group mb-3">
-		<mat-checkbox formControlName="rgpd" class="mt-2">
-			Li e concordo com os Termos de Uso do Website e compreendo que as minhas informações
-			pessoais são processadas de acordo com a Declaração de Privacidade.
-			Declaro que li e aceito o
-			<a [routerLink]="'/rgpd'" target="_blank">Tratamento de Dados (RGPD)</a>.
-		</mat-checkbox>
-		<div *ngIf="registerForm.get('rgpd')?.invalid && registerForm.get('rgpd')?.touched" class="text-danger mt-1">
-			É necessário aceitar os termos de uso para continuar.
+		<div class="form-group mb-3">
+			<mat-checkbox formControlName="rgpd" class="mt-2">
+				Li e concordo com os Termos de Uso do Website e compreendo que as minhas informações pessoais são processadas de acordo com a Declaração de Privacidade.
+				Declaro que li e aceito o
+				<a [routerLink]="'/rgpd'" target="_blank">Tratamento de Dados (RGPD)</a>.
+			</mat-checkbox>
+			<div *ngIf="registerForm.get('rgpd')?.invalid && registerForm.get('rgpd')?.touched" class="text-danger mt-1">
+				É necessário aceitar os termos de uso para continuar.
+			</div>
 		</div>
-	</div>
 
-	<button type="submit" class="btn w-100" style="background-color: #0776BE; color: white;"
-		[disabled]="registerForm.invalid">
-		{{ 'Registar' }}
-	</button>
+		<button mat-button  [disabled]="registerForm.invalid">
+			{{ 'Registar' }}
+		</button>
 
-	<div *ngIf="errorMessage" class="alert alert-danger mt-3">
-		{{ errorMessage }}
-	</div>
-	<div *ngIf="successMessage" class="alert alert-success mt-3">
-		{{ successMessage }}
-	</div>
-</form>
+		<div *ngIf="errorMessage" class="alert alert-danger mt-3">
+			{{ errorMessage }}
+		</div>
+		<div *ngIf="successMessage" class="alert alert-success mt-3">
+			{{ successMessage }}
+		</div>
+	</form>
+</div>
+<br><br>

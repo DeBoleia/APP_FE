@@ -72,7 +72,3 @@ export class AppComponent implements OnInit {
   }
 }
 
-
-bootstrapApplication(AppComponent, {
-  providers: [provideAnimations()]
-}).catch(err => console.error(err));

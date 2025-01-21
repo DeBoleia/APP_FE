@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { UserDialogComponent } from '../../edit/edit-user/edit-user.component';
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MessageService } from '../../services/message.service';
 import { MatDivider } from '@angular/material/divider';

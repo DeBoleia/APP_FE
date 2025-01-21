@@ -15,6 +15,8 @@ import { MapDisplayComponent } from "../../component/map-display/map-display.com
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatCard, MatCardModule } from '@angular/material/card';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { TripsService } from '../../services/trips.service';
+import { UserService } from '../../services/user.service';
 
 
 
@@ -50,54 +52,47 @@ export class TripDetailComponent implements OnInit {
   trip!: any;
 
   constructor(
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<TripDetailComponent>,
-    private directionService: MapDirectionsService,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private tripService: TripsService,
+    private dialog: MatDialog,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
-    this.trip = this.data?.trip || {
-      tripCode: "TRP12345",
-      car: {
-        brand: "Tesla",
-        model: "Model 3",
-        color: "Black",
-        plate: "00-AA-00"
-      },
-      status: "inOffer",
-      nrSeats: 4,
-      estimatedCost: 100.0,
-      pricePerPerson: 25.0,
-      driver: {
-        name: "John Doe",
-        rating: 3.0,
-      },
-      passengers: [
-        {
-          name: "Jane Smith",
-          rating: 4.0
-        },
-        {
-          name: "Mark Johnson",
-          rating: 5.0
-        }
-      ],
-      origin: {
-        municipality: "Lisbon",
-        parish: "Avenidas Novas",
-        district: "Lisbon"
-      },
-      destination: {
-        municipality: "Porto",
-        parish: "Cedofeita",
-        district: "Porto"
-      },
-      departureDate: new Date("2025-01-25T08:00:00"),
-      createdAt: new Date("2025-01-20T14:30:00")
-
-    };
+    // this.trip = this.data?.trip || {
+    //   "car": "00-BB-98",
+    //     "status": "inOffer",
+    //     "nrSeats": 2,
+    //     "estimatedCost": 50,
+    //     "pricePerPerson": 25,
+    //     "driver": "U013",
+    //     "passengers": [],
+    //     "origin": {
+    //         "municipality": "Lisboa",
+    //         "parish": "Alvalade",
+    //         "district": "Porto",
+    //         "_id": "678a44afd1211da3a4819a58"
+    //     },
+    //     "destination": {
+    //         "municipality": "Oeiras",
+    //         "parish": "Oeiras",
+    //         "district": "Lisboa",
+    //         "_id": "678a44afd1211da3a4819a59"
+    //     },
+    //     "departureDate": "2025-01-30T12:00:00.000Z",
+    //     "tripCode": "RWFPJ1",
+    //     "createdAt": "2025-01-17T11:53:19.813Z"
+    // };
+    this.loadData();
   }
+
+  loadData() {
+    this.tripService.getTripByTripCode('RWFPJ1').subscribe((trip: any) => {
+      this.trip = trip;
+      console.log(this.trip);
+    });
+  }
+
 
   static openDialog(dialog: MatDialog, data?: any): MatDialogRef<TripDetailComponent> {
     return dialog.open(TripDetailComponent, {

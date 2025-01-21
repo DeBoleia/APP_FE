@@ -1,0 +1,53 @@
+<mat-dialog-content>
+	<h2>Detalhes da Viagem</h2>
+	<mat-divider></mat-divider>
+
+	<mat-grid-list cols="2" rowHeight="2:1">
+		<mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="'pink'">1</mat-grid-tile>
+		<mat-grid-tile>2</mat-grid-tile>
+		<mat-grid-tile>3</mat-grid-tile>
+		<mat-grid-tile>4</mat-grid-tile>
+		<mat-grid-tile>5</mat-grid-tile>
+	</mat-grid-list>
+	<div class="trip-info">
+		<p><strong>Código da Viagem:</strong> {{ trip.tripCode }}</p>
+		<p><strong>Carro:</strong> {{ trip.car }}</p>
+		<p><strong>Status:</strong> {{ trip.status }}</p>
+		<p><strong>Assentos Disponíveis:</strong> {{ trip.nrSeats }}</p>
+		<p *ngIf="trip.estimatedCost"><strong>Custo Estimado:</strong> €{{ trip.estimatedCost }}</p>
+		<p *ngIf="trip.pricePerPerson"><strong>Preço por Pessoa:</strong> €{{ trip.pricePerPerson }}</p>
+		<p><strong>Motorista:</strong> {{ trip.driver }}</p>
+	</div>
+
+	<mat-divider></mat-divider>
+
+	<h3>Passageiros</h3>
+	<ul>
+		<li *ngFor="let passenger of trip.passengers">{{ passenger }}</li>
+	</ul>
+
+	<mat-divider></mat-divider>
+
+	<h3>Origem</h3>
+	<p><strong>Município:</strong> {{ trip.origin.municipality }}</p>
+	<p><strong>Freguesia:</strong> {{ trip.origin.parish }}</p>
+	<p><strong>Distrito:</strong> {{ trip.origin.district }}</p>
+
+	<mat-divider></mat-divider>
+
+	<h3>Destino</h3>
+	<p><strong>Município:</strong> {{ trip.destination.municipality }}</p>
+	<p><strong>Freguesia:</strong> {{ trip.destination.parish }}</p>
+	<p><strong>Distrito:</strong> {{ trip.destination.district }}</p>
+
+	<mat-divider></mat-divider>
+
+	<div class="dates">
+		<p><strong>Data de Partida:</strong> {{ trip.departureDate | date: 'short' }}</p>
+		<p><strong>Criado em:</strong> {{ trip.createdAt | date: 'short' }}</p>
+	</div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+	<button mat-button mat-dialog-close color="primary">Fechar</button>
+</mat-dialog-actions>

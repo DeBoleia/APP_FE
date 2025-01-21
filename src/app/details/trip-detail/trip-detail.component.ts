@@ -31,7 +31,7 @@ import { MapDisplayComponent } from "../../component/map-display/map-display.com
     MatGridListModule,
     GoogleMapsModule,
     MapDisplayComponent
-],
+  ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
@@ -41,12 +41,6 @@ import { MapDisplayComponent } from "../../component/map-display/map-display.com
 
 export class TripDetailComponent implements OnInit {
   trip!: any;
-  center: google.maps.LatLngLiteral = { lat: 40.73061, lng: -73.935242 };
-  zoom = 12;
-  markers = [
-    { lat: 40.73061, lng: -73.935242 },
-    { lat: 40.74988, lng: -73.968285 }
-  ];
 
   constructor(
     private fb: FormBuilder,

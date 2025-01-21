@@ -16,10 +16,3 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 export class AppComponent {
   title = 'APP_FE';
 }
-
-
-bootstrapApplication(AppComponent, {
-  providers: []
-}).catch(err => console.error(err));  providers: [
-
-  ]

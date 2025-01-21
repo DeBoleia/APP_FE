@@ -2,41 +2,32 @@
 	<h2>Detalhes da Viagem</h2>
 	<mat-divider></mat-divider>
 
-	<mat-grid-list cols="2" rowHeight="2:1">
-		<mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="'#f5f5f5'">
-			<div class="content">
-				<!-- Driver Section -->
-				<div class="driver">
-					<img src="/avatar.png" alt="Avatar" class="avatar">
-					<div class="driver-details">
-						<span class="driver-name">{{ trip.driver.name }}</span>
-						<div class="rating">
-							<ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-								<span [class.filled]="i < trip.driver.rating">&#9733;</span>
-							</ng-container>
-						</div>
-					</div>
-				</div>
-
-				<!-- Car Section -->
-				<div class="car">
-					<div class="car-details">
-						<span class="car-info"><strong>Car:</strong> {{ trip.car.brand }} - {{trip.car.model}}</span>
-						<span class="car-color"><strong>Color:</strong> {{ trip.car.color }}</span>
-						<span class="car-plate"><strong>Plate:</strong> {{ trip.car.plate }}</span>
-						<span class="car-seats"><strong>Seats available:</strong> {{ trip.nrSeats -
-							trip.passengers.length }}/{{ trip.nrSeats }}</span>
-					</div>
+	<div class="content">
+		<!-- Driver Section -->
+		<div class="driver">
+			<img src="/avatar.png" alt="Avatar" class="avatar">
+			<div class="driver-details">
+				<span class="driver-name">{{ trip.driver.name }}</span>
+				<div class="rating">
+					<ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+						<span [class.filled]="i < trip.driver.rating">&#9733;</span>
+					</ng-container>
 				</div>
 			</div>
-		</mat-grid-tile>
+		</div>
 
-		<mat-grid-tile>
-		</mat-grid-tile>
-		<mat-grid-tile>3</mat-grid-tile>
-		<mat-grid-tile>4</mat-grid-tile>
-		<mat-grid-tile>5</mat-grid-tile>
-	</mat-grid-list>
+		<!-- Car Section -->
+		<div class="car">
+			<div class="car-details">
+				<span class="car-info"><strong>Car:</strong> {{ trip.car.brand }} - {{trip.car.model}}</span>
+				<span class="car-color"><strong>Color:</strong> {{ trip.car.color }}</span>
+				<span class="car-plate"><strong>Plate:</strong> {{ trip.car.plate }}</span>
+				<span class="car-seats"><strong>Seats available:</strong> {{ trip.nrSeats -
+					trip.passengers.length }}/{{ trip.nrSeats }}</span>
+			</div>
+		</div>
+	</div>
+	<app-map-display></app-map-display>
 	<div class="trip-info">
 		<p><strong>Código da Viagem:</strong> {{ trip.tripCode }}</p>
 		<p><strong>Carro:</strong> {{ trip.car }}</p>
@@ -74,8 +65,7 @@
 		<p><strong>Data de Partida:</strong> {{ trip.departureDate | date: 'short' }}</p>
 		<p><strong>Criado em:</strong> {{ trip.createdAt | date: 'short' }}</p>
 	</div>
-	<app-map-display></app-map-display>
-	</mat-dialog-content>
+</mat-dialog-content>
 
 <mat-dialog-actions align="end">
 	<button mat-button mat-dialog-close color="primary">Fechar</button>

@@ -14,13 +14,13 @@ export class MapDisplayComponent implements OnInit {
 
   zoom = 13;
   center!: google.maps.LatLngLiteral;
-  markers = [
-    { lat: 41.1403, lng: -8.6110 },
-    { lat: 41.1622, lng: -8.5890 }
-  ];
-
+  
   @Input() from: google.maps.LatLng = new google.maps.LatLng(41.1403, -8.6110);
   @Input() to: google.maps.LatLng = new google.maps.LatLng(41.1622, -8.5890);
+  markers = [
+    { lat: this.from.lat(), lng: this.from.lng() },
+    { lat: this.to.lat(), lng: this.to.lng() }
+  ];
 
   directionsResult$ = new BehaviorSubject<
     google.maps.DirectionsResult | undefined

@@ -30,8 +30,7 @@ export const routes: Routes = [
 	{ path: 'aboutus', component: AboutusComponent },
 	{ path: "trips", component: FindTripsComponent },
 	{ path: "mytrips", component: MyTripsComponent },
-	{ path: "map", component: MapDisplayComponent }
-	{ path: "trip", component: TripComponent },
+	{ path: "map", component: MapDisplayComponent },
 	{ path: 'rgpd', component: RgpdComponent }, 
 	{ path: 'aboutus', component: AboutusComponent },
 	{ path: 'change-password', component: ChangePasswordComponent }

@@ -16,6 +16,7 @@ import { TripsService } from '../../services/trips.service';
 import { AuthenticatorService } from '../../services/authenticator.service';
 import { ApplicationsService } from '../../services/applications.service';
 import { MessageService } from '../../services/message.service';
+import { StarRatingComponent } from '../../component/star-rating/star-rating.component';
 
 
 
@@ -37,8 +38,9 @@ import { MessageService } from '../../services/message.service';
     MatIcon,
     MatIconModule,
     MatCardModule,
-    MatExpansionModule
-  ],
+    MatExpansionModule,
+    StarRatingComponent
+],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
@@ -78,20 +80,20 @@ export class TripDetailComponent implements OnInit {
     });
   }
 
-  // applyToTrip() {
-  //   const userID = this.authenticatorService.getUserID();
-  //   this.applicationService.createApplication(userID, this.tripCode).subscribe({
-  //     next: (application: any) => {
-  //       console.log(application);
-  //       this.dialogRef.close();
-  //       this.messageService.showSnackbar('Application successful!', 'success', 3000);
-  //     },
-  //     error: (error: any) => {
-  //       console.error(error);
-  //       this.messageService.showSnackbar('Application failed: ' + error.error.message, 'error');
-  //     }
-  //   });
-  // }
+  applyToTrip() {
+    const userID = this.authenticatorService.getUserID();
+    this.applicationService.createApplication(userID, this.tripCode).subscribe({
+      next: (application: any) => {
+        console.log(application);
+        this.dialogRef.close();
+        this.messageService.showSnackbar('Application successful!', 'success', 3000);
+      },
+      error: (error: any) => {
+        console.error(error);
+        this.messageService.showSnackbar('Application failed: ' + error.error.message, 'error');
+      }
+    });
+  }
 
 
   static openDialog(dialog: MatDialog, data?: {tripCode: string}): MatDialogRef<TripDetailComponent> {

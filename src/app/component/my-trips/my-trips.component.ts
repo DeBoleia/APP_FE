@@ -13,6 +13,8 @@ import { CommonModule } from '@angular/common';
 import { AplicationCardComponent } from '../aplication-card/aplication-card.component';
 import { StarRatingComponent } from "../star-rating/star-rating.component";
 import { MatTooltip } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
+import { ManageTripComponent } from '../manage-trip/manage-trip.component';
 
 @Component({
   selector: 'app-my-trips',
@@ -36,7 +38,8 @@ export class MyTripsComponent implements OnInit {
     private authenticationService: AuthenticatorService,
     private userService: UserService,
     private messageService: MessageService,
-    private tripService: TripsService
+    private tripService: TripsService,
+    private dialog: MatDialog
   ) { }
 
   user!: User;
@@ -66,6 +69,10 @@ export class MyTripsComponent implements OnInit {
       });
     }
   }
+
+  manageTrip(tripCode: string) {
+      ManageTripComponent.openDialog(this.dialog, { tripCode: tripCode });
+    }
 
   
 }

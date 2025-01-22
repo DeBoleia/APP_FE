@@ -2,13 +2,17 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MessageService } from '../../services/message.service';
 import { ApplicationsService } from '../../services/applications.service';
 import { AuthenticatorService } from '../../services/authenticator.service';
 import { TripDetailComponent } from '../../details/trip-detail/trip-detail.component';
 import { TripsService } from '../../services/trips.service';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { StarRatingComponent } from "../star-rating/star-rating.component";
+import { MatListModule } from '@angular/material/list';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @Component({
   selector: 'app-manage-trip',
@@ -18,7 +22,12 @@ import { TripsService } from '../../services/trips.service';
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-  ],
+    MatExpansionModule,
+    StarRatingComponent,
+    MatDialogModule,
+    MatListModule,
+    MatGridListModule
+],
   templateUrl: './manage-trip.component.html',
   styleUrl: './manage-trip.component.scss'
 })
@@ -45,7 +54,10 @@ export class ManageTripComponent implements OnInit {
 
   ngOnInit(): void {
       if (this.data?.tripCode) {
-        this.tripService.getPassengersByTripCode
+        this.tripService.getTripByTripCode(this.data?.tripCode).subscribe( data => {
+          this.trip = data;
+          console.log('trip loaded: ', this.trip);
+        });
       }
   }
 

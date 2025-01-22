@@ -434,13 +434,24 @@ export class UserDetailsComponent implements OnInit {
     this.editingIndex = null;
   }
 
-  cancelEdit(index: number): void {
-    if (this.originalCarData[index]) {
-      this.carsFormArray.at(index).patchValue(this.originalCarData[index]);
-    }
-    this.originalCarData[index] = null;
-    this.editingIndex = null;
-  }
+//   cancelEdit(index: number): void {
+//     if (this.originalCarData[index]) {
+//       this.carsFormArray.at(index).patchValue(this.originalCarData[index]);
+//     }
+//     this.originalCarData[index] = null;
+//     this.editingIndex = null;
+//   }
+
+	cancelEdit(index: number): void {
+		if (this.originalCarData[index]) {
+		this.carsFormArray.at(index).patchValue(this.originalCarData[index]);
+		} else {
+		this.carsFormArray.removeAt(index);
+		}
+		this.originalCarData[index] = null;
+		this.editingIndex = null;
+		this.isAddingCar = false;
+	}
 
   deleteCar(index: number): void {
     const car = this.carsFormArray.at(index).value;
@@ -465,17 +476,34 @@ export class UserDetailsComponent implements OnInit {
 
   isAddingCar: boolean = false;
 
-  addCar() {
-    this.isAddingCar = true;
-    const newCarGroup = this.fb.group({
-      brand: [''],
-      model: [''],
-      color: [''],
-      licensePlate: [''],
-    });
-    this.carsFormArray.push(newCarGroup);
-    const newIndex = this.carsFormArray.length - 1;
-    this.editingIndex = newIndex;
+//   addCar() {
+//     this.isAddingCar = true;
+//     const newCarGroup = this.fb.group({
+//       brand: [''],
+//       model: [''],
+//       color: [''],
+//       licensePlate: [''],
+//     });
+//     this.carsFormArray.push(newCarGroup);
+//     const newIndex = this.carsFormArray.length - 1;
+//     this.editingIndex = newIndex;
+//   }
+
+addCar() {
+	this.isAddingCar = true;
+	const newCarGroup = this.fb.group({
+	  brand: [''],
+	  model: [''],
+	  color: [''],
+	  licensePlate: [''],
+	});
+	this.carsFormArray.push(newCarGroup);
+	const newIndex = this.carsFormArray.length - 1;
+	this.editingIndex = newIndex;
+  
+	setTimeout(() => {
+	  window.scrollTo(0, document.body.scrollHeight);
+	}, 0);
   }
 
   saveCar(index: number): void {

@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { MessageService } from '../../services/message.service';
 
+
 @Component({
   selector: 'app-change-password',
   standalone: true,
@@ -93,5 +94,16 @@ export class ChangePasswordComponent {
 		//console.log('Passwords do not match.');
 	  }
 	}
+  }
+
+  onCancel() {
+    // Recupera o userID utilizando o método getUserId() do AuthenticatorService
+    const userID = this.authenticatorService.getUserId();
+
+    if (userID) {
+      this.router.navigate([`/user/${userID}`]);  // Navega para a página do usuário com o userID
+    } else {
+      this.router.navigate(['/profile']);  // Se o userID não for encontrado, redireciona para o perfil
+    }
   }
 }

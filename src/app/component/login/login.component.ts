@@ -62,8 +62,9 @@ export class LoginComponent {
           }
         },
         error: (err) => {
+          console.log('Error:', err);
           if (err.error && typeof err.error === 'object' && err.error.error) {
-            if (typeof err.error.error === 'string' && err.error.error.includes('deactivated by the user')) {
+            if (typeof err.error.error === 'string' && err.error.error.includes('Your account is inactive')) {
               this.isAccountInactive = true;
             }
           }

@@ -12,18 +12,14 @@
 				<div style="flex: 1; text-align: center;">
 					<h3 style="margin: 0;">Personal Info</h3>
 				</div>
-				<button style="position: absolute; right: 0;" color="primary" (click)="editUser(user)">edit</button>
+				<button type="button" class="btn btn-warning" style="position: absolute; right: 0;" (click)="editUser(user)">
+					<i class="bi bi-pencil"></i>
+				  </button>
 			</div>
 
 			<!-- <button color="warn" (click)="chenagePassword()">
 				Change Password
 			  </button> -->
-
-			  <a routerLink="/change-password">Alterar Palavra-Passe</a>
-
-			<button mat-raised-button color="warn" (click)="desativarConta()">
-				Desactivate Account
-			  </button>
 
 			<mat-divider></mat-divider><br>
 			<br>
@@ -42,6 +38,8 @@
 					<ng-template #noBirthDate>N/A</ng-template>
 				</p>
 				<p><strong>Driver License:</strong> {{ user?.driversLicense || 'Not Provided' }}</p>
+				
+				  <button ype="button" class="btn btn-secondary" [routerLink]="['/change-password']">Alterar Palavra-Passe</button>
 
 
 			</div>
@@ -63,30 +61,33 @@
 			</mat-card-content>
 		</mat-card>
 
-		<mat-card>
+		<mat-card *ngIf="user?.driversLicense && user.driversLicense !== 'Not Provided'">
 			<mat-card-content>
-
-				<div style="display: flex; align-items: center; position: relative; width: 100%;">
-					<div style="flex: 1; text-align: center;">
-						<h3 style="margin: 0;">Driver Info</h3>
-					</div>
-					<button style="position: absolute; right: 0;" color="primary" (click)="addCar()">Add New
-						Car</button>
+			  <div style="display: flex; align-items: center; position: relative; width: 100%;">
+				<div style="flex: 1; text-align: center;">
+				  <h3 style="margin: 0;">Driver Info</h3>
 				</div>
-
-				<mat-divider></mat-divider><br>
-				<div class="info-group">
-					<p><strong>Driver Rating:</strong> {{ user?.driverRating || 'Not Provided' }}</p>
-					<p><strong>Driver Rating Count:</strong> {{ user?.driverRatingCount || 'Not Provided' }}</p>
-				</div>
+				<button style="position: absolute; right: 0;" color="primary" (click)="addCar()">Add New Car</button>
+			  </div>
+		  
+			  <mat-divider></mat-divider><br>
+		  
+			  <div class="info-group">
+				<p *ngIf="user?.driverRating && user.driverRating !== 'Not Provided'">
+				  <strong>Driver Rating:</strong> {{ user.driverRating }}
+				</p>
+				<p *ngIf="user?.driverRatingCount && user.driverRatingCount !== 'Not Provided'">
+				  <strong>Driver Rating Count:</strong> {{ user.driverRatingCount }}
+				</p>
+			  </div>
 			</mat-card-content>
-		</mat-card>
+		  </mat-card>
 	</div>
 
 	<br>
 
 
-	<mat-card-content>
+	<mat-card-content *ngIf="user?.driversLicense && user.driversLicense !== 'Not Provided'">
 		<form [formGroup]="userForm">
 
 
@@ -167,6 +168,10 @@
 
 		</form>
 	</mat-card-content>
+	<br><br>
+	<button type="button" class="btn btn-danger" color="warn"(click)="desativarConta()">
+		Desactivate Account
+	  </button>
 
 
 	<br>

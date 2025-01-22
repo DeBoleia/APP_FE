@@ -98,12 +98,12 @@ export class AuthenticatorService {
 
   getUserRole(): string | null {
     const role = localStorage.getItem(this.tokenRole);
-    console.log('Retrieved role from localStorage:', role);
+    //console.log('Retrieved role from localStorage:', role);
     return role;
   }
 
   getUserId(): string | null {
-    console.log('userID @@@ decoded==> :', localStorage.getItem(this.tokenUserID));
+    //console.log('userID @@@ decoded==> :', localStorage.getItem(this.tokenUserID));
     return localStorage.getItem(this.tokenUserID);
   }
 

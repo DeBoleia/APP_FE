@@ -1,5 +1,4 @@
 <div class="login-container mat-elevation-z8">
-	<!-- <mat-divider></mat-divider> -->
 	<br>
 	<h1 id="title">Login</h1>
 	<div class="formulario">
@@ -12,18 +11,13 @@
 				name="password" placeholder="password">
 			</div>
 			
-			<!-- <div class="action-buttons">
-				<button mat-button  type="submit" >Login</button>
-				<button *ngIf="isAccountInactive" mat-button (click)="ativarConta()">Reativar Conta</button>
-			</div> -->
 
 			<div class="action-buttons">
 				<button mat-button  type="submit" >Login</button>
-				<button *ngIf="isAccountInactive" mat-button (click)="ativarConta()">Reactivate Account</button>
+				<button *ngIf="isAccountInactive" mat-button (click)="ativarConta()">Reactivate ?</button>
 			</div>
 			
 			<p>Don't have an account? <a href="/register">Create one now.</a></p>
 		</form>
 	</div>
-	<!-- <mat-divider></mat-divider> -->
 </div>

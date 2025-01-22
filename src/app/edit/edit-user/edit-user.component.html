@@ -19,9 +19,13 @@
   
 		<!-- Telefone -->
 		<mat-form-field appearance="outline">
-		  <mat-label>Phone Number</mat-label>
-		  <input matInput type="tel" formControlName="phoneNumber" placeholder="Insert a phone number" />
-		</mat-form-field>
+			<mat-label>Phone Number	</mat-label>
+			<input matInput placeholder="Phone Number" formControlName="phoneNumber" />
+			<mat-error *ngIf="userForm.get('phoneNumber')?.hasError('invalidPhoneNumber')">
+				The phone number must have 9 digits.
+			  </mat-error>
+			  
+		  </mat-form-field>
   
 		<!-- NIF -->
 		<mat-form-field appearance="outline">
@@ -35,7 +39,21 @@
 		  <input matInput [matDatepicker]="nascimentoPicker" formControlName="birthDate" />
 		  <mat-datepicker-toggle matSuffix [for]="nascimentoPicker"></mat-datepicker-toggle>
 		  <mat-datepicker #nascimentoPicker></mat-datepicker>
+
+			<mat-error *ngIf="userForm.get('birthDate')?.hasError('underage')">
+				You must be at least 18 years old.
+			</mat-error>
 		</mat-form-field>
+
+		<!-- drivers license -->
+		<mat-form-field appearance="outline">
+			<mat-label>Drivers License</mat-label>
+			<input matInput type="tel" formControlName="driversLicense" placeholder="Insert a Drivers License" />
+			<mat-error *ngIf="userForm.get('driversLicense')?.hasError('invalidLicense')">
+				The driver's license must start with 'L' followed by 6 digits.
+			  </mat-error>
+		</mat-form-field>
+	
   
 		<!-- Morada
 		<h6>Morada:</h6>
@@ -69,14 +87,7 @@
 		</div>
 		<br>
   
-		<!-- <mat-form-field appearance="fill">
-		  <mat-label>Status</mat-label>
-		  <mat-select formControlName="status" (selectionChange)="onStatusChange($event.value)">
-			<mat-option [value]="'active'">Ativo</mat-option>
-			<mat-option [value]="'inactive'">Inativo</mat-option>
-		  </mat-select>
-		</mat-form-field> -->
-  
+
   
   
   

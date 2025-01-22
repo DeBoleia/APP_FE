@@ -12,6 +12,8 @@ import { TripComponent } from './component/trip/trip.component';
 import { RgpdComponent } from './component/rgpd/rgpd.component';
 import { AboutusComponent } from './component/aboutus/aboutus.component';
 import { MyTripsComponent } from './component/my-trips/my-trips.component';
+import { ChangePasswordComponent } from './component/change-password/change-password.component';
+
 
 export const routes: Routes = [
 	{ path: '', component: HomeComponent },
@@ -28,5 +30,9 @@ export const routes: Routes = [
 	{ path: 'aboutus', component: AboutusComponent },
 	{ path: "trips", component: FindTripsComponent },
 	{ path: "mytrips", component: MyTripsComponent },
-	{ path: "map", component: MapDisplayComponent }
+	{ path: "map", component: MapDisplayComponent },
+	{ path: 'rgpd', component: RgpdComponent }, 
+	{ path: 'aboutus', component: AboutusComponent },
+	{ path: 'change-password', component: ChangePasswordComponent }
+
 ];

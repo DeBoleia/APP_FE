@@ -73,7 +73,6 @@ export class LocationService {
         }));
     }
   
-    // Caso nenhum parâmetro seja fornecido, rejeitar a promessa.
     return new Observable<Location>((observer) => {
       observer.error('No valid location attributes provided.');
     });

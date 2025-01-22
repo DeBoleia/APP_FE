@@ -9,6 +9,8 @@ import { MatDivider } from '@angular/material/divider';
 import { Trip } from '../../interfaces/trip';
 import { TripsService } from '../../services/trips.service';
 import { CommonModule } from '@angular/common';
+import { TripDetailComponent } from '../../details/trip-detail/trip-detail.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-find-trips',
   imports: [
@@ -31,9 +33,12 @@ export class FindTripsComponent implements OnInit {
 
   constructor(
     private tripsService: TripsService,
+    private dialog: MatDialog
   ) { }
 
-
+  tripDetails(tripCode: string) {
+    TripDetailComponent.openDialog(this.dialog, {tripCode: tripCode});
+  }
 
   ngOnInit(): void {
     this.tripsService.getAllTrips().subscribe(data => {
@@ -41,4 +46,6 @@ export class FindTripsComponent implements OnInit {
       console.log(this.trips);
     })
   }
+
+
 }

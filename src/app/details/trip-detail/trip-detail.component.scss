@@ -65,3 +65,7 @@
 mat-dialog-content app-map-display {
 	overflow: hidden;
 }
+
+:host {
+	--mat-dialog-with-actions-content-padding: 50px;
+}

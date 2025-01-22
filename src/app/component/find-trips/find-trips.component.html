@@ -26,7 +26,7 @@
 
 	<div class="col-right">
 		<div class="cards" *ngFor="let trip of trips">
-				<app-trip-card [tripCode]="trip.tripCode"></app-trip-card>
+				<app-trip-card [tripCode]="trip.tripCode" (click)="tripDetails(trip.tripCode)" ></app-trip-card>
 		</div>
 	</div>
 </div>

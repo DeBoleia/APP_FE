@@ -21,7 +21,9 @@
 					<div class="driver-details" style="text-align: center;">
 						<span class="driver-name">{{ trip?.driver?.name }}</span>
 						<div class="rating">
-							<app-star-rating [rating]="trip?.driver?.driverRating" [nrEvaluations]="trip?.driver?.driverRatingCount" [showEvaluations]="true"></app-star-rating>
+							<app-star-rating [rating]="trip?.driver?.driverRating"
+								[nrEvaluations]="trip?.driver?.driverRatingCount"
+								[showEvaluations]="true"></app-star-rating>
 						</div>
 					</div>
 				</div>
@@ -74,7 +76,9 @@
 				trip?.destination?.district }}</p>
 		</div>
 	</div>
-	<app-map-display></app-map-display>
+	<div style="margin-left: 21%; margin-top: 25px;">
+		<app-map-display></app-map-display>
+	</div>
 	<div class="trip-info" style="display: flex; justify-content: space-between; margin: 30px;">
 		<ul class="list-group" style="flex: 1;">
 			<li *ngIf="trip?.estimatedCost" style="display: flex; align-items: center;">

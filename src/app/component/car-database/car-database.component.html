@@ -16,7 +16,7 @@
       </div>
   
       <mat-card-content>
-        <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort #brandTable>
+        <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort [matSortDisableClear]="true" #brandTable>
           <!-- Brand Column -->
           <ng-container matColumnDef="brand">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Brand</th>

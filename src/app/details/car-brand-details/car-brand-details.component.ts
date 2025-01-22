@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
+import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -33,9 +33,16 @@ import { MessageService } from '../../services/message.service';
   templateUrl: './car-brand-details.component.html',
   styleUrl: './car-brand-details.component.scss'
 })
-export class CarBrandDetailsComponent implements OnInit {
+export class CarBrandDetailsComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatSort) sort!: MatSort;
+
   brand = '';
   displayedColumns: string[] = ['model', 'actions'];
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
+  
   dataSource = new MatTableDataSource<{model: string}>();
 
   constructor(

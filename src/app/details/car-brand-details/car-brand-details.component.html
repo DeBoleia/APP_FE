@@ -22,7 +22,7 @@
     </div>
   
     <mat-card-content>
-      <table mat-table [dataSource]="dataSource" matSort #modelTable>
+<table mat-table [dataSource]="dataSource" matSort [matSortDisableClear]="true">
         <ng-container matColumnDef="model">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Model</th>
           <td mat-cell *matCellDef="let element">{{element.model}}</td>

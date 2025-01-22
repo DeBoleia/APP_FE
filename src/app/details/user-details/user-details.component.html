@@ -192,11 +192,19 @@
 								</mat-select>
 							</mat-form-field>
 
-							<mat-form-field appearance="outline">
+							<!-- <mat-form-field appearance="outline">
 								<mat-label>License Plate</mat-label>
 								<input matInput formControlName="licensePlate"
 									[readonly]="isEditing1(i) && !isAddingCar">
-							</mat-form-field>
+							</mat-form-field> -->
+
+							<mat-form-field appearance="outline">
+								<mat-label>License Plate</mat-label>
+								<input matInput formControlName="licensePlate" 
+									   (input)="formatLicensePlate($event)" 
+									   [readonly]="isEditing1(i) && !isAddingCar" 
+									   maxlength="8">
+							  </mat-form-field>
 
 							<div class="button-row">
 								<button mat-raised-button color="primary" (click)="handleSave(i)">Save</button>
@@ -223,9 +231,9 @@
 	<br>
 	<mat-card-content>
 		<button type="button" class="btn btn-danger" color="warn" (click)="desativarConta()">
-			Desactivate Account
+		  <i class="bi bi-exclamation-triangle"></i> Desactivate Account
 		</button>
-	</mat-card-content>
+	  </mat-card-content>
 
 	<br>
 

@@ -192,48 +192,52 @@ export class UserDetailsComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.userForm.valid && this.isAllCarsValid()) {
-      const formData = this.userForm.value;
-      formData.status = formData.status === 'active' ? 'active' : 'inactive';
-
-      this.userService.updateUserByUserID(formData.userID, formData).subscribe({
-        next: (response) => {
-          this.userForm.patchValue({
-            status: formData.status,
-          });
-
-          if (this.user) {
-            this.user.status = formData.status === 'active' ? 'active' : 'inactive';
-          }
-
-          this.carsFormArray.controls.forEach((carGroup, index) => {
-            const carData = carGroup.value;
-            if (
-              this.originalCarData[index] &&
-              JSON.stringify(this.originalCarData[index]) !==
-                JSON.stringify(carData)
-            ) {
-              const carID = carData.licensePlate;
-              this.carsService.updateCar(this.userID, carData).subscribe({
-                next: () => {
-                  console.log(`Car ${carID} updated successfully!`);
-                },
-                error: (error) => {
-                  console.error(`Error updating car ${carID}:`, error);
-                },
-              });
-            }
-          });
-
-          this.loadUserData();
-        },
-        error: (error) => {
-          console.error('Error updating user:', error);
-        },
-      });
-    } else {
-      console.log('Form is invalid');
-    }
+	if (this.userForm.valid && this.isAllCarsValid()) {
+	  const formData = this.userForm.value;
+	  formData.status = formData.status === 'active' ? 'active' : 'inactive';
+  
+	  console.log('Dados do utilizador a serem enviados:', formData);  // Verificar dados do utilizador antes do envio
+  
+	  this.userService.updateUserByUserID(formData.userID, formData).subscribe({
+		next: (response) => {
+		  this.userForm.patchValue({
+			status: formData.status,
+		  });
+  
+		  if (this.user) {
+			this.user.status = formData.status === 'active' ? 'active' : 'inactive';
+		  }
+  
+		  this.carsFormArray.controls.forEach((carGroup, index) => {
+			const carData = carGroup.value;
+  
+			if (
+			  this.originalCarData[index] &&
+			  JSON.stringify(this.originalCarData[index]) !== JSON.stringify(carData)
+			) {
+			  console.log(`Dados do carro #${index + 1} a serem enviados:`, carData);  // Verificar dados do carro
+  
+			  const carID = carData.licensePlate;
+			  this.carsService.updateCar(this.userID, carData).subscribe({
+				next: () => {
+				  console.log(`Carro ${carID} atualizado com sucesso!`);
+				},
+				error: (error) => {
+				  console.error(`Erro ao atualizar o carro ${carID}:`, error);
+				},
+			  });
+			}
+		  });
+  
+		  this.loadUserData();
+		},
+		error: (error) => {
+		  console.error('Erro ao atualizar utilizador:', error);
+		},
+	  });
+	} else {
+	  console.log('Formulário inválido');
+	}
   }
 
   toggleEditMode(): void {
@@ -507,6 +511,7 @@ addCar() {
 	this.carsFormArray.push(newCarGroup);
 	const newIndex = this.carsFormArray.length - 1;
 	this.editingIndex = newIndex;
+	console.log('Adicionando carro:', newIndex);
   
 	setTimeout(() => {
 	  window.scrollTo(0, document.body.scrollHeight);
@@ -591,5 +596,29 @@ addCar() {
 	snackBarRef.onAction().subscribe(() => {
 	  this.deleteCar(index);
 	});
+  }
+
+  formatLicensePlate(event: any): void {
+	let value = event.target.value.toUpperCase(); // Converter para maiúsculas
+  
+	// Remover todos os caracteres que não sejam letras ou números
+	value = value.replace(/[^A-Z0-9]/gi, '');
+  
+	// Formatar a matrícula corretamente com hífens nos locais certos
+	if (value.length > 2) {
+	  value = value.substring(0, 2) + '-' + value.substring(2);
+	}
+	if (value.length > 5) {
+	  value = value.substring(0, 5) + '-' + value.substring(5);
+	}
+  
+	// Garantir que não há mais do que dois hífens
+	const parts = value.split('-');
+	if (parts.length > 3) {
+	  value = parts.slice(0, 3).join('-'); // Permitir no máximo dois hífens
+	}
+  
+	// Atualizar o campo de entrada com a formatação correta
+	event.target.value = value;
   }
 }

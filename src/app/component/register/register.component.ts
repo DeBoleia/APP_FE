@@ -78,7 +78,7 @@ export class RegisterComponent {
 
     this.authenticatorService.register(name, email,phoneNumber, password).subscribe({
       next: () => {
-        this.successMessage = 'Usuário registado com sucesso!';
+        this.successMessage = 'User registered successfully!';
         console.log('User registered successfully');
         this.registerForm.reset();
         this.router.navigate(['/login']);
@@ -86,7 +86,7 @@ export class RegisterComponent {
       error: (error) => {
         console.log('Registration failed', error);
         this.errorMessage =
-          error.error.error || 'Ocorreu um erro ao registar o usuário.';
+          error.error.error || 'An error occurred during registration.';
         this.registerForm.reset();
       },
     });

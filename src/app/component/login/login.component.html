@@ -9,7 +9,7 @@
 				placeholder="email">
 			</div>
 			<div class="mb-3"><input id="password" formControlName="password" class="form-control" type="password"
-				name="password" placeholder="Password">
+				name="password" placeholder="password">
 			</div>
 			
 			<!-- <div class="action-buttons">
@@ -19,10 +19,10 @@
 
 			<div class="action-buttons">
 				<button mat-button  type="submit" >Login</button>
-				<button *ngIf="isAccountInactive" mat-button (click)="ativarConta()">Reativar Conta</button>
+				<button *ngIf="isAccountInactive" mat-button (click)="ativarConta()">Reactivate Account</button>
 			</div>
 			
-			<p>Ainda não tem conta? <a href="/register">Registar agora</a></p>
+			<p>Don't have an account? <a href="/register">Create one now.</a></p>
 		</form>
 	</div>
 	<!-- <mat-divider></mat-divider> -->

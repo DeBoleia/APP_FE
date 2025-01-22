@@ -13,18 +13,19 @@
 			{{ trip?.status === 'inOffer' ? 'In Offer' : (trip?.status | titlecase) }}
 		</span>
 	</h2>
-	<mat-card class="driver-card" style="background-color: black; color: white;">
+	<mat-card class="driver-card">
 		<mat-card-content>
 			<div class="driver-car-container" style="display: flex; justify-content: space-between;">
 				<div class="driver" style="flex: 1; margin-right: 10px;">
 					<img src="/avatar.png" alt="Avatar" class="avatar">
-					<div class="driver-details">
+					<div class="driver-details" style="text-align: center;">
 						<span class="driver-name">{{ trip?.driver?.name }}</span>
 						<div class="rating">
 							<ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-								<span [class.filled]="i < trip?.driver?.rating">&#9733;</span>
+								<span [class.filled]="i < trip?.driver?.driverRating">&#9733;</span>
 							</ng-container>
 						</div>
+						<p>{{trip?.driver?.driverRatingCount}} rating(s)</p>
 					</div>
 				</div>
 				<!-- Car Section -->
@@ -32,17 +33,18 @@
 					<div class="car-details">
 						<span class="car-info" style="display: flex; align-items: center;">
 							<mat-icon style="color: green;">directions_car</mat-icon>
-							<strong style="margin-left: 5px;">Car: </strong> {{ trip?.car?.brand }} - {{trip?.car?.model}}
+							<strong style="margin-left: 5px;">Car: </strong> {{ trip?.car?.brand }} -
+							{{trip?.car?.model}}
 							({{ trip?.car?.color }})
 						</span>
 						<span class="car-plate" style="display: flex; align-items: center;">
 							<mat-icon style="color: green;">confirmation_number</mat-icon>
-							<strong style="margin-left: 5px;">Plate: </strong> {{ trip.car?.plate }}
+							<strong style="margin-left: 5px;">License Plate: </strong> {{ trip?.car?.licensePlate }}
 						</span>
 						<span class="car-seats" style="display: flex; align-items: center;">
 							<mat-icon style="color: green;">event_seat</mat-icon>
-							<strong style="margin-left: 5px;">Seats available: </strong> {{ trip.nrSeats -
-							trip.passengers.length }}/{{ trip.nrSeats }}
+							<strong style="margin-left: 5px;">Seats available: </strong> {{ trip?.nrSeats -
+							trip?.passengers.length }}/{{ trip?.nrSeats }}
 						</span>
 					</div>
 				</div>
@@ -51,7 +53,7 @@
 	</mat-card>
 	<!-- <mat-card>
 		<mat-card-content> -->
-	<div style="margin: 20px;">
+	<div style="margin: 40px;">
 		<div style="display: flex; align-items: center; margin: 5px; justify-content: center;">
 			{{ trip?.departureDate | date: 'fullDate' }}
 			<mat-icon style="color: green;">calendar_today</mat-icon>
@@ -61,30 +63,32 @@
 			<mat-icon style="color: green;">access_time</mat-icon>
 		</div>
 	</div>
-	<div class="map-info" style="display: flex; justify-content: space-around; margin-top: 5px; margin-bottom: 10;">
+	<div class="map-info" style="display: flex; justify-content: space-around; margin-top: 5px; margin-bottom: 20;">
 		<div class="from-info" style="flex: 1; text-align: center;">
 			<mat-icon style="color: green;">location_on</mat-icon>
 			<p style="margin: 0;"><strong>From:</strong></p>
-			<p style="margin: 0;">{{ trip.origin.parish }} - {{ trip.origin.municipality }}, {{ trip.origin.district }}</p>
+			<p style="margin: 0;">{{ trip?.origin.parish }} - {{ trip?.origin.municipality }}, {{
+				trip?.origin.district }}</p>
 		</div>
 		<div class="to-info" style="flex: 1; text-align: center; margin-bottom: 10px;">
 			<mat-icon style="color: green;">location_on</mat-icon>
-			<p  style="margin: 0;"><strong>To:</strong></p>
-			<p  style="margin: 0;">{{ trip?.destination.parish }} - {{ trip?.destination.municipality }}, {{ trip?.destination.district }}</p>
+			<p style="margin: 0;"><strong>To:</strong></p>
+			<p style="margin: 0;">{{ trip?.destination?.parish }} - {{ trip?.destination?.municipality }}, {{
+				trip?.destination?.district }}</p>
 		</div>
 	</div>
 	<app-map-display></app-map-display>
-	<div class="trip-info" style="display: flex; justify-content: space-between; margin: 20px;">
+	<div class="trip-info" style="display: flex; justify-content: space-between; margin: 30px;">
 		<ul class="list-group" style="flex: 1;">
-			<li *ngIf="trip.estimatedCost" style="display: flex; align-items: center;">
+			<li *ngIf="trip?.estimatedCost" style="display: flex; align-items: center;">
 				<mat-icon style="color: green;">attach_money</mat-icon>
-				<strong style="margin-left: 5px;">Custo Total Estimado: </strong> €{{ trip.estimatedCost }}
+				<strong style="margin-left: 5px;">Custo Total Estimado: </strong> €{{ trip?.estimatedCost }}
 			</li>
 		</ul>
 		<ul class="list-group" style="flex: 1;">
-			<li *ngIf="trip.pricePerPerson" style="display: flex; align-items: center;">
+			<li *ngIf="trip?.pricePerPerson" style="display: flex; align-items: center;">
 				<mat-icon style="color: green;">person</mat-icon>
-				<strong style="margin-left: 5px;">Preço por Pessoa: </strong> €{{ trip.pricePerPerson }}
+				<strong style="margin-left: 5px;">Preço por Pessoa: </strong> €{{ trip?.pricePerPerson }}
 			</li>
 		</ul>
 	</div>
@@ -95,20 +99,24 @@
 		<mat-expansion-panel-header>
 			<mat-panel-title> See who is traveling with you! </mat-panel-title>
 		</mat-expansion-panel-header>
-		<ul>
-			<li *ngFor="let passenger of trip.passengers" style="display: flex; align-items: center;">
+		<ul *ngIf="trip?.passengers?.length; else noPassengers">
+			<li *ngFor="let passenger of trip?.passengers" style="display: flex; align-items: center;">
 				{{ passenger.name.split(' ')[0] }}
 				<div class="rating" style="margin-left: 10px;">
 					<ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-						<span [class.filled]="i < passenger.rating">&#9733;</span>
+						<span [class.filled]="i < passenger.passengerRating">&#9733;</span>
 					</ng-container>
 				</div>
 			</li>
 		</ul>
+		<ng-template #noPassengers>
+			<p style="text-align: center;">There are no passengers yet.</p>
+		</ng-template>
 	</mat-expansion-panel>
 	<br>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
+	<button mat-button mat-dialog-close (click)="applyToTrip()">Apply</button>
 	<button mat-button mat-dialog-close color="primary">Fechar</button>
 </mat-dialog-actions>

@@ -31,8 +31,8 @@ export class ApplicationsService {
 
   constructor(private http: HttpClient) { }
 
-  createApplication(userID: string, tripID: string) {
-    return this.http.post<Application>(this.url, { userID, tripID });
+  createApplication(userID: string | null, tripCode: string | null) {
+    return this.http.post<Application>(this.url, { userID: userID, trip: tripCode });
   }
 
   getApplicationByUserID(userID: string) {

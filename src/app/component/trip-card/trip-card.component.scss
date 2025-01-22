@@ -1,12 +1,16 @@
-mat-grid-tile {
-	background: lightgreen;
-}
-
 
 mat-card {
+	// background-color: rgb(92, 141, 93);
+	color: black;
 	margin: 15px;
 	width: 550px;
 	height: 250px;
+}
+
+mat-card-header {
+	border-radius: 15px 15px 0 0;
+	background-color: black;
+	color: whitesmoke;
 }
 
 mat-card-content {
@@ -26,40 +30,28 @@ mat-card-content {
 	flex-direction: column;
 }
 
-.rating {
+
+
+.locations {
+	text-align: left;
+	width: 90%;
+	display: flex;
+	flex-direction: column;
+}
+
+
+.spots-available {
 	display: flex;
 	flex-direction: row;
-	gap: 10px;
-	margin: auto;
-	margin-top: 15px;
+	gap: 5px;
 }
 
-.checked {
-	color: orange;
+td {
+	font-size: 20px;
+	// text-align: right;
+	border-bottom: solid 1px;
 }
 
-.rating {
-	margin-bottom: 10px;
-	display: flex;
-	flex-direction: row-reverse; /* this is the magic */
-	justify-content: flex-end;
-  }
-  
-  .rating input {
-	display: none;
-  }
-  
-  .rating label {
-	font-size: 18px;
-	cursor: pointer;
-  }
-  
-  .rating label:hover,
-  .rating label:hover ~ label { /* reason why the stars are in reverse order in the html */
-	color: orange;
-  }
-  
-  .rating input:checked ~ label {
-	color: orange;
-  }
-  
+table {
+	margin-right: 10px;
+}

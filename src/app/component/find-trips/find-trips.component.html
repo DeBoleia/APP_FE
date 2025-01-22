@@ -7,31 +7,16 @@
 			<div class="search-input">
 				<mat-icon>my_location</mat-icon>
 				<mat-form-field appearance="outline">
-					<mat-label>parish</mat-label>
-					<input matInput placeholder="Enter parish">
-				</mat-form-field>
-				<mat-form-field appearance="outline">
-					<mat-label>municipality</mat-label>
-					<input matInput placeholder="Enter municipality">
-				</mat-form-field>
-				<mat-form-field appearance="outline">
-					<mat-label>district</mat-label>
-					<input matInput placeholder="Enter district">
+					<mat-label>Origin</mat-label>
+					<input matInput placeholder="Enter Origin">
 				</mat-form-field>
 			</div>
+			<mat-divider style="margin-bottom: 20px;"></mat-divider>
 			<div class="search-input">
 				<mat-icon>pin_drop</mat-icon>
 				<mat-form-field appearance="outline">
-					<mat-label>parish</mat-label>
-					<input matInput placeholder="Enter parish">
-				</mat-form-field>
-				<mat-form-field appearance="outline">
-					<mat-label>municipality</mat-label>
-					<input matInput placeholder="Enter municipality">
-				</mat-form-field>
-				<mat-form-field appearance="outline">
-					<mat-label>district</mat-label>
-					<input matInput placeholder="Enter district">
+					<mat-label>Destination</mat-label>
+					<input matInput placeholder="Enter Destination">
 				</mat-form-field>
 			</div>
 			<button mat-raised-button color="primary">Search</button>
@@ -40,14 +25,12 @@
 
 
 	<div class="col-right">
-		<div class="cards">
-			<app-trip-card></app-trip-card>
-			<app-trip-card></app-trip-card>
-			<app-trip-card></app-trip-card>
-			<app-trip-card></app-trip-card>
-			<app-trip-card></app-trip-card>
-			<app-trip-card></app-trip-card>
-			<app-trip-card></app-trip-card>
+		<div class="cards" *ngFor="let trip of trips">
+				<app-trip-card [tripCode]="trip.tripCode"></app-trip-card>
+			<!-- <app-trip-card ></app-trip-card>
+			<app-trip-card ></app-trip-card>
+			<app-trip-card ></app-trip-card>
+			<app-trip-card ></app-trip-card> -->
 		</div>
 	</div>
 </div>

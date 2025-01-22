@@ -53,9 +53,9 @@ export class AppComponent implements OnInit {
 
   manageTrips(): void {
     if (this.isLoggedIn()) {
-      this.router.navigate(['/trip']);
+      this.router.navigate(['/trips']);
     } else {
-      this.auth.saveTargetUrl('/trip');
+      this.auth.saveTargetUrl('/trips');
       this.router.navigate(['/login']);
     }
   }

@@ -11,6 +11,7 @@ import { ApplicationComponent } from './component/application/application.compon
 import { TripComponent } from './component/trip/trip.component';
 import { RgpdComponent } from './component/rgpd/rgpd.component';
 import { AboutusComponent } from './component/aboutus/aboutus.component';
+import { MyTripsComponent } from './component/my-trips/my-trips.component';
 
 export const routes: Routes = [
 	{ path: '', component: HomeComponent },
@@ -23,7 +24,9 @@ export const routes: Routes = [
 	{ path: "home", component: HomeComponent },
 	{ path: "application", component: ApplicationComponent },
 	{ path: "trip", component: TripComponent },
-	{ path: 'rgpd', component: RgpdComponent }, 
-	{ path: 'aboutus', component: AboutusComponent }, 	{ path: "trips", component: FindTripsComponent },
+	{ path: 'rgpd', component: RgpdComponent },
+	{ path: 'aboutus', component: AboutusComponent },
+	{ path: "trips", component: FindTripsComponent },
+	{ path: "mytrips", component: MyTripsComponent },
 	{ path: "map", component: MapDisplayComponent }
 ];

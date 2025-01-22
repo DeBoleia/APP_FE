@@ -12,6 +12,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { AplicationCardComponent } from '../aplication-card/aplication-card.component';
 import { StarRatingComponent } from "../star-rating/star-rating.component";
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-my-trips',
@@ -23,7 +24,8 @@ import { StarRatingComponent } from "../star-rating/star-rating.component";
     MatTableModule,
     MatButton,
     AplicationCardComponent,
-    StarRatingComponent
+    StarRatingComponent,
+    MatTooltip
 ],
   templateUrl: './my-trips.component.html',
   styleUrl: './my-trips.component.scss'

@@ -4,29 +4,37 @@
 			<h1 id="title">FIND YOUR RIDE</h1>
 			<p id="subtitle">Discover the best rides at unbeatable prices. Your journey starts here!</p>
 			<div class="search-input">
-				<mat-icon style="transform: scale(1.3);">my_location</mat-icon>
+				<!-- <mat-icon style="transform: scale(1);">my_location</mat-icon>
+				<mat-label>Origin</mat-label>
+				<input matInput placeholder="Enter Origin"> -->
 				<mat-form-field appearance="outline">
-					<mat-label>Origin</mat-label>
-					<input matInput placeholder="Enter Origin">
+					<mat-label>District</mat-label>
+					<input type="text" matInput [formControl]="originControl" [matAutocomplete]="auto">
+					<mat-autocomplete #auto="matAutocomplete">
+						<mat-option *ngFor="let district of districts" [value]="district">
+							{{ district }}
+						</mat-option>
+					</mat-autocomplete>
 				</mat-form-field>
-			</div>
-			<mat-divider style="margin-bottom: 20px;"></mat-divider>
-			<div class="search-input">
-				<mat-icon style="transform: scale(1.3);">location_on</mat-icon>
 				<mat-form-field appearance="outline">
-					<mat-label>Destination</mat-label>
-					<input matInput placeholder="Enter Destination">
+					<mat-label>Municipality</mat-label>
+					<input type="text" matInput [formControl]="originControl" [matAutocomplete]="auto">
+					<mat-autocomplete #auto="matAutocomplete">
+						<mat-option *ngFor="let municipality of municipalities" [value]="municipality">
+							{{ municipality }}
+						</mat-option>
+					</mat-autocomplete>
 				</mat-form-field>
 			</div>
 			<button mat-button style="width: 40%; margin: auto; background-color: #4EC28F;">Search</button>
-			<img src="/findAride.png" alt=""/>
-		
+			<img src="/findAride.png" alt="" />
+
 		</div>
 	</div>
 
 	<div class="col-right">
 		<div class="cards" *ngFor="let trip of trips">
-				<app-trip-card [tripCode]="trip.tripCode"></app-trip-card>
+			<app-trip-card [tripCode]="trip.tripCode" (click)="tripDetails(trip.tripCode)"></app-trip-card>
 		</div>
 	</div>
 </div>

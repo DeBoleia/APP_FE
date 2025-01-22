@@ -63,16 +63,9 @@
 
 
 mat-dialog-content app-map-display {
-	overflow: auto;
+	overflow: hidden;
 }
 
-.mat-dialog-container {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start; /* Alinha o conteúdo ao topo */
-	justify-content: flex-start; /* Garante que o conteúdo começa do início */
-	padding: 16px; /* Opcional: Ajuste o padding para espaçamento interno */
-	overflow: auto; /* Para evitar problemas com rolagem */
-	max-height: calc(100vh - 64px); /* Evita que o diálogo ultrapasse a altura da tela */
-  }
-  
+:host {
+	--mat-dialog-with-actions-content-padding: 50px;
+}

@@ -43,9 +43,9 @@ export class MapDisplayComponent implements OnInit {
             next: (toCoordinates) => {
               this.fromCoords = new google.maps.LatLng(fromCoordinates.lat, fromCoordinates.lng);
               this.toCoords = new google.maps.LatLng(toCoordinates.lat, toCoordinates.lng);
-              this.center = this.calculateCenter();
+              // this.center = this.calculateCenter();
               this.markers = [fromCoordinates, toCoordinates];
-              // this.getDirections(this.fromCoords, this.toCoords);
+              this.getDirections(this.fromCoords, this.toCoords);
               // this.updateMap();
             },
             error: (err) => console.error('Error fetching destination coordinates:', err),

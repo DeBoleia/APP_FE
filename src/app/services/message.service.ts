@@ -12,8 +12,8 @@ export class MessageService {
 
   constructor(private dialog: MatDialog, private snackBar: MatSnackBar) { }
 
-  showSnackbar(message: string = 'Concluído.', type: string = 'default', duration: number = 10000): void {
-    this.snackBar.open(message, 'Fechar', {
+  showSnackbar(message: string = 'Done.', type: string = 'default', duration: number = 10000): void {
+    this.snackBar.open(message, 'Close', {
       duration: duration,
       panelClass: this.getSnackbarClass(type),
     });

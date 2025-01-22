@@ -49,60 +49,60 @@ export class LoginComponent {
       console.log("STATUS:", this.isAccountInactive)
       // Se a conta estiver inativa, exibe a mensagem e não faz login
       if (this.isAccountInactive) {
-        this.messageService.showSnackbar('Conta desativada. Por favor, reative-a.', 'error');
+        this.messageService.showSnackbar('Inactive account. Please reactivate it.', 'error');
         return;
       }
 
       this.authenticatorService.login(email, password).subscribe({
         next: (response: LoginResponse) => {
           if (response.userToken) {
-            this.messageService.showSnackbar('Login efetuado com sucesso!', 'success');
+            this.messageService.showSnackbar('Login successful!', 'success');
             this.authenticatorService.saveToken(response.userToken);
             this.router.navigateByUrl(this.authenticatorService.getTargetUrl());
           }
         },
         error: (err) => {
           if (err.error && typeof err.error === 'object' && err.error.error) {
-            if (typeof err.error.error === 'string' && err.error.error.includes('Your account is inactive')) {
+            if (typeof err.error.error === 'string' && err.error.error.includes('deactivated by the user')) {
               this.isAccountInactive = true;
             }
           }
-          this.messageService.showSnackbar("Erro: " + err.error.error, "error", 3000);
-          this.errorMessage = "Login falhou. Por favor, tente novamente.";
+          this.messageService.showSnackbar("Error: " + err.error.error, "error", 3000);
+          this.errorMessage = "Login has failed. Please try again.";
         },
       });
     } else {
-      console.log("Formulário inválido");
+      console.log("Invalid form");
     }
   }
 
   ativarConta(): void {
-    console.log("Tentando ativar conta...");
+    console.log("Attempting to activate account...");
     const email = this.loginForm.get('email')?.value;
     console.log("Email:", email);
 
     if (!email) {
-      this.messageService.showSnackbar('Por favor, insira o seu e-mail antes de ativar a conta.', 'error');
+      this.messageService.showSnackbar('Please insert your email address before activating the account.', 'error');
       return;
     }
 
     this.authenticatorService.changeStatusByEmail2(email).subscribe({
       next: (response) => {
         console.log('Resposta ao tentar ativar a conta:', response);
-        this.messageService.showSnackbar('Conta ativada com sucesso!', 'success');
+        this.messageService.showSnackbar('Account successfully activated!', 'success');
         this.isAccountInactive = false;
 
         this.loginForm.reset();
         this.onSubmit();
       },
       error: (error) => {
-        console.log('Erro ao tentar ativar a conta:', error);
+        console.log('Error while trying to activate the account:', error);
         if (error.status === 404) {
           console.log('Endpoint não encontrado. Verifique a URL.');
         } else {
-          console.log('Erro inesperado:', error);
+          console.log('Unexpected error:', error);
         }
-        this.messageService.showSnackbar("Erro ao ativar a conta. Por favor, tente novamente.", "error");
+        this.messageService.showSnackbar("Error while activating account. Please try again.", "error");
       }
     });
   }

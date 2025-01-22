@@ -97,7 +97,7 @@ export class UserComponent implements OnInit {
         };
       },
       error: (error: any) => {
-        console.error('Erro ao carregar USERS:', error);
+        console.error('Error while loading USERS:', error);
       },
     });
   }

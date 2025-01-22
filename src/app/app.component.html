@@ -7,15 +7,14 @@
           <img src="/DeBoleiaLogo.png" alt="DeBoleia Logo">
           <a class="nav-link" routerLink="/home">DeBoleia</a>
         </li>
-
-        @if (isLoggedIn()) {
+        
         @if (isAdmin()) {
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/cars">Manage Car Database</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/user">Manage Users</a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/cars">Manage Car Database</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/user">Manage Users</a>
+          </li>
         } @else {
         <li class="nav-item">
           <a class="nav-link" (click)="manageTrips()">Find Rides</a>
@@ -27,26 +26,25 @@
           <a class="nav-link" routerLink="mytrips">My Trips</a>
         </li>
         }
-        }
       </div>
 
       <div class="nav-right">
         @if (!isLoggedIn()) {
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/login">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/register">Register</a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/register">Register</a>
+          </li>
         } @else {
-        @if (!isAdmin()) {
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/user', getUserId()]">Edit Profile</a>
-        </li>
-        }
-        <li class="nav-item">
-          <a class="nav-link" (click)="logout()">Logout</a>
-        </li>
+          @if (!isAdmin()) {
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/user', getUserId()]">Edit Profile</a>
+            </li>
+          }
+          <li class="nav-item">
+            <a class="nav-link" (click)="logout()">Logout</a>
+          </li>
         }
       </div>
     </ul>

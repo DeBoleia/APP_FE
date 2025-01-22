@@ -13,6 +13,10 @@ import { TripDetailComponent } from '../../details/trip-detail/trip-detail.compo
 import { MatDialog } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { map, startWith, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { LocationService } from '../../services/location.service';
+
 @Component({
   selector: 'app-find-trips',
   imports: [
@@ -52,27 +56,80 @@ export class FindTripsComponent implements OnInit {
     "Viseu"
   ]
 
-  municipalities = [];
 
   trips: Trip[] = [];
+  originControl = new FormControl('');
+  municipalityControl = new FormControl({ value: '', disabled: true });
+  parishControl = new FormControl({ value: '', disabled: true });
 
-  originControl: FormControl = new FormControl('');
+  filteredDistricts!: Observable<string[]>;
+  municipalities: string[] = [];
+  parishes: string[] = [];
 
   constructor(
     private tripsService: TripsService,
+    private locationService: LocationService,
     private dialog: MatDialog
   ) { }
+
+  ngOnInit(): void {
+    // Carrega as viagens da API
+    this.tripsService.getAllTrips().subscribe(data => {
+      this.trips = data;
+      console.log(this.trips);
+    });
+
+    this.filteredDistricts = this.originControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterDistricts(value || ''))
+    );
+
+    this.originControl.valueChanges.pipe(
+      switchMap(district => {
+        if (district && this.districts.includes(district)) {
+          this.municipalityControl.enable();
+          this.parishControl.disable();
+          this.parishControl.reset();
+          return this.locationService.getMunicipalities(district);
+        }
+        this.municipalities = [];
+        this.municipalityControl.disable();
+        this.municipalityControl.reset();
+        this.parishControl.disable();
+        this.parishControl.reset();
+        return of([]);
+      })
+    ).subscribe(municipalities => {
+      this.municipalities = municipalities;
+      console.log('Municipalities:', this.municipalities);
+    });
+
+    this.municipalityControl.valueChanges.pipe(
+      switchMap(municipality => {
+        if (municipality && this.municipalities.includes(municipality)) {
+          this.parishControl.enable();
+          return this.locationService.getParishes(municipality);
+        }
+        this.parishes = [];
+        this.parishControl.disable();
+        this.parishControl.reset();
+        return of([]);
+      })
+    ).subscribe(parishes => {
+      this.parishes = parishes;
+      console.log('Parishes:', this.parishes);
+    });
+  }
+
+  private filterDistricts(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.districts.filter(district =>
+      district.toLowerCase().includes(filterValue)
+    );
+  }
 
   tripDetails(tripCode: string) {
     TripDetailComponent.openDialog(this.dialog, { tripCode: tripCode });
   }
-
-  ngOnInit(): void {
-    this.tripsService.getAllTrips().subscribe(data => {
-      this.trips = data
-      console.log(this.trips);
-    })
-  }
-
 
 }

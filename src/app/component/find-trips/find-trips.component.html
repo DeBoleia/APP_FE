@@ -4,24 +4,33 @@
 			<h1 id="title">FIND YOUR RIDE</h1>
 			<p id="subtitle">Discover the best rides at unbeatable prices. Your journey starts here!</p>
 			<div class="search-input">
-				<!-- <mat-icon style="transform: scale(1);">my_location</mat-icon>
-				<mat-label>Origin</mat-label>
-				<input matInput placeholder="Enter Origin"> -->
 				<mat-form-field appearance="outline">
 					<mat-label>District</mat-label>
-					<input type="text" matInput [formControl]="originControl" [matAutocomplete]="auto">
-					<mat-autocomplete #auto="matAutocomplete">
-						<mat-option *ngFor="let district of districts" [value]="district">
+					<input type="text" matInput [formControl]="originControl" [matAutocomplete]="districtAuto">
+					<mat-autocomplete #districtAuto="matAutocomplete">
+						<mat-option *ngFor="let district of filteredDistricts | async" [value]="district">
 							{{ district }}
 						</mat-option>
 					</mat-autocomplete>
 				</mat-form-field>
-				<mat-form-field appearance="outline">
+
+				<mat-form-field appearance="outline" *ngIf="municipalityControl.enabled">
 					<mat-label>Municipality</mat-label>
-					<input type="text" matInput [formControl]="originControl" [matAutocomplete]="auto">
-					<mat-autocomplete #auto="matAutocomplete">
+					<input type="text" matInput [formControl]="municipalityControl"
+						[matAutocomplete]="municipalityAuto">
+					<mat-autocomplete #municipalityAuto="matAutocomplete">
 						<mat-option *ngFor="let municipality of municipalities" [value]="municipality">
 							{{ municipality }}
+						</mat-option>
+					</mat-autocomplete>
+				</mat-form-field>
+
+				<mat-form-field appearance="outline" *ngIf="parishControl.enabled">
+					<mat-label>Parish</mat-label>
+					<input type="text" matInput [formControl]="parishControl" [matAutocomplete]="parishAuto">
+					<mat-autocomplete #parishAuto="matAutocomplete">
+						<mat-option *ngFor="let parish of parishes" [value]="parish">
+							{{ parish }}
 						</mat-option>
 					</mat-autocomplete>
 				</mat-form-field>

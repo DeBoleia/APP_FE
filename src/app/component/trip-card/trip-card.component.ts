@@ -50,7 +50,6 @@ export class TripCardComponent implements OnInit {
 		result = location.municipality ? (location.parish ? result + ', ' + location.municipality : result + location.municipality) : result;
 		result = location.district ? ((location.municipality || location.parish) ? result + ', ' + location.district : result + location.district) : result;
 
-		console.log('location result: ' + result);
 		return result;
 	}
 

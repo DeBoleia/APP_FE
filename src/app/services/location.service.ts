@@ -16,25 +16,25 @@ export class LocationService {
 
   constructor() { }
 
-  getDistricts(): Promise<string[]> {
+  getDistricts(): Observable<string[]> {
     const url = `${this.baseUrl}distritos?json=true`;
-    return fetch(url)
+    return from(fetch(url)
       .then(response => response.json())
-      .then(data => data.map((item: any) => item.distrito));
+      .then(data => data.map((item: any) => item.distrito)));
   }
 
-  getMunicipalities(district: string): Promise<string[]> {
+  getMunicipalities(district: string): Observable<string[]> {
     const url = `${this.baseUrl}distrito/${district}/municipios?json=true`;
-    return fetch(url)
+    return from(fetch(url)
       .then(response => response.json())
-      .then(data => data.municipios.map((item: any) => item.nome));
+      .then(data => data.municipios.map((item: any) => item.nome)));
   }
 
-  getParishes(municipality: string): Promise<string[]> {
+  getParishes(municipality: string): Observable<string[]> {
     const url = `${this.baseUrl}municipio/${municipality}/freguesias?json=true`;
-    return fetch(url)
+    return from(fetch(url)
       .then(response => response.json())
-      .then(data => data.freguesias);
+      .then(data => data.freguesias));
   }
 
   getCoordinates({ parish, municipality, district }: { parish?: string; municipality?: string; district?: string }): Observable<Location> {

@@ -1,7 +1,6 @@
 export interface DatabaseCars {
     brand: string;
-    model?: string;
-    // modelCount: number;
+    model: string;
   }
 
 export interface BrandUpdate {

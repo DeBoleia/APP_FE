@@ -115,7 +115,8 @@ export class AuthenticatorService {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem('email');
     sessionStorage.removeItem('userEmail');
-
+    localStorage.removeItem('role');
+    
     this.router.navigate(['/home']);
   }
 

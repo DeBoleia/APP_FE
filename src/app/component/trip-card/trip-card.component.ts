@@ -9,19 +9,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { TruthyTypesOf } from 'rxjs';
 import { MatDivider } from '@angular/material/divider';
+import { StarRatingComponent } from "../star-rating/star-rating.component";
 
 
 
 @Component({
 	selector: 'app-trip-card',
 	imports: [
-		CommonModule,
-		MatCardModule,
-		MatGridListModule,
-		MatIconModule,
-		MatTooltip,
-		MatDivider
-	],
+    CommonModule,
+    MatCardModule,
+    MatGridListModule,
+    MatIconModule,
+    MatTooltip,
+    MatDivider,
+    StarRatingComponent
+],
 	templateUrl: './trip-card.component.html',
 	styleUrl: './trip-card.component.scss'
 })

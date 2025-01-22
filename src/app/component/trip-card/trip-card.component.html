@@ -1,55 +1,59 @@
 <mat-card>
-	<mat-card-header>
-		<h4>{{this.trip.departureDate | date:'dd/MM/yy'}} at {{this.trip.departureDate | date:'HH:mm'}}</h4>
+	<mat-card-header style="align-items: center;">
+		<div class="time-date">
+			<mat-list matTooltip="Departure Date">
+				<mat-list-item>
+					<mat-icon matListItemIcon style="color: whitesmoke;">calendar_month</mat-icon>
+					<span matListItemTitle style="color: whitesmoke;">{{this.trip.departureDate |
+						date:'dd/MM/yy'}}</span>
+				</mat-list-item>
+			</mat-list>
+			<mat-list matTooltip="Departure Time">
+				<mat-list-item>
+					<mat-icon matListItemIcon style="color: whitesmoke;">schedule</mat-icon>
+					<span matListItemTitle style="color: whitesmoke;">{{this.trip.departureDate | date:'HH:mm'}}</span>
+				</mat-list-item>
+			</mat-list>
+		</div>
 	</mat-card-header>
 	<mat-card-content>
 		<mat-grid-list cols="3" rowHeight="3:1">
 			<mat-grid-tile [rowspan]="3">
 				<div class="driver">
 					<img src="/avatar.png" alt="Avatar" class="avatar">
-				<app-star-rating [showEvaluations]="true" [nrEvaluations]=444 [rating]=3.5 ></app-star-rating>
+					<h5 style="margin: auto; margin-top: 2px;">Álvaro Lucas</h5>
+					<app-star-rating [showEvaluations]="true" [nrEvaluations]=444 [rating]=3.5></app-star-rating>
 				</div>
 			</mat-grid-tile>
 			<mat-grid-tile [colspan]="2" rowspan="2">
-				
-				<div class="locations">
-					<table>
-						<tr>
-							<th>FROM:</th>
-							<td>
-								{{this.trip.origin?.parish}}
-							</td>
-							<td>
-								{{this.trip.origin?.municipality}}
-							</td>
-							<td>
-								{{this.trip.origin?.district}}
-							</td>
-						</tr>
+				<div id="location-container">
+					<div class="locations">
+						<mat-icon>my_location</mat-icon>
+						<p>{{getLocation(trip.origin)}}</p>
+					</div>
+					<div class="locations">
+						<mat-icon>location_on</mat-icon>
+						<p>{{getLocation(trip.destination)}}</p>
+					</div>
 
-						<tr>
-							<th>TO:</th>
-							<td>
-								{{this.trip.destination?.parish}}
-							</td>
-							<td>
-								{{this.trip.destination?.municipality}}
-							</td>
-							<td>
-								{{this.trip.destination?.district}}
-							</td>
-						</tr>
-					</table>
 				</div>
 			</mat-grid-tile>
-
 			<mat-grid-tile>
-				<div matTooltip="Seats Available" class="spots-available">
-					<mat-icon>people</mat-icon>
-					<p> {{trip.passengers.length}} / {{trip.nrSeats}}</p>
-				</div>
+				<mat-list>
+					<mat-list-item matTooltip="passengers on trip">
+						<mat-icon matListItemIcon>people</mat-icon>
+						<span matListItemTitle>{{trip.passengers.length}} / {{trip.nrSeats}}</span>
+					</mat-list-item>
+				</mat-list>
 			</mat-grid-tile>
-			<mat-grid-tile>2</mat-grid-tile>
+			<mat-grid-tile>
+				<mat-list>
+					<mat-list-item matTooltip="price">
+						<mat-icon matListItemIcon>euro</mat-icon>
+						<span matListItemTitle style="font-size: 30px; color: goldenrod; font-weight: bold;">{{trip.pricePerPerson}}</span>
+					</mat-list-item>
+				</mat-list>
+			</mat-grid-tile>
 		</mat-grid-list>
 
 

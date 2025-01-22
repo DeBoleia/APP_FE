@@ -7,30 +7,31 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { TripsService } from '../../services/trips.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
-import { TruthyTypesOf } from 'rxjs';
-import { MatDivider } from '@angular/material/divider';
+
 import { StarRatingComponent } from "../star-rating/star-rating.component";
+import { MatListModule } from '@angular/material/list';
 
 
 
 @Component({
 	selector: 'app-trip-card',
 	imports: [
-    CommonModule,
-    MatCardModule,
-    MatGridListModule,
-    MatIconModule,
-    MatTooltip,
-    MatDivider,
-    StarRatingComponent
-],
+		CommonModule,
+		MatCardModule,
+		MatGridListModule,
+		MatIconModule,
+		MatTooltip,
+		StarRatingComponent,
+		MatCardModule,
+		MatListModule
+	],
 	templateUrl: './trip-card.component.html',
 	styleUrl: './trip-card.component.scss'
 })
-export class TripCardComponent implements OnInit{
+export class TripCardComponent implements OnInit {
 
-	@Input() tripCode : string = '';
-	trip : any ;
+	@Input() tripCode: string = '';
+	trip: any;
 	constructor(
 		private authService: AuthenticatorService,
 		private tripsService: TripsService
@@ -38,9 +39,19 @@ export class TripCardComponent implements OnInit{
 
 
 	ngOnInit(): void {
-		this.tripsService.getTripByTripCode(this.tripCode).subscribe( data => {
+		this.tripsService.getTripByTripCode(this.tripCode).subscribe(data => {
 			this.trip = data;
 		})
+	}
+
+	getLocation(location: any) {
+		let result = ''
+		result = location.parish ? result + location.parish : result;
+		result = location.municipality ? (location.parish ? result + ', ' + location.municipality : result + location.municipality) : result;
+		result = location.district ? ((location.municipality || location.parish) ? result + ', ' + location.district : result + location.district) : result;
+
+		console.log('location result: ' + result);
+		return result;
 	}
 
 }

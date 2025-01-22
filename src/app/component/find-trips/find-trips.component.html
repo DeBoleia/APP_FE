@@ -13,7 +13,7 @@
 			</div>
 			<mat-divider style="margin-bottom: 20px;"></mat-divider>
 			<div class="search-input">
-				<mat-icon>pin_drop</mat-icon>
+				<mat-icon>location_on</mat-icon>
 				<mat-form-field appearance="outline">
 					<mat-label>Destination</mat-label>
 					<input matInput placeholder="Enter Destination">
@@ -27,10 +27,6 @@
 	<div class="col-right">
 		<div class="cards" *ngFor="let trip of trips">
 				<app-trip-card [tripCode]="trip.tripCode"></app-trip-card>
-			<!-- <app-trip-card ></app-trip-card>
-			<app-trip-card ></app-trip-card>
-			<app-trip-card ></app-trip-card>
-			<app-trip-card ></app-trip-card> -->
 		</div>
 	</div>
 </div>

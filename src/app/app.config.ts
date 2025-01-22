@@ -7,13 +7,10 @@ import { AuthInterceptor } from './intercepters/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    // provideZoneChangeDetection({ eventCoalescing: false }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([AuthInterceptor])),
-   
+    provideHttpClient(/* withInterceptors([AuthInterceptor] )*/),
     provideAnimations()
-  
   ]
 };
 

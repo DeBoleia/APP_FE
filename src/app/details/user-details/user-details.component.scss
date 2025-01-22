@@ -124,3 +124,46 @@ mat-card {
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
+
+
+.color-circle {
+  width: 20px;         /* Tamanho da bola */
+  height: 20px;
+  border-radius: 50%;  /* Forma circular */
+  display: inline-block;
+  margin-right: 10px;  /* Espaço entre a bola e o texto */
+  border: 1px solid #ccc;
+}
+
+.car-info {
+    background-color: white;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin: 10px 0;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .car-info:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  
+  .car-info p {
+    margin: 8px 0;
+  }
+
+  .color-display {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .color-dot {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+  }

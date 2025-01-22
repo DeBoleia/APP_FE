@@ -132,8 +132,6 @@
 	<mat-card-content *ngIf="user?.driversLicense && user.driversLicense !== 'Not Provided'">
 		<form [formGroup]="userForm">
 
-
-
 			<div formArrayName="cars" class="cars-container">
 				<mat-card *ngFor="let carCtrl of carsFormArray.controls; let i = index" [formGroupName]="i"
 					class="car-card">
@@ -151,11 +149,6 @@
 								<button type="button" class="btn btn-danger" (click)="confirmDeleteCar(i)" *ngIf="!isEditing1(i)">
 									<i class="bi bi-trash"></i>
 								</button>
-
-								<!-- <button type="button" class="btn btn-danger" (click)="deleteCar(i)"
-									*ngIf="!isEditing1(i)">
-									<i class="bi bi-trash"></i>
-								</button> -->
 
 							</div>
 						</div>
@@ -186,17 +179,12 @@
 							<mat-form-field appearance="outline">
 								<mat-label>Color</mat-label>
 								<mat-select formControlName="color">
-									<mat-option *ngFor="let option of colorOptions" [value]="option">
-										{{ option }}
-									</mat-option>
+								  <mat-option *ngFor="let option of colorOptions" [value]="option">
+									<span class="color-circle" [ngStyle]="{'background-color': option}"></span>
+									{{ option }}
+								  </mat-option>
 								</mat-select>
-							</mat-form-field>
-
-							<!-- <mat-form-field appearance="outline">
-								<mat-label>License Plate</mat-label>
-								<input matInput formControlName="licensePlate"
-									[readonly]="isEditing1(i) && !isAddingCar">
-							</mat-form-field> -->
+							  </mat-form-field>
 
 							<mat-form-field appearance="outline">
 								<mat-label>License Plate</mat-label>
@@ -208,7 +196,6 @@
 
 							<div class="button-row">
 								<button mat-raised-button color="primary" (click)="handleSave(i)">Save</button>
-								<!-- <button mat-raised-button color="primary" (click)="saveCar(i)">Save</button> -->
 								<button mat-button (click)="cancelEdit(i)">Cancel</button>
 							</div>
 						</div>
@@ -217,10 +204,14 @@
 							<div class="car-info">
 								<p><strong>Brand:</strong> {{ carCtrl.get('brand')?.value || 'Not Provided' }}</p>
 								<p><strong>Model:</strong> {{ carCtrl.get('model')?.value || 'Not Provided' }}</p>
-								<p><strong>Color:</strong> {{ carCtrl.get('color')?.value || 'Not Provided' }}</p>
-								<p><strong>License Plate:</strong> {{ carCtrl.get('licensePlate')?.value ||
-									'NotProvided' }}</p>
-							</div>
+								<p><strong>Color:&nbsp;&nbsp;</strong>
+								  <span class="color-display">
+									<span class="color-dot" [style.backgroundColor]="carCtrl.get('color')?.value"></span>
+									{{ carCtrl.get('color')?.value || 'Not Provided' }}
+								  </span>
+								</p>
+								<p><strong>License Plate:</strong> {{ carCtrl.get('licensePlate')?.value || 'NotProvided' }}</p>
+							  </div>
 						</ng-template>
 					</mat-card-content>
 				</mat-card>
@@ -228,6 +219,7 @@
 
 		</form>
 	</mat-card-content>
+
 	<br>
 	<mat-card-content>
 		<button type="button" class="btn btn-danger" color="warn" (click)="desativarConta()">

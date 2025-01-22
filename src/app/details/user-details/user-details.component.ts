@@ -621,4 +621,6 @@ addCar() {
 	// Atualizar o campo de entrada com a formatação correta
 	event.target.value = value;
   }
+
+  
 }

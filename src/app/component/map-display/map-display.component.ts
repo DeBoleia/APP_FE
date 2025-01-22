@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild, OnChanges, AfterViewInit, OnInit } from '@angular/core';
 import { GoogleMap, GoogleMapsModule, MapDirectionsService } from '@angular/google-maps';
 import { BehaviorSubject, map } from 'rxjs';
+import { LocationService } from '../../services/location.service';
 
 @Component({
   selector: 'app-map-display',
@@ -15,30 +16,86 @@ export class MapDisplayComponent implements OnInit {
   zoom = 13;
   center!: google.maps.LatLngLiteral;
   
-  @Input() from: google.maps.LatLng = new google.maps.LatLng(38.21934323550846, -7.936613563615031);
-  @Input() to: google.maps.LatLng = new google.maps.LatLng(38.2847756012011, -7.843262330126862);
+  @Input() from: { parish?: string; municipality?: string; district?: string } = { municipality: 'Vila Nova de Gaia', district: 'Porto' };
+  @Input() to: { parish?: string; municipality?: string; district?: string } = { parish: 'Bonfim', municipality: 'Porto', district: 'Porto' };
 
-  markers = [
-    { lat: this.from.lat(), lng: this.from.lng() },
-    { lat: this.to.lat(), lng: this.to.lng() }
-  ];
+  fromCoords!: google.maps.LatLng;
+  toCoords!: google.maps.LatLng;
+
+  markers: { lat: number; lng: number }[] = [];
 
   directionsResult$ = new BehaviorSubject<
     google.maps.DirectionsResult | undefined
   >(undefined);
 
-  constructor(private directionsService: MapDirectionsService) {}
+  constructor(private directionsService: MapDirectionsService, private locationService: LocationService) {}
+
 
   ngOnInit(): void {
-    this.center = this.calculateCenter();
-    // if (this.from && this.to) {
-    //   this.getDirections(this.from, this.to);
-    // } else if (this.from) {
-    //   this.gotoLocation(this.from);
-    // } else if (this.to) {
-    //   this.gotoLocation(this.to);
-    // }
+    this.initializeMap();
   }
+
+  initializeMap() {
+    if (this.from && this.to) {
+      this.locationService.getCoordinates(this.from).subscribe({
+        next: (fromCoordinates) => {
+          this.locationService.getCoordinates(this.to).subscribe({
+            next: (toCoordinates) => {
+              this.fromCoords = new google.maps.LatLng(fromCoordinates.lat, fromCoordinates.lng);
+              this.toCoords = new google.maps.LatLng(toCoordinates.lat, toCoordinates.lng);
+              this.center = this.calculateCenter();
+              this.markers = [fromCoordinates, toCoordinates];
+              // this.getDirections(this.fromCoords, this.toCoords);
+              // this.updateMap();
+            },
+            error: (err) => console.error('Error fetching destination coordinates:', err),
+          });
+        },
+        error: (err) => console.error('Error fetching origin coordinates:', err),
+      });
+    } else {
+      console.error('Both `from` and `to` objects must be provided.');
+    }
+  }
+
+  updateMap() {
+    // Create bounds to contain all the markers
+    const bounds = new google.maps.LatLngBounds();
+
+    // Extend the bounds to include the `from` and `to` markers
+    bounds.extend(this.fromCoords);
+    bounds.extend(this.toCoords);
+
+    // If you have more markers, you can extend bounds for each one
+    // this.markers.forEach(marker => bounds.extend(new google.maps.LatLng(marker.lat, marker.lng)));
+
+    // Adjust the map to show all markers within the bounds
+    this.map?.googleMap?.fitBounds(bounds);
+
+    // Optionally adjust the zoom level if needed
+    this.zoom = this.calculateZoomLevel(bounds);
+    this.map?.googleMap?.setZoom(this.zoom);
+
+    // Center the map based on the bounds
+    this.center = { lat: bounds.getCenter().lat(), lng: bounds.getCenter().lng() };
+    this.map?.googleMap?.setCenter(this.center);
+  }
+
+  calculateZoomLevel(bounds: google.maps.LatLngBounds): number {
+    // You can fine-tune this based on your preference and the size of your markers
+    const maxLat = bounds.getNorthEast().lat();
+    const minLat = bounds.getSouthWest().lat();
+    const maxLng = bounds.getNorthEast().lng();
+    const minLng = bounds.getSouthWest().lng();
+
+    const latDiff = maxLat - minLat;
+    const lngDiff = maxLng - minLng;
+
+    // This is a simplified formula to calculate zoom based on bounds size (lat/lng difference)
+    const zoomLevel = Math.max(2, Math.min(16, Math.round(15 - Math.log(Math.max(latDiff, lngDiff)) / Math.LN2)));
+    return zoomLevel;
+  }
+
 
 
   gotoLocation(location: google.maps.LatLng | google.maps.LatLngLiteral) {
@@ -88,15 +145,15 @@ export class MapDisplayComponent implements OnInit {
   }
 
   calculateCenter() {
-    if (this.from && this.to) {
+    if (this.fromCoords && this.toCoords) {
       return {
-        lat: (this.from.lat() + this.to.lat()) / 2,
-        lng: (this.from.lng() + this.to.lng()) / 2,
+        lat: (this.fromCoords.lat() + this.toCoords.lat()) / 2,
+        lng: (this.fromCoords.lng() + this.toCoords.lng()) / 2,
       };
-    } else if (this.from) {
-      return { lat: this.from.lat(), lng: this.from.lng() };
-    } else if (this.to) {
-      return { lat: this.to.lat(), lng: this.to.lng() };
+    } else if (this.fromCoords) {
+      return { lat: this.fromCoords.lat(), lng: this.fromCoords.lng() };
+    } else if (this.toCoords) {
+      return { lat: this.toCoords.lat(), lng: this.toCoords.lng() };
     } else {
       return { lat: 41.1403, lng: -8.6110 };
     }

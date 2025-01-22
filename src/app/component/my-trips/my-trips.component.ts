@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
 import { User } from '../../interfaces/user';
@@ -8,14 +8,23 @@ import { MessageService } from '../../services/message.service';
 import { AuthenticatorService } from '../../services/authenticator.service';
 import {MatTabsModule} from '@angular/material/tabs';
 import { TripsService } from '../../services/trips.service';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { CommonModule } from '@angular/common';
+import { AplicationCardComponent } from '../aplication-card/aplication-card.component';
+import { StarRatingComponent } from "../star-rating/star-rating.component";
 
 @Component({
   selector: 'app-my-trips',
   imports: [
+    CommonModule,
     MatCardModule,
     MatButtonModule,
-    MatTabsModule
-  ],
+    MatTabsModule,
+    MatTableModule,
+    MatButton,
+    AplicationCardComponent,
+    StarRatingComponent
+],
   templateUrl: './my-trips.component.html',
   styleUrl: './my-trips.component.scss'
 })
@@ -28,12 +37,14 @@ export class MyTripsComponent implements OnInit {
     private tripService: TripsService
   ) { }
 
-  user!: User | null;
+  user!: User;
   tripsAsDriver: any[] = [];
+  tripsAsDriverDataSource: any;
   tripsAsPassenger: any[] = [];
+  tripsAsPassengerDataSource: any;
 
   ngOnInit(): void {
-    const userID = this.authenticationService.getUserID();
+    const userID = 'U001' /* this.authenticationService.getUserID() */;
     if (userID) {
       this.userService.getUserByUserID(userID).subscribe(user => {
         this.user = user;
@@ -41,11 +52,13 @@ export class MyTripsComponent implements OnInit {
 
         this.tripService.getTripsByDriver(userID).subscribe(trips => {
           this.tripsAsDriver = trips;
+          this.tripsAsDriverDataSource = new MatTableDataSource(this.tripsAsDriver);
           console.log('tripsAsDriver: ', this.tripsAsDriver);
         });
 
         this.tripService.getTripsByPassenger(userID).subscribe(trips => {
           this.tripsAsPassenger = trips;
+          this.tripsAsPassengerDataSource = new MatTableDataSource(this.tripsAsPassenger);
           console.log('tripsAsPassenger: ', this.tripsAsPassenger);
         });
       });

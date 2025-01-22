@@ -1,0 +1,24 @@
+<div *ngIf="isDriver; else applicantView">
+	<div class="card">
+		<h2>Trip Information</h2>
+		<p><strong>Trip Code:</strong> {{ application.trip.tripCode }}</p>
+		<p><strong>Origin:</strong> {{ application.trip.origin.municipality }}, {{ application.trip.origin.district }}</p>
+		<p><strong>Destination:</strong> {{ application.trip.destination.municipality }}, {{ application.trip.destination.district }}</p>
+		<p><strong>Departure Date:</strong> {{ application.trip.departureDate | date:'medium' }}</p>
+		<p><strong>Status:</strong> {{ application.status }}</p>
+		<h3>Applicant Information</h3>
+		<p><strong>Name:</strong> {{ application.user.name }}</p>
+		<p><strong>Passenger Rating:</strong> {{ application.user.passengerRating }} ({{ application.user.passengerRatingCount }} reviews)</p>
+	</div>
+</div>
+
+<ng-template #applicantView>
+	<div class="card">
+		<h2>Trip Information</h2>
+		<p><strong>Trip Code:</strong> {{ application.trip.tripCode }}</p>
+		<p><strong>Origin:</strong> {{ application.trip.origin.municipality }}, {{ application.trip.origin.district }}</p>
+		<p><strong>Destination:</strong> {{ application.trip.destination.municipality }}, {{ application.trip.destination.district }}</p>
+		<p><strong>Departure Date:</strong> {{ application.trip.departureDate | date:'medium' }}</p>
+		<p><strong>Status:</strong> {{ application.status }}</p>
+	</div>
+</ng-template>

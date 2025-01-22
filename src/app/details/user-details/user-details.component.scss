@@ -85,4 +85,19 @@ mat-card {
 
 
 
-
+  .table-container {
+    display: table;
+    width: 100%; /* Ajuste a largura conforme necessário */
+  }
+  
+  .table-row {
+    display: table-row;
+  }
+  
+  .table-cell {
+    display: table-cell;
+    padding: 10px; /* Ajuste o espaçamento entre os containers */
+    width: 50%; /* Tamanho fixo para cada container */
+    vertical-align: top; /* Alinha os itens ao topo de cada célula */
+    box-sizing: border-box;
+  }

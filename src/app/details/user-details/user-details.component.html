@@ -50,7 +50,58 @@
 
 	<br>
 
-	<div class="card-container2">
+	<div class="table-container">
+		<div class="table-row">
+		  <div class="table-cell">
+			<div class="card-container">
+			  <mat-card>
+				<mat-card-content>
+				  <h3 style="text-align: center;">Passenger Info</h3>
+				  <mat-divider></mat-divider><br>
+				  <div class="info-group">
+					<p><strong>Passenger Rating:&nbsp;&nbsp;</strong>
+					  <ng-container *ngFor="let i of [].constructor(5); let idx = index">
+						<i class="bi" [ngClass]="{
+						 'bi-star-fill': user?.passengerRating > idx + 0.5,
+						 'bi-star-half': user?.passengerRating > idx && user?.passengerRating <= idx + 0.5,
+						 'bi-star': user?.passengerRating <= idx
+					   }" [title]="user?.passengerRating"></i>
+					  </ng-container>
+					  <strong>&nbsp;&nbsp;({{ user?.passengerRatingCount || 'Not Provided' }})</strong>
+					</p>
+				  </div>
+				</mat-card-content>
+			  </mat-card>
+			</div>
+		  </div>
+		  <div class="table-cell">
+			<mat-card *ngIf="user?.driversLicense && user.driversLicense !== 'Not Provided'">
+			  <mat-card-content>
+				<div style="display: flex; align-items: center; position: relative; width: 100%;">
+				  <div style="flex: 1; text-align: center;">
+					<h3 style="margin: 0;">Driver Info</h3>
+				  </div>
+				</div>
+				<mat-divider></mat-divider><br>
+				<div class="info-group">
+				  <p><strong>Driver Rating:&nbsp;&nbsp;</strong>
+					<ng-container *ngFor="let i of [].constructor(5); let idx = index">
+					  <i class="bi" [ngClass]="{
+					   'bi-star-fill': user?.passengerRating > idx + 0.5,
+					   'bi-star-half': user?.passengerRating > idx && user?.passengerRating <= idx + 0.5,
+					   'bi-star': user?.passengerRating <= idx
+					 }" [title]="user?.passengerRating"></i>
+					</ng-container>
+					<strong>&nbsp;&nbsp;({{ user?.driverRatingCount || 'Not Provided' }})</strong>
+				  </p>
+				</div>
+			  </mat-card-content>
+			</mat-card>
+		  </div>
+		</div>
+	  </div>
+
+	<!-- <div class="card-container2">
 		<mat-card>
 			<mat-card-content>
 
@@ -69,7 +120,7 @@
 							<strong>&nbsp;&nbsp;({{ user?.passengerRatingCount || 'Not Provided' }})</strong>
 						</p>
 					</div>
-					<!-- <p><strong>Passenger Rating:</strong> {{ user?.passengerRating || 'Not Provided' }}</p> -->
+
 
 				</div>
 			</mat-card-content>
@@ -102,7 +153,7 @@
 				</div>
 			</mat-card-content>
 		</mat-card>
-	</div>
+	</div> -->
 
 	<br>
 

@@ -15,8 +15,9 @@ export class MapDisplayComponent implements OnInit {
   zoom = 13;
   center!: google.maps.LatLngLiteral;
   
-  @Input() from: google.maps.LatLng = new google.maps.LatLng(41.1403, -8.6110);
-  @Input() to: google.maps.LatLng = new google.maps.LatLng(41.1622, -8.5890);
+  @Input() from: google.maps.LatLng = new google.maps.LatLng(38.21934323550846, -7.936613563615031);
+  @Input() to: google.maps.LatLng = new google.maps.LatLng(38.2847756012011, -7.843262330126862);
+
   markers = [
     { lat: this.from.lat(), lng: this.from.lng() },
     { lat: this.to.lat(), lng: this.to.lng() }

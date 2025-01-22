@@ -5,24 +5,34 @@ import { CommonModule } from '@angular/common';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { RgpdComponent } from './component/rgpd/rgpd.component';
+import { LoadingService } from './services/loading-service.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, CommonModule],
+  imports: [RouterOutlet, RouterLink, CommonModule, MatProgressSpinnerModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   showBackToTop = false;
+  isLoading = false;
 
   constructor(
     private auth: AuthenticatorService,
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit() {
     console.log('Current user role:', this.auth.getUserRole());
+      
+    this.loadingService.loading$.subscribe((loading) => {
+      setTimeout(() => {
+        this.isLoading = loading;
+      }, 500); // Adiciona um delay de 500ms
+    });
   }
 
   isLoggedIn(): boolean {

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -39,9 +39,18 @@ import { DatabaseCars } from '../../interfaces/car';
   templateUrl: './car-database.component.html',
   styleUrl: './car-database.component.scss'
 })
-export class CarDatabaseComponent implements OnInit {
-  displayedColumns: string[] = ['brand', 'modelCount', 'actions'];
+export class CarDatabaseComponent implements OnInit, AfterViewInit {
+  
+  displayedColumns: string[] = ['brand', 'actions'];
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild(MatSort) sort!: MatSort;
+  
   dataSource = new MatTableDataSource<DatabaseCars>();
+  
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
   
   brandOptions: string[] = [];
   modelOptions: string[] = [];
@@ -58,41 +67,13 @@ export class CarDatabaseComponent implements OnInit {
   }
 
   loadCarBrands(): void {
-    this.carsService.getCarBrands().subscribe({
-      next: (response) => {
-        console.log('Car brands returned:', response);
-        this.brandOptions = response;
-        this.processBrandsData(response);
+    this.carDatabaseService.getBrandsList().subscribe({
+      next: (brands: string[]) => {
+        this.dataSource.data = brands.map((brand: string) => ({ brand } as DatabaseCars));
       },
       error: (error) => {
-        console.error('Error fetching car brands:', error);
-        this.messageService.showSnackbar('Error loading car brands', 'error');
+        this.messageService.showSnackbar('Error loading brands', 'error');
       }
-    });
-  }
-
-  private processBrandsData(brands: string[]): void {
-    const brandSummaries: Promise<DatabaseCars>[] = brands.map(async brand => {
-      return new Promise((resolve) => {
-        this.carsService.getCarModels(brand).subscribe({
-          next: (models) => {
-            resolve({
-              brand,
-              modelCount: models.length
-            });
-          },
-          error: () => {
-            resolve({
-              brand,
-              modelCount: 0
-            });
-          }
-        });
-      });
-    });
-
-    Promise.all(brandSummaries).then(summaries => {
-      this.dataSource.data = summaries;
     });
   }
 

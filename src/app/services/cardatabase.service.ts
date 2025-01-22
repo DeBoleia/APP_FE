@@ -19,6 +19,10 @@ export class CarDatabaseService {
     return this.http.post(`${this.baseUrl}/models`, { brand });
   }
 
+  getBrandsList(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/brands`);
+  }
+
   renameBrand(oldBrand: string, newBrand: string): Observable<any> {
     return this.http.put(`${this.baseUrl}/${oldBrand}`, { newBrand });
   }

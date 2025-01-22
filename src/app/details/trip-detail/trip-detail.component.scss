@@ -1,0 +1,78 @@
+.content {
+	display: flex;
+	justify-content: space-around;
+	align-items: flex-start;
+	width: 80%;
+	height: 100%;
+	padding: 10px;
+	overflow: hidden;
+}
+
+.driver {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	overflow: hidden;
+}
+
+.car {
+	display: flex;
+	flex-direction: column;
+	margin-top: 10px;
+	align-items: center;
+	overflow: hidden;
+}
+
+.avatar {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 2px solid #ccc;
+	margin-bottom: 4px;
+}
+
+.driver-name {
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 4px;
+}
+
+.rating {
+	display: flex;
+	gap: 2px;
+	/* Reduz o espaçamento entre as estrelas */
+}
+
+.rating span {
+	font-size: 16px;
+	color: #ccc;
+}
+
+.rating span.filled {
+	color: gold;
+	/* Cor das estrelas preenchidas */
+}
+
+.car-details span {
+	text-align: start;
+	align-items: center;
+	display: block;
+}
+
+
+mat-dialog-content app-map-display {
+	overflow: auto;
+}
+
+.mat-dialog-container {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start; /* Alinha o conteúdo ao topo */
+	justify-content: flex-start; /* Garante que o conteúdo começa do início */
+	padding: 16px; /* Opcional: Ajuste o padding para espaçamento interno */
+	overflow: auto; /* Para evitar problemas com rolagem */
+	max-height: calc(100vh - 64px); /* Evita que o diálogo ultrapasse a altura da tela */
+  }
+  

@@ -23,6 +23,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from '../../app.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
+
 @Component({
   selector: 'app-user',
   standalone: true,

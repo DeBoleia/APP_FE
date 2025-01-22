@@ -27,6 +27,11 @@ import { MatDivider } from '@angular/material/divider';
 
 import { MatSelectModule } from '@angular/material/select';
 import { CarsService } from '../../services/cars.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { DeleteConfirmationSnackbarComponent } from '../../component/delete-confirmation-snackbar/delete-confirmation-snackbar.component';
+
 
 import { ChangePasswordComponent } from '../../component/change-password/change-password.component';
 
@@ -45,6 +50,7 @@ import { ChangePasswordComponent } from '../../component/change-password/change-
     MatCheckboxModule,
     MatDivider,
     MatSelectModule,
+	MatSnackBarModule,
   ],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss',
@@ -70,6 +76,7 @@ export class UserDetailsComponent implements OnInit {
     private dialog: MatDialog,
     private messageService: MessageService,
     private fb: FormBuilder,
+	private snackBar: MatSnackBar,
     private carsService: CarsService
   ) {
     this.userForm = this.fb.group({
@@ -568,5 +575,21 @@ addCar() {
             );
         }
       });
+  }
+
+  confirmDeleteCar(index: number): void {
+	const snackBarRef = this.snackBar.openFromComponent(DeleteConfirmationSnackbarComponent, {
+	  data: { message: `Are you sure you want to delete car #${index + 1}?` },
+	  duration: 10000, 
+	  panelClass: ['center-snackbar'],
+	});
+  
+	snackBarRef.afterDismissed().subscribe(() => {
+	  console.log('Snackbar closed');
+	});
+  
+	snackBarRef.onAction().subscribe(() => {
+	  this.deleteCar(index);
+	});
   }
 }

@@ -101,3 +101,26 @@ mat-card {
     vertical-align: top; /* Alinha os itens ao topo de cada célula */
     box-sizing: border-box;
   }
+
+
+  ::ng-deep .center-snackbar {
+    position: fixed !important;
+    top: 90% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background-color: #323232;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    text-align: center;
+    padding: 16px 24px;
+    width: auto;
+    max-width: 80%;
+  }
+  
+  ::ng-deep .center-snackbar .mat-mdc-snack-bar-container {
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }

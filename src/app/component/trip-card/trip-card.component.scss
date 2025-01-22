@@ -7,17 +7,20 @@ mat-card {
 
 	&:hover {
 		cursor: pointer;
+		transform: translateY(-5px);
 	}
+	
 }
 
 mat-card-header {
 	height: 65px;
 	border-radius: 15px 15px 0 0;
-	background-color: black;
+	background-color: #001623;
 	color: whitesmoke;
 }
 
 mat-card-content {
+	margin-top: 10px;
 	padding: 5px;
 }
 

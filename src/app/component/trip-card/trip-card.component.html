@@ -21,8 +21,8 @@
 			<mat-grid-tile [rowspan]="3">
 				<div class="driver">
 					<img src="/avatar.png" alt="Avatar" class="avatar">
-					<h5 style="margin: auto; margin-top: 2px;">Álvaro Lucas</h5>
-					<app-star-rating [showEvaluations]="true" [nrEvaluations]=444 [rating]=3.5></app-star-rating>
+					<h5 style="margin: auto; margin-top: 2px;">{{trip.driver.name}}</h5>
+					<app-star-rating [showEvaluations]="true" [nrEvaluations]=trip.driver.driverRatingCount [rating]=trip.driver.driverRating></app-star-rating>
 				</div>
 			</mat-grid-tile>
 			<mat-grid-tile [colspan]="2" rowspan="2">

@@ -99,7 +99,7 @@ export class TripDetailComponent implements OnInit {
   static openDialog(dialog: MatDialog, data?: {tripCode: string}): MatDialogRef<TripDetailComponent> {
     return dialog.open(TripDetailComponent, {
       width: '900px',
-      autoFocus: true,
+      autoFocus: false,
       disableClose: true,
       data: data
     });

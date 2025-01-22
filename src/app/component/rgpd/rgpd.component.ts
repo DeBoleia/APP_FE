@@ -4,29 +4,26 @@ import { AuthenticatorService } from '../../services/authenticator.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-rgpd',
-  templateUrl: './rgpd.component.html',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  styleUrls: ['./rgpd.component.scss'],
+	selector: 'app-rgpd',
+	templateUrl: './rgpd.component.html',
+	standalone: true,
+	imports: [CommonModule, RouterModule],
+	styleUrls: ['./rgpd.component.scss'],
 })
 export class RgpdComponent {
-  isLoggedIn: boolean = false;
-  companyNameShort = 'DeBoleia';
-  companyName = 'BeLeFrAnDa';
-  email = 'dataprotection@deboleia.com';
-  //fiscal = ', S.A.';
-  //companyEmail = this.nomeCompanhia.toLowerCase();
-  //companyName = this.nomeCompanhia + this.fiscal;
-  site = 'http://localhost:4200/';
+	isLoggedIn: boolean = false;
+	companyNameShort = 'DeBoleia';
+	companyName = 'BeLeFrAnDa';
+	email = 'dataprotection@deboleia.com';
+	site = 'http://localhost:4200/';
 
-  constructor(private authenticatorService: AuthenticatorService, private router: Router) {}
+	constructor(private authenticatorService: AuthenticatorService, private router: Router) {}
 
-  ngOnInit(): void {
-    this.isLoggedIn = this.authenticatorService.isLoggedIn();
-  }
+	ngOnInit(): void {
+		this.isLoggedIn = this.authenticatorService.isLoggedIn();
+	}
 
-  voltarParaRegisto(): void {
-    this.router.navigate(['/register']);
-  }
+	voltarParaRegisto(): void {
+		this.router.navigate(['/register']);
+	}
 }

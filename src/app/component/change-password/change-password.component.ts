@@ -46,11 +46,11 @@ export class ChangePasswordComponent {
   passwordMatchValidator(group: FormGroup) {
 	const newPassword = group.get('newPassword')?.value;
 	const confirmPassword = group.get('confirmPassword')?.value;
-	console.log('New Password:', newPassword);
-	console.log('Confirm Password:', confirmPassword);
+	//console.log('New Password:', newPassword);
+	//console.log('Confirm Password:', confirmPassword);
 	if (newPassword !== confirmPassword) {
 	  group.get('confirmPassword')?.setErrors({ mismatch: true });
-	  console.error('Passwords do not match!');
+	  //console.error('Passwords do not match!');
 	  return { mismatch: true };
 	}
 	group.get('confirmPassword')?.setErrors(null);
@@ -69,12 +69,12 @@ export class ChangePasswordComponent {
 		  next: () => {
 			this.successMessage = 'Password changed successfully!';
 			this.messageService.showSnackbar(this.successMessage, 'success');
-			console.log('Password changed successfully');
+			//console.log('Password changed successfully');
 			this.authenticatorService.logout();
 			this.router.navigate(['/login']);
 		  },
 		  error: (err) => {
-			console.log('Changing password failure', err);
+			//console.log('Changing password failure', err);
 			if (err.error && err.error.error) {
 			  this.errorMessage = err.error.error; 
 			  this.messageService.showSnackbar(this.errorMessage, 'error');
@@ -90,7 +90,7 @@ export class ChangePasswordComponent {
 	} else {
 	  if (this.changePasswordForm.hasError('mismatch')) {
 		this.messageService.showSnackbar('Passwords do not match.', 'error');
-		console.log('Passwords do not match.');
+		//console.log('Passwords do not match.');
 	  }
 	}
   }

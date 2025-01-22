@@ -6,9 +6,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
+import { Trip } from '../../interfaces/trip';
+import { TripsService } from '../../services/trips.service';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-find-trips',
   imports: [
+    CommonModule,
     MatGridListModule,
     TripCardComponent,
     MatFormFieldModule,
@@ -23,9 +27,18 @@ import { MatDivider } from '@angular/material/divider';
 })
 export class FindTripsComponent implements OnInit {
 
-  constructor() { }
+  trips: Trip[] = [];
+
+  constructor(
+    private tripsService: TripsService,
+  ) { }
+
+
 
   ngOnInit(): void {
-    
+    this.tripsService.getAllTrips().subscribe(data => {
+      this.trips = data
+      console.log(this.trips);
+    })
   }
 }

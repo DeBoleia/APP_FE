@@ -1,22 +1,12 @@
 <mat-card>
 	<mat-card-header>
-		<h4>status : {{trip.status}}</h4>
+		<h4>{{this.trip.departureDate | date:'dd/MM/yy'}} at {{this.trip.departureDate | date:'HH:mm'}}</h4>
 	</mat-card-header>
 	<mat-card-content>
 		<mat-grid-list cols="3" rowHeight="3:1">
 			<mat-grid-tile [rowspan]="3">
 				<div class="driver">
-
 					<img src="/avatar.png" alt="Avatar" class="avatar">
-					<!-- <div class="rating">
-						<link rel="stylesheet"
-						href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-						<span class="fa fa-star half-full"></span>
-						<span class="fa fa-star checked"></span>
-						<span class="fa fa-star checked"></span>
-						<span class="fa fa-star"></span>
-						<span class="fa fa-star"></span>
-					</div> -->
 					<div class="rating">
 						<!-- Notice that the stars are in reverse order -->
 
@@ -33,8 +23,45 @@
 					</div>
 				</div>
 			</mat-grid-tile>
-			<mat-grid-tile [colspan]="2" rowspan="2">2</mat-grid-tile>
-			<mat-grid-tile>2</mat-grid-tile>
+			<mat-grid-tile [colspan]="2" rowspan="2">
+				
+				<div class="locations">
+					<table>
+						<tr>
+							<th>FROM:</th>
+							<td>
+								{{this.trip.origin?.parish}}
+							</td>
+							<td>
+								{{this.trip.origin?.municipality}}
+							</td>
+							<td>
+								{{this.trip.origin?.district}}
+							</td>
+						</tr>
+
+						<tr>
+							<th>TO:</th>
+							<td>
+								{{this.trip.destination?.parish}}
+							</td>
+							<td>
+								{{this.trip.destination?.municipality}}
+							</td>
+							<td>
+								{{this.trip.destination?.district}}
+							</td>
+						</tr>
+					</table>
+				</div>
+			</mat-grid-tile>
+
+			<mat-grid-tile>
+				<div matTooltip="Seats Available" class="spots-available">
+					<mat-icon>people</mat-icon>
+					<p> {{trip.passengers.length}} / {{trip.nrSeats}}</p>
+				</div>
+			</mat-grid-tile>
 			<mat-grid-tile>2</mat-grid-tile>
 		</mat-grid-list>
 

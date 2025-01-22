@@ -100,20 +100,20 @@ export class UserDetailsComponent implements OnInit {
 	});
   }
 
-  ngOnInit(): void {
-	const userIDFromToken = this.authenticatorService.getUserID();
-
-	if (userIDFromToken) {
-	  this.userID = userIDFromToken;
-	  console.log('userID DO TOKEN @@ :', this.userID);
-	  this.loadAllData(this.userID);
-	  this.isEditing = true;
-	  this.loadCarBrands();
-	} else {
-	  console.error('userID não encontrado no token!');
-	  return;
-	}
-  }
+	ngOnInit(): void {
+		const userIDFromToken = this.authenticatorService.getUserID();
+	  
+		if (userIDFromToken) {
+		  this.userID = userIDFromToken;
+		  console.log('userID DO TOKEN @@ :', this.userID);
+		  this.loadAllData(this.userID); 
+		  this.isEditing = true;
+		  this.loadCarBrands();
+		} else {
+		  console.error('userID not found in the token!');
+		  return;
+		}
+	  }
 
   loadAllData(userID: string): void {
 	console.log(
@@ -121,24 +121,24 @@ export class UserDetailsComponent implements OnInit {
 	  this.userID
 	);
 
-	if (this.userID) {
-	  this.userService.getUserByUserID(this.userID).subscribe({
-		next: (data) => {
-		  console.log('Dados carregados:', data);
-		  this.user = data;
-		  if (this.user) {
-			this.populateUserForm(this.user);
-			this.isEditing = true;
-		  }
-		},
-		error: (error) => {
-		  console.error('Erro ao carregar dados do utilizador:', error);
-		},
-	  });
-	} else {
-	  console.error('userID não definido para carregar dados!');
+		if (this.userID) {
+			this.userService.getUserByUserID(this.userID).subscribe({
+				next: (data) => {
+					console.log('Data has been loaded:', data);
+					this.user = data;
+					if (this.user) {
+						this.populateUserForm(this.user);
+						this.isEditing = true;
+					}
+				},
+				error: (error) => {
+					console.error('Error loading user data:', error);
+				},
+			});
+		} else {
+			console.error('Cannot load data: userID is not defined!');
+		}
 	}
-  }
 
   populateUserForm(user: User): void {
 	console.log('Função populateUserForm chamada');

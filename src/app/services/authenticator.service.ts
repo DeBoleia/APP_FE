@@ -116,7 +116,7 @@ export class AuthenticatorService {
     localStorage.removeItem('email');
     sessionStorage.removeItem('userEmail');
 
-    this.router.navigate(['/login']);
+    this.router.navigate(['/home']);
   }
 
   register(

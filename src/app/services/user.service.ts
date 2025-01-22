@@ -87,8 +87,8 @@ export class UserService {
   }
 
   // Change user status by userID
-  changeStatusByUserID(userID: string, statusData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/status/${userID}`, statusData, { headers: this.getHeaders() }).pipe(
+  changeStatusByEmail(email: string, statusData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/status/${email}`, statusData, { headers: this.getHeaders() }).pipe(
       catchError(this.handleError)
     );
   }

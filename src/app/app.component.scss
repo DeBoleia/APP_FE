@@ -75,16 +75,25 @@
   height: 100%;
   display: flex;
   align-items: center;
+  padding: 20px 50px;
+  box-sizing: border-box; 
 }
 
 .footer-left {
-  position: absolute;
-  left: 20px;
+  flex: 1; 
+  padding-left: 5px;
+  text-align: left;
 }
 
 .footer-center {
-  width: 100%;
+  flex: 1; 
   text-align: center;
+}
+
+.footer-right {
+  flex: 1; 
+  padding-right: 5px; 
+  text-align: right;
 }
 
 .footer-link {

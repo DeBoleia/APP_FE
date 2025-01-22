@@ -1,0 +1,18 @@
+p {
+	margin-bottom: 1.5rem;
+	text-align: justify;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-bottom: 1rem;
+	color: #0776BE;
+}
+
+.centered-image {
+	display: block;
+	margin: 0 auto; /* Centraliza a imagem */
+	width: 100%; /* A imagem ocupa 100% da largura do contêiner */
+	max-width: 800px; /* Mas não ultrapassa 1200px de largura */
+	height: auto; /* Mantém a proporção da imagem */
+  }

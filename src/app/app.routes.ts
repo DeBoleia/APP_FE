@@ -10,6 +10,8 @@ import { ApplicationComponent } from './component/application/application.compon
 import { TripComponent } from './component/trip/trip.component';
 import { CarDatabaseComponent } from './component/car-database/car-database.component';
 import { CarBrandDetailsComponent } from './details/car-brand-details/car-brand-details.component';
+import { RgpdComponent } from './component/rgpd/rgpd.component';
+import { AboutusComponent } from './component/aboutus/aboutus.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -23,6 +25,8 @@ export const routes: Routes = [
 	{ path: "application", component: ApplicationComponent },
 	{ path: "trip", component: TripComponent },
 	{ path: 'cars', component: CarDatabaseComponent },
-	{ path: 'cars/:brand', component: CarBrandDetailsComponent }
+	{ path: 'cars/:brand', component: CarBrandDetailsComponent }	{ path: 'rgpd', component: RgpdComponent }, 
+	{ path: 'aboutus', component: AboutusComponent }, 
+
 ];
   

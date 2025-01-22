@@ -3,7 +3,7 @@ export interface Cars {
     model: string;
     color: string;
     licensePlate: string;
-    _id: string;
+    // _id: string;
 }
 
 export interface User {

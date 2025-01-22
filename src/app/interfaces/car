@@ -1,0 +1,8 @@
+export interface CarsDatabase {
+    brand: string;
+    model: string;
+}
+
+export interface BrandUpdate {
+    newBrand: string;
+}

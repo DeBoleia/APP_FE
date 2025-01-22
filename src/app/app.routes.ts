@@ -8,6 +8,7 @@ import { HomeComponent } from './component/home/home.component';
 import { RegisterComponent } from './component/register/register.component';
 import { ApplicationComponent } from './component/application/application.component';
 import { TripComponent } from './component/trip/trip.component';
+import { CarComponent } from './component/car/car.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -20,6 +21,6 @@ export const routes: Routes = [
 	{ path: "home", component: HomeComponent },
 	{ path: "application", component: ApplicationComponent },
 	{ path: "trip", component: TripComponent },
-
+	{ path: 'cars', component: CarComponent }
 ];
   

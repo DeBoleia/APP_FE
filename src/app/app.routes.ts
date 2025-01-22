@@ -8,7 +8,8 @@ import { HomeComponent } from './component/home/home.component';
 import { RegisterComponent } from './component/register/register.component';
 import { ApplicationComponent } from './component/application/application.component';
 import { TripComponent } from './component/trip/trip.component';
-import { CarComponent } from './component/car/car.component';
+import { CarDatabaseComponent } from './component/car-database/car-database.component';
+import { CarBrandDetailsComponent } from './details/car-brand-details/car-brand-details.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -21,6 +22,7 @@ export const routes: Routes = [
 	{ path: "home", component: HomeComponent },
 	{ path: "application", component: ApplicationComponent },
 	{ path: "trip", component: TripComponent },
-	{ path: 'cars', component: CarComponent }
+	{ path: 'cars', component: CarDatabaseComponent },
+	{ path: 'cars/:brand', component: CarBrandDetailsComponent }
 ];
   

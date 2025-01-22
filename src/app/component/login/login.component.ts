@@ -22,7 +22,7 @@ interface LoginResponse {
     ReactiveFormsModule,
     CommonModule,
     MatButtonModule,
-    MatDivider
+
   ]
 })
 export class LoginComponent {
@@ -48,7 +48,6 @@ export class LoginComponent {
       const { email, password } = this.loginForm.value;
       console.log("Email:", email);
       console.log("STATUS:", this.isAccountInactive)
-      // Se a conta estiver inativa, exibe a mensagem e não faz login
       if (this.isAccountInactive) {
         this.messageService.showSnackbar('Inactive account. Please reactivate it.', 'error');
         return;

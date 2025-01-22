@@ -10,6 +10,8 @@ import { ApplicationComponent } from './component/application/application.compon
 import { TripComponent } from './component/trip/trip.component';
 import { RgpdComponent } from './component/rgpd/rgpd.component';
 import { AboutusComponent } from './component/aboutus/aboutus.component';
+import { ChangePasswordComponent } from './component/change-password/change-password.component';
+
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -23,7 +25,8 @@ export const routes: Routes = [
 	{ path: "application", component: ApplicationComponent },
 	{ path: "trip", component: TripComponent },
 	{ path: 'rgpd', component: RgpdComponent }, 
-	{ path: 'aboutus', component: AboutusComponent }, 
+	{ path: 'aboutus', component: AboutusComponent },
+	{ path: 'change-password', component: ChangePasswordComponent }
 
 ];
   

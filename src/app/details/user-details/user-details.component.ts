@@ -28,6 +28,8 @@ import { MatDivider } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { CarsService } from '../../services/cars.service';
 
+import { ChangePasswordComponent } from '../../component/change-password/change-password.component';
+
 @Component({
   selector: 'app-user-details',
   standalone: true,

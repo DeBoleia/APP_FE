@@ -46,7 +46,8 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-
+      console.log("Email:", email);
+      console.log("STATUS:", this.isAccountInactive)
       // Se a conta estiver inativa, exibe a mensagem e não faz login
       if (this.isAccountInactive) {
         this.messageService.showSnackbar('Conta desativada. Por favor, reative-a.', 'error');
@@ -63,7 +64,7 @@ export class LoginComponent {
         },
         error: (err) => {
           if (err.error && typeof err.error === 'object' && err.error.error) {
-            if (typeof err.error.error === 'string' && err.error.error.includes('desativada pelo usuário')) {
+            if (typeof err.error.error === 'string' && err.error.error.includes('Your account is inactive')) {
               this.isAccountInactive = true;
             }
           }

@@ -10,7 +10,7 @@
 }
 
 .car-card {
-    flex: 1 1 calc(25% - 16px); /* 4 cards por linha, com espaçamento */
+    flex: 1 1 calc(33% - 16px); /* 3 cards por linha, com espaçamento */
     box-sizing: border-box;
     min-width: 200px;
 }
@@ -18,7 +18,39 @@
 mat-card {
     //max-width: 1200px; /* Defina a largura máxima do card */
     //flex: 1 1 calc(98%);
-	width: 98%; /* Garante que o card não ultrapasse o limite da largura */
+	width: 100%; /* Garante que o card não ultrapasse o limite da largura */
     margin: 0 auto; /* Centraliza o card horizontalmente */
     padding: 16px; /* Padding opcional para um melhor espaçamento */
+}
+
+
+.card-container2 {
+    display: flex; /* Coloca os cartões lado a lado */
+    gap: 15px; /* Espaçamento de 15px entre os cartões */
+  }
+  
+//   mat-card {
+//     flex: 1; /* Distribui espaço uniformemente entre os cartões */
+//     max-width: 50%; /* Evita que os cartões fiquem muito largos */
+//   }
+
+
+
+.cars-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Espaço entre os cartões */
+    justify-content: flex-start; /* Alinha todos os itens à esquerda */
+}
+
+.car-card {
+    flex: 0 0 calc(33.33% - 10px); /* Garante que cada cartão ocupe 1/3 da largura */
+    box-sizing: border-box;
+    min-width: 200px; /* Define a largura mínima dos cartões */
+    max-width: calc(33.33% - 10px); /* Limita a largura máxima dos cartões */
+}
+
+/* Isso ajuda a garantir que os itens extras em cada linha fiquem alinhados à esquerda */
+.cars-container .car-card:nth-child(3n+1) {
+    margin-left: 0; /* A primeira coluna de cada linha (no caso, 1º, 4º, 7º, etc.) começa à esquerda */
 }

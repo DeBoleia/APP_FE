@@ -25,7 +25,8 @@ export const routes: Routes = [
 	{ path: "application", component: ApplicationComponent },
 	{ path: "trip", component: TripComponent },
 	{ path: 'cars', component: CarDatabaseComponent },
-	{ path: 'cars/:brand', component: CarBrandDetailsComponent }	{ path: 'rgpd', component: RgpdComponent }, 
+	{ path: 'cars/:brand', component: CarBrandDetailsComponent },	
+	{ path: 'rgpd', component: RgpdComponent }, 
 	{ path: 'aboutus', component: AboutusComponent }, 
 
 ];

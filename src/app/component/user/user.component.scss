@@ -1,0 +1,30 @@
+
+  ::ng-deep .bttn-custom-green.mat-mdc-raised-button {
+	background-color: #b8ffd2 !important;
+	color: black !important;
+  }
+  
+  ::ng-deep .bttn-custom-green.mat-mdc-raised-button:hover {
+	background-color: #a0e6b8 !important;
+  }
+
+
+
+  .filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.search-field {
+    flex: 1;
+    max-width: 400px;
+}
+
+.filter-image {
+    width: 190px;
+    height: auto;
+    margin-left: 20px;
+	margin-bottom: 10px
+}

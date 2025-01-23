@@ -9,7 +9,7 @@
 	<div class="table-container">
 		<div class="table-row">
 			<div class="table-cell">
-				<mat-card>
+				<mat-card class="borda-customizada">
 					<mat-card-content>
 						<div style="display: flex; align-items: center; position: relative; width: 100%;">
 							<div style="flex: 1; text-align: center;">
@@ -37,11 +37,20 @@
 							</p>
 							<p><strong>Driver License:</strong> {{ user?.driversLicense || 'Not Provided' }}</p>
 
-							<button type="button" class="btn btn-warning" *ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() !== 'admin')" (click)="editUser(user)" style="margin-right: 20px;">
+							<button type="button" class="btn btn-warning"
+								*ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() !== 'admin')"
+								(click)="editUser(user)" style="margin-right: 20px;">
 								<i class="bi bi-pencil"></i> Edit Personal Info
 							</button>
-							<button type="button" class="btn btn-secondary" *ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() !== 'admin')" [routerLink]="['/change-password']">
+							<button type="button" class="btn btn-secondary"
+								*ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() !== 'admin')"
+								[routerLink]="['/change-password']">
 								<i class="bi bi-lock"></i> Change Password
+							</button>
+							<button type="button" class="btn btn-primary"
+								*ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() === 'admin')"
+								[routerLink]="['/user']">
+								<i class="bi bi-arrow-left"></i> Go Back
 							</button>
 
 						</div>
@@ -52,7 +61,7 @@
 
 
 			<div class="table-cell">
-				<mat-card>
+				<mat-card class="borda-customizada">
 					<mat-card-content style="text-align: center;">
 						<img *ngIf="user?.profilePicture; else defaultImage" [src]="user?.profilePicture"
 							alt="User Profile Picture"
@@ -69,20 +78,13 @@
 	</div>
 
 	<br>
-	<mat-card-content>
-	<button type="button" class="btn btn-primary" *ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() === 'admin')" [routerLink]="['/user']">
-		<i class="bi bi-arrow-left"></i> Go Back
-	</button>
-	
-</mat-card-content>	
-	<br>
 
 	<div class="table-container">
 		<div class="table-row">
 			<div class="table-cell">
 				<div class="card-container">
 					<mat-card>
-						<mat-card-content>
+						<mat-card-content class="borda-customizada">
 							<h3 style="text-align: center;">Passenger Info</h3>
 							<mat-divider></mat-divider><br>
 							<div class="info-group">
@@ -102,28 +104,30 @@
 				</div>
 			</div>
 			<div class="table-cell">
-				<mat-card *ngIf="user?.driversLicense && user.driversLicense !== 'Not Provided'">
-					<mat-card-content>
-						<div style="display: flex; align-items: center; position: relative; width: 100%;">
-							<div style="flex: 1; text-align: center;">
-								<h3 style="margin: 0;">Driver Info</h3>
+				<div class="card-container">
+					<mat-card *ngIf="user?.driversLicense && user.driversLicense !== 'Not Provided'">
+						<mat-card-content class="borda-customizada">
+							<div style="display: flex; align-items: center; position: relative; width: 100%;">
+								<div style="flex: 1; text-align: center;">
+									<h3 style="margin: 8px 0 0 0;">Driver Info</h3>
+								</div>
 							</div>
-						</div>
-						<mat-divider></mat-divider><br>
-						<div class="info-group">
-							<p><strong>Driver Rating:&nbsp;&nbsp;</strong>
-								<ng-container *ngFor="let i of [].constructor(5); let idx = index">
-									<i class="bi" [ngClass]="{
+							<mat-divider></mat-divider><br>
+							<div class="info-group">
+								<p><strong>Driver Rating:&nbsp;&nbsp;</strong>
+									<ng-container *ngFor="let i of [].constructor(5); let idx = index">
+										<i class="bi" [ngClass]="{
 					   'bi-star-fill': user?.driverRating > idx + 0.5,
 					   'bi-star-half': user?.driverRating > idx && user?.driverRating <= idx + 0.5,
 					   'bi-star': user?.driverRating <= idx
 					 }" [title]="user?.driverRating"></i>
-								</ng-container>
-								<strong>&nbsp;&nbsp;({{ user?.driverRatingCount || 'Not Provided' }})</strong>
-							</p>
-						</div>
-					</mat-card-content>
-				</mat-card>
+									</ng-container>
+									<strong>&nbsp;&nbsp;({{ user?.driverRatingCount || 'Not Provided' }})</strong>
+								</p>
+							</div>
+						</mat-card-content>
+					</mat-card>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -131,7 +135,9 @@
 	<br>
 
 	<mat-card-content *ngIf="user?.driversLicense && user.driversLicense !== 'Not Provided'">
-		<button type="button" class="btn btn-success" color="primary" *ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() !== 'admin')" (click)="addCar()">
+		<button type="button" class="btn btn-success" color="primary"
+			*ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() !== 'admin')"
+			(click)="addCar()">
 			<i class="bi bi-plus"></i>Add New Car
 		</button>
 	</mat-card-content>
@@ -144,8 +150,9 @@
 		<form [formGroup]="userForm">
 
 			<div formArrayName="cars" class="cars-container">
-				<mat-card *ngFor="let carCtrl of carsFormArray.controls; let i = index" [formGroupName]="i"
-					class="car-card">
+				<mat-card class="borda-customizada" *ngFor="let carCtrl of carsFormArray.controls; let i = index"
+					[formGroupName]="i">
+					<!-- class="car-card" -->
 					<mat-card-header>
 						<div style="display: flex; align-items: center; position: relative; width: 100%;">
 							<div style="flex: 1;">
@@ -153,11 +160,13 @@
 							</div>
 							<div>
 								<button type="button" class="btn btn-warning" style="margin-right: 8px;"
-									(click)="editCar(i)" *ngIf="!isEditing1(i)">
+									(click)="editCar(i)"
+									*ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() !== 'admin') && !isEditing1(i)">
 									<i class="bi bi-pencil"></i>
 								</button>
 
-								<button type="button" class="btn btn-danger" (click)="confirmDeleteCar(i)" *ngIf="!isEditing1(i)">
+								<button type="button" class="btn btn-danger" (click)="confirmDeleteCar(i)"
+									*ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() !== 'admin') && !isEditing1(i)">
 									<i class="bi bi-trash"></i>
 								</button>
 
@@ -190,20 +199,18 @@
 							<mat-form-field appearance="outline">
 								<mat-label>Color</mat-label>
 								<mat-select formControlName="color">
-								  <mat-option *ngFor="let option of colorOptions" [value]="option">
-									<span class="color-circle" [ngStyle]="{'background-color': option}"></span>
-									{{ option }}
-								  </mat-option>
+									<mat-option *ngFor="let option of colorOptions" [value]="option">
+										<span class="color-circle" [ngStyle]="{'background-color': option}"></span>
+										{{ option }}
+									</mat-option>
 								</mat-select>
-							  </mat-form-field>
+							</mat-form-field>
 
 							<mat-form-field appearance="outline">
 								<mat-label>License Plate</mat-label>
-								<input matInput formControlName="licensePlate" 
-									   (input)="formatLicensePlate($event)" 
-									   [readonly]="isEditing1(i) && !isAddingCar" 
-									   maxlength="8">
-							  </mat-form-field>
+								<input matInput formControlName="licensePlate" (input)="formatLicensePlate($event)"
+									[readonly]="isEditing1(i) && !isAddingCar" maxlength="8">
+							</mat-form-field>
 
 							<div class="button-row">
 								<button mat-raised-button color="primary" (click)="handleSave(i)">Save</button>
@@ -216,13 +223,15 @@
 								<p><strong>Brand:</strong> {{ carCtrl.get('brand')?.value || 'Not Provided' }}</p>
 								<p><strong>Model:</strong> {{ carCtrl.get('model')?.value || 'Not Provided' }}</p>
 								<p><strong>Color:&nbsp;&nbsp;</strong>
-								  <span class="color-display">
-									<span class="color-dot" [style.backgroundColor]="carCtrl.get('color')?.value"></span>
-									{{ carCtrl.get('color')?.value || 'Not Provided' }}
-								  </span>
+									<span class="color-display">
+										<span class="color-dot"
+											[style.backgroundColor]="carCtrl.get('color')?.value"></span>
+										{{ carCtrl.get('color')?.value || 'Not Provided' }}
+									</span>
 								</p>
-								<p><strong>License Plate:</strong> {{ carCtrl.get('licensePlate')?.value || 'NotProvided' }}</p>
-							  </div>
+								<p><strong>License Plate:</strong> {{ carCtrl.get('licensePlate')?.value ||
+									'NotProvided' }}</p>
+							</div>
 						</ng-template>
 					</mat-card-content>
 				</mat-card>
@@ -233,10 +242,12 @@
 
 	<br>
 	<mat-card-content>
-		<button type="button" class="btn btn-danger" color="warn" *ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() !== 'admin')" (click)="desativarConta()">
-		  <i class="bi bi-exclamation-triangle"></i> Deactivate Account
+		<button type="button" class="btn btn-danger" color="warn"
+			*ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() !== 'admin')"
+			(click)="desativarConta()">
+			<i class="bi bi-exclamation-triangle"></i> Deactivate Account
 		</button>
-	  </mat-card-content>
+	</mat-card-content>
 
 	<br>
 

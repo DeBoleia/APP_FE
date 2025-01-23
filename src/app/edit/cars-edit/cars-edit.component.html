@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>{{ isEditing ? 'Edit Models' : 'Adicionar New Model' }}</h2>
+<form [formGroup]="carsForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="form-container">
+    <div class="scrollable-form">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Brand</mat-label>
+        <input matInput formControlName="brand" placeholder="Ferrari" />
+        <mat-hint *ngIf="carsForm.get('brand')?.invalid && carsForm.get('brand')?.dirty">
+          car brands
+        </mat-hint>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="outline">
+        <mat-label>Model</mat-label>
+        <input matInput formControlName="model" placeholder="GTO"/>
+        <!-- <mat-hint *ngIf="virusForm.get('nomeVirus')?.invalid && virusForm.get('nomeVirus')?.dirty"> -->
+          <!-- O Nome do Vírus é obrigatório.
+        </mat-hint> -->
+      </mat-form-field>
+
+    </div>
+  </mat-dialog-content>
+
+  <!-- Botões -->
+  <div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-button color="primary" [disabled]="!carsForm.valid">
+      {{ isEditing ? 'Salvar' : 'Criar' }}
+    </button>
+  </div>
+</form>

@@ -19,7 +19,8 @@
 				<ng-container *ngIf="originDistrictControl.value && districts.includes(originDistrictControl.value)">
 					<mat-form-field appearance="outline">
 						<input matInput placeholder="Municipality" [formControl]="originMunicipalityControl"
-							[matAutocomplete]="autoMunicipality" (focus)="triggerAutocomplete(originMunicipalityControl, originFilteredMunicipalities)">
+							[matAutocomplete]="autoMunicipality"
+							(focus)="triggerAutocomplete(originMunicipalityControl, originFilteredMunicipalities)">
 						<mat-autocomplete #autoMunicipality="matAutocomplete">
 							<mat-option *ngFor="let municipality of originFilteredMunicipalities | async"
 								[value]="municipality">
@@ -30,10 +31,12 @@
 				</ng-container>
 
 				<!-- Parish Field (only visible if a valid municipality is selected) -->
-				<ng-container *ngIf="originMunicipalityControl.value && originMunicipalities.includes(originMunicipalityControl.value)">
+				<ng-container
+					*ngIf="originMunicipalityControl.value && originMunicipalities.includes(originMunicipalityControl.value)">
 					<mat-form-field appearance="outline">
 						<input matInput placeholder="Parish" [formControl]="originParishControl"
-							[matAutocomplete]="autoParish" (focus)="triggerAutocomplete(originParishControl, originFilteredParishes)">
+							[matAutocomplete]="autoParish"
+							(focus)="triggerAutocomplete(originParishControl, originFilteredParishes)">
 						<mat-autocomplete #autoParish="matAutocomplete">
 							<mat-option *ngFor="let parish of originFilteredParishes | async" [value]="parish">
 								{{ parish }}
@@ -42,7 +45,7 @@
 					</mat-form-field>
 				</ng-container>
 
-			
+
 			</div>
 			<div class="search-input">
 				<!-- District Field -->
@@ -57,10 +60,12 @@
 				</mat-form-field>
 
 				<!-- Municipality Field (only visible if a valid district is selected) -->
-				<ng-container *ngIf="destinationDistrictControl.value && districts.includes(destinationDistrictControl.value)">
+				<ng-container
+					*ngIf="destinationDistrictControl.value && districts.includes(destinationDistrictControl.value)">
 					<mat-form-field appearance="outline">
 						<input matInput placeholder="Municipality" [formControl]="destinationMunicipalityControl"
-							[matAutocomplete]="autoMunicipality" (focus)="triggerAutocomplete(destinationMunicipalityControl, destinationFilteredMunicipalities)">
+							[matAutocomplete]="autoMunicipality"
+							(focus)="triggerAutocomplete(destinationMunicipalityControl, destinationFilteredMunicipalities)">
 						<mat-autocomplete #autoMunicipality="matAutocomplete">
 							<mat-option *ngFor="let municipality of destinationFilteredMunicipalities | async"
 								[value]="municipality">
@@ -71,10 +76,12 @@
 				</ng-container>
 
 				<!-- Parish Field (only visible if a valid municipality is selected) -->
-				<ng-container *ngIf="destinationMunicipalityControl.value && destinationMunicipalities.includes(destinationMunicipalityControl.value)">
+				<ng-container
+					*ngIf="destinationMunicipalityControl.value && destinationMunicipalities.includes(destinationMunicipalityControl.value)">
 					<mat-form-field appearance="outline">
 						<input matInput placeholder="Parish" [formControl]="destinationParishControl"
-							[matAutocomplete]="autoParish" (focus)="triggerAutocomplete(destinationParishControl, destinationFilteredParishes)">
+							[matAutocomplete]="autoParish"
+							(focus)="triggerAutocomplete(destinationParishControl, destinationFilteredParishes)">
 						<mat-autocomplete #autoParish="matAutocomplete">
 							<mat-option *ngFor="let parish of destinationFilteredParishes | async" [value]="parish">
 								{{ parish }}
@@ -83,16 +90,32 @@
 					</mat-form-field>
 				</ng-container>
 
-			
+
 			</div>
 			<button mat-button style="width: 40%; margin: auto; background-color: #4EC28F;" (click)="searchRides()">
-			@if (!originDistrictControl.value && !destinationDistrictControl.value) {
+				@if (!originDistrictControl.value && !destinationDistrictControl.value) {
 				Show All
-			} @else {
+				} @else {
 				Search
-			}
+				}
 			</button>
-			<img src="/findAride.png" alt="" />
+			<img *ngIf="!searchReady || !(originDistrictControl.value && destinationDistrictControl.value)" src="/findAride.png"
+				alt="" />
+				<div *ngIf="searchReady && originDistrictControl.value && destinationDistrictControl.value">
+					<app-map-display
+					  [from]="{
+						district: originDistrictControl.value || undefined,
+						municipality: originMunicipalityControl.value || undefined,
+						parish: originParishControl.value || undefined
+					  }"
+					  [to]="{
+						district: destinationDistrictControl.value || undefined,
+						municipality: destinationMunicipalityControl.value || undefined,
+						parish: destinationParishControl.value || undefined
+					  }"
+					>
+					</app-map-display>
+				  </div>
 
 		</div>
 	</div>

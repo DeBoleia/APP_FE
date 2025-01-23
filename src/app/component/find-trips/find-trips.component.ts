@@ -16,6 +16,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { LocationService } from '../../services/location.service';
+import { MapDisplayComponent } from "../map-display/map-display.component";
 
 @Component({
   selector: 'app-find-trips',
@@ -29,7 +30,7 @@ import { LocationService } from '../../services/location.service';
     MatIconModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-
+    MapDisplayComponent
   ],
   templateUrl: './find-trips.component.html',
   styleUrl: './find-trips.component.scss'
@@ -61,6 +62,8 @@ export class FindTripsComponent implements OnInit {
   destinationMunicipalities: string[] = [];
   destinationParishes: string[] = [];
 
+  searchReady: boolean = false;
+
   constructor(
     private tripsService: TripsService,
     private locationService: LocationService,
@@ -89,6 +92,7 @@ export class FindTripsComponent implements OnInit {
           this.originMunicipalityControl.enable();
           this.originParishControl.disable();
           this.originParishControl.reset();
+
           return this.locationService.getMunicipalities(district);
         }
         this.originMunicipalities = [];
@@ -122,6 +126,7 @@ export class FindTripsComponent implements OnInit {
         this.originParishes = [];
         this.originParishControl.disable();
         this.originParishControl.reset();
+
         return of([]);
       })
     ).subscribe(originParishes => {
@@ -142,18 +147,20 @@ export class FindTripsComponent implements OnInit {
     this.destinationDistrictControl.valueChanges.pipe(
       startWith(''), // Set initial value to empty string
       switchMap(district => {
-      if (district && this.districts.includes(district)) {
-        this.destinationMunicipalityControl.enable();
-        this.destinationParishControl.disable();
-        this.destinationParishControl.reset();
-        return this.locationService.getMunicipalities(district);
-      }
-      this.destinationMunicipalities = [];
+        if (district && this.districts.includes(district)) {
+          this.destinationMunicipalityControl.enable();
+          this.destinationParishControl.disable();
+          this.destinationParishControl.reset();
+
+          return this.locationService.getMunicipalities(district);
+        }
+        this.destinationMunicipalities = [];
         this.destinationMunicipalityControl.disable();
         this.destinationMunicipalityControl.reset();
         this.destinationParishes = [];
         this.destinationParishControl.disable();
         this.destinationParishControl.reset();
+
         return of([]);
       })
     ).subscribe(destinationMunicipalities => {
@@ -237,14 +244,14 @@ export class FindTripsComponent implements OnInit {
     if (destinationParish) {
       query += `destination[parish]=${destinationParish}&`;
     }
-
+    this.searchReady = !!(originDistrict && destinationDistrict);
     this.tripsService.getTrips(query).subscribe(
       data => {
-      this.trips = data;
+        this.trips = data;
       },
       error => {
-      console.error('Error fetching trips:', error);
-      this.trips = [];
+        console.error('Error fetching trips:', error);
+        this.trips = [];
       }
     );
   }

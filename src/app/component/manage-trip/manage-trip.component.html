@@ -99,10 +99,12 @@
 				<mat-panel-title> Candidates </mat-panel-title>
 			</mat-expansion-panel-header>
 			<ul *ngIf="this.candidates?.length; else noCandidates">
-				@for (application of this.candidates; track application) {
-				<app-aplication-card [applicationCode]="application.applicationCode"
-					[isDriver]="true"></app-aplication-card>
-				}
+				<div style="display: flex; flex-direction: column; gap: 10px;">
+					@for (application of this.candidates; track application) {
+						<app-aplication-card [applicationCode]="application.applicationCode"
+						[isDriver]="true"></app-aplication-card>
+					}
+				</div>
 			</ul>
 			<ng-template #noCandidates>
 				<p style="text-align: center;">There are no applications to this trip yet.</p>

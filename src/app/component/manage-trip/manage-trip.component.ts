@@ -30,7 +30,7 @@ import { AplicationCardComponent } from "../aplication-card/aplication-card.comp
     MatListModule,
     MatGridListModule,
     AplicationCardComponent
-],
+  ],
   templateUrl: './manage-trip.component.html',
   styleUrl: './manage-trip.component.scss'
 })
@@ -74,6 +74,59 @@ export class ManageTripComponent implements OnInit {
         console.log('passengers', this.passengers);
       });
     }
+  }
+
+  offerTrip(tripCode: string) {
+    this.messageService.showConfirmationDialog(
+      'OFFER TRIP',
+      'Are you sure you want to offer this trip? Please confirm by entering the trip code:',
+      tripCode).subscribe(result => {
+        if (result) {
+          this.tripService.offerTrip(tripCode).subscribe(data => {
+            this.loadData();
+          });
+        }
+      });
+  }
+
+
+  cancelTrip(tripCode: string) {
+    this.messageService.showConfirmationDialog(
+      'Cancel Trip',
+      'Are you sure you want to cancel this trip? Please confirm by entering the trip code:',
+      tripCode).subscribe(result => {
+        if (result) {
+          this.tripService.cancelTrip(tripCode).subscribe(data => {
+            this.loadData();
+          });
+        }
+      });
+  }
+
+  startTrip(tripCode: string) {
+    this.messageService.showConfirmationDialog(
+      'START TRIP',
+      'Are you sure you want to start this trip? Please confirm by entering the trip code:',
+      tripCode).subscribe(result => {
+        if (result) {
+          this.tripService.startTrip(tripCode).subscribe(data => {
+            this.loadData();
+          });
+        }
+      });
+  }
+
+  finishTrip(tripCode: string) {
+    this.messageService.showConfirmationDialog(
+      'FINISH TRIP',
+      'Please confirm by entering the trip code:',
+      tripCode).subscribe(result => {
+        if (result) {
+          this.tripService.finishTrip(tripCode).subscribe(data => {
+            this.loadData();
+          });
+        }
+      });
   }
 
   ngOnInit(): void {

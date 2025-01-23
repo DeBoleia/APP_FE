@@ -15,6 +15,8 @@ import { StarRatingComponent } from "../star-rating/star-rating.component";
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { ManageTripComponent } from '../manage-trip/manage-trip.component';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-my-trips',
@@ -55,19 +57,33 @@ export class MyTripsComponent implements OnInit {
         this.user = user;
         console.log('user: ', this.user);
 
-        this.tripService.getTripsByDriver(userID).subscribe(trips => {
-          this.tripsAsDriver = trips;
+        forkJoin({
+          tripsAsDriver: this.tripService.getTripsByDriver(userID).pipe(catchError(error => {
+            console.error('Error fetching trips as driver', error);
+            return of([]);
+          })),
+          tripsAsPassenger: this.tripService.getTripsByPassenger(userID).pipe(catchError(error => {
+            console.error('Error fetching trips as passenger', error);
+            return of([]);
+          }))
+        }).subscribe(({ tripsAsDriver, tripsAsPassenger }) => {
+          this.tripsAsDriver = tripsAsDriver;
           this.tripsAsDriverDataSource = new MatTableDataSource(this.tripsAsDriver);
           console.log('tripsAsDriver: ', this.tripsAsDriver);
-        });
 
-        this.tripService.getTripsByPassenger(userID).subscribe(trips => {
-          this.tripsAsPassenger = trips;
+          this.tripsAsPassenger = tripsAsPassenger;
           this.tripsAsPassengerDataSource = new MatTableDataSource(this.tripsAsPassenger);
           console.log('tripsAsPassenger: ', this.tripsAsPassenger);
         });
       });
     }
+  }
+
+  cancelRide(tripCode: string) {
+    this.tripService.removePassengerFromTrip(tripCode, this.user.userID).subscribe(() => {
+      this.messageService.showSnackbar('Ride cancelled successfully');
+      this.ngOnInit();
+    });
   }
 
   manageTrip(tripCode: string) {

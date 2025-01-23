@@ -2,10 +2,13 @@
 	<div class="user-info">
 		<img src="/avatar.png" alt="Avatar" class="avatar" style="margin: auto;">
 		<h1 id="name">{{user?.name}}</h1>
-		<app-star-rating matTooltip="{{user?.passengerRating}}" [showEvaluations]="false" [rating]="user?.passengerRating"
-			[nrEvaluations]="user?.passengerRatingCount" [size]="'3x'"></app-star-rating> <p>passenger rating</p>
+		<app-star-rating matTooltip="{{user?.passengerRating}}" [showEvaluations]="false"
+			[rating]="user?.passengerRating" [nrEvaluations]="user?.passengerRatingCount"
+			[size]="'2x'"></app-star-rating>
+		<p>passenger rating</p>
 		<app-star-rating matTooltip="{{user?.driverRating}}" [showEvaluations]="false" [rating]="user?.driverRating"
-			[nrEvaluations]="user?.driverRatingCount" [size]="'3x'"></app-star-rating> <p>driver rating</p>
+			[nrEvaluations]="user?.driverRatingCount" [size]="'2x'"></app-star-rating>
+		<p>driver rating</p>
 	</div>
 </div>
 
@@ -45,7 +48,7 @@
 			<ng-container matColumnDef="actions">
 				<th mat-header-cell *matHeaderCellDef> Actions </th>
 				<td mat-cell *matCellDef="let trip">
-					<button mat-button (click)="manageTrip(trip.tripCode)" >Manage Trip</button>
+					<button mat-button (click)="manageTrip(trip.tripCode)">Manage Trip</button>
 				</td>
 			</ng-container>
 
@@ -89,7 +92,10 @@
 			<ng-container matColumnDef="actions">
 				<th mat-header-cell *matHeaderCellDef> Actions </th>
 				<td mat-cell *matCellDef="let trip">
-					<button mat-button>Manage Booking</button>
+					@if(trip.status === 'inOffer' || trip.status === 'closed') {
+					<button mat-button style="background-color: #c24e4e; color: whitesmoke; width: 110px;"
+						(click)="cancelRide(trip?.tripCode)">Cancel Ride</button>
+					}
 				</td>
 			</ng-container>
 

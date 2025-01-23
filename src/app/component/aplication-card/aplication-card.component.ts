@@ -54,6 +54,13 @@ export class AplicationCardComponent {
         this.loadData();
       });
   }
+
+  rejectPassenger(userID: string) {
+    this.applicationService.rejectApplication(this.application.applicationCode).subscribe (data => {
+      this.loadData();
+    });
+  }
+
   ngOnInit(): void {
     this.loadData();
   }

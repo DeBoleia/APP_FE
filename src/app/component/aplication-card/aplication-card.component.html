@@ -19,19 +19,19 @@
 				</mat-list-item>
 				<mat-list-item>
 					<button mat-button color="warn"
-						style="background-color: #c24e4e; color: whitesmoke; width: 100px;">Reject</button>
+						style="background-color: #c24e4e; color: whitesmoke; width: 100px;" (click)="rejectPassenger(application?.user?.userID)" >Reject</button>
 				</mat-list-item>
 
 				}
 				@else {
-					<span class="badge" [ngClass]="{
+					<span  [ngClass]="{
 						'bg-primary': application?.status === 'approved',
 						'bg-success': application?.status === 'approved',
 						'bg-secondary': application?.status === 'waitlist',
-						'bg-warning': application?.status === 'rejected',
+						'bg-danger': application?.status === 'rejected',
 						'bg-dark': application?.status === 'canceled',
 					}" style="padding: 5px 10px; border-radius: 5px; color: white;">
-						{{ application?.status === 'inOffer' ? 'In Offer' : (application?.status | titlecase) }}
+						{{(application?.status | uppercase)}}
 					</span>
 				}
 			</mat-list>

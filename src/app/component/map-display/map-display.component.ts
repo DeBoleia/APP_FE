@@ -59,24 +59,15 @@ export class MapDisplayComponent implements OnInit {
   }
 
   updateMap() {
-    // Create bounds to contain all the markers
     const bounds = new google.maps.LatLngBounds();
 
-    // Extend the bounds to include the `from` and `to` markers
     bounds.extend(this.fromCoords);
     bounds.extend(this.toCoords);
-
-    // If you have more markers, you can extend bounds for each one
-    // this.markers.forEach(marker => bounds.extend(new google.maps.LatLng(marker.lat, marker.lng)));
-
-    // Adjust the map to show all markers within the bounds
     this.map?.googleMap?.fitBounds(bounds);
 
-    // Optionally adjust the zoom level if needed
     this.zoom = this.calculateZoomLevel(bounds);
     this.map?.googleMap?.setZoom(this.zoom);
 
-    // Center the map based on the bounds
     this.center = { lat: bounds.getCenter().lat(), lng: bounds.getCenter().lng() };
     this.map?.googleMap?.setCenter(this.center);
   }
@@ -91,7 +82,6 @@ export class MapDisplayComponent implements OnInit {
     const latDiff = maxLat - minLat;
     const lngDiff = maxLng - minLng;
 
-    // This is a simplified formula to calculate zoom based on bounds size (lat/lng difference)
     const zoomLevel = Math.max(2, Math.min(16, Math.round(15 - Math.log(Math.max(latDiff, lngDiff)) / Math.LN2)));
     return zoomLevel;
   }
@@ -132,7 +122,6 @@ export class MapDisplayComponent implements OnInit {
       .subscribe({
         next: (res) => {
           if (res && res.routes && res.routes.length > 0) {
-            console.log('Directions API response:', res); // Debugging
             this.directionsResult$.next(res);
           } else {
             console.error('No valid routes found:', res);

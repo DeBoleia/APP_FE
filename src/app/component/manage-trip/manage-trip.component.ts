@@ -34,6 +34,10 @@ import { MatGridListModule } from '@angular/material/grid-list';
 export class ManageTripComponent implements OnInit {
 
   trip: any;
+  passengers: any = [];
+  candidates: any = [];
+
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { tripCode: string },
     private tripService: TripsService,
@@ -56,8 +60,13 @@ export class ManageTripComponent implements OnInit {
       if (this.data?.tripCode) {
         this.tripService.getTripByTripCode(this.data?.tripCode).subscribe( data => {
           this.trip = data;
-          console.log('trip loaded: ', this.trip);
         });
+        this.applicationService.getApplicationByTripCode(this.data?.tripCode).subscribe(data => {
+          this.candidates = data;
+        })
+        this.tripService.getPassengersByTripCode(this.data?.tripCode).subscribe(data => {
+          this.passengers = data;
+        })
       }
   }
 

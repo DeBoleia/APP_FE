@@ -109,16 +109,36 @@ export class UserDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const userIDFromToken = this.authenticatorService.getUserID();
-
-    if (userIDFromToken) {
-      this.userID = userIDFromToken;
-      this.loadAllData(this.userID);
-      this.isEditing = true;
-      this.loadCarBrands();
-    } else {
-      return;
-    }
+	const roleFromToken = this.authenticatorService.getUserRole();
+	{
+		if (roleFromToken === 'admin') {
+			this.route.paramMap.subscribe((params) => {
+				const userIDFromRoute = params.get('userID');
+			
+				if (userIDFromRoute) {
+				  this.userID = userIDFromRoute;
+				  this.loadAllData(this.userID);
+				  this.isEditing = true;
+				  this.loadCarBrands();
+				} else {
+				  console.error('No userID found in route');
+				  this.router.navigate(['/users']);  // Redireciona se não houver userID
+				}
+			  });
+		}
+		else{
+			const userIDFromToken = this.authenticatorService.getUserID();
+  
+			if (userIDFromToken) {
+			  this.userID = userIDFromToken;
+			  this.loadAllData(this.userID); 
+			  this.isEditing = true;
+			  this.loadCarBrands();
+			} else {
+			  return;
+			}
+		}
+	}
   }
 
   loadAllData(userID: string): void {

@@ -36,25 +36,8 @@ import { LocationService } from '../../services/location.service';
 })
 export class FindTripsComponent implements OnInit {
   districts = [
-    "Aveiro",
-    "Beja",
-    "Braga",
-    "Bragança",
-    "Castelo Branco",
-    "Coimbra",
-    "Évora",
-    "Faro",
-    "Guarda",
-    "Leiria",
-    "Lisboa",
-    "Portalegre",
-    "Porto",
-    "Santarém",
-    "Setúbal",
-    "Viana do Castelo",
-    "Vila Real",
-    "Viseu"
-  ]
+    "Aveiro", "Beja", "Braga", "Bragança", "Castelo Branco", "Coimbra", "Évora", "Faro", "Guarda", "Leiria", "Lisboa", "Portalegre", "Porto", "Santarém", "Setúbal", "Viana do Castelo", "Vila Real", "Viseu"
+  ];
 
   trips: Trip[] = [];
   originDistrictControl = new FormControl('');
@@ -68,8 +51,15 @@ export class FindTripsComponent implements OnInit {
   originFilteredDistricts!: Observable<string[]>;
   originFilteredMunicipalities!: Observable<string[]>;
   originFilteredParishes!: Observable<string[]>;
+
+  destinationFilteredDistricts!: Observable<string[]>;
+  destinationFilteredMunicipalities!: Observable<string[]>;
+  destinationFilteredParishes!: Observable<string[]>;
+
   originMunicipalities: string[] = [];
   originParishes: string[] = [];
+  destinationMunicipalities: string[] = [];
+  destinationParishes: string[] = [];
 
   constructor(
     private tripsService: TripsService,
@@ -78,15 +68,21 @@ export class FindTripsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.tripsService.getAllTrips().subscribe(data => {
-      this.trips = data;
-    });
-  
+    // this.tripsService.getTrips('').subscribe(data => {
+    //   this.trips = data;
+    // });
+
     this.originFilteredDistricts = this.originDistrictControl.valueChanges.pipe(
       startWith(''),
       map(value => this.filterDistricts(value || ''))
     );
-  
+
+    this.destinationFilteredDistricts = this.destinationDistrictControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterDistricts(value || ''))
+    );
+
+    // Lógica para origem (municipalidade e freguesia)
     this.originDistrictControl.valueChanges.pipe(
       switchMap(district => {
         if (district && this.districts.includes(district)) {
@@ -106,7 +102,7 @@ export class FindTripsComponent implements OnInit {
     ).subscribe(originMunicipalities => {
       this.originMunicipalities = originMunicipalities;
     });
-  
+
     this.originFilteredMunicipalities = this.originMunicipalityControl.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -116,7 +112,7 @@ export class FindTripsComponent implements OnInit {
         );
       })
     );
-  
+
     this.originMunicipalityControl.valueChanges.pipe(
       switchMap(municipality => {
         if (municipality && this.originMunicipalities.includes(municipality)) {
@@ -131,12 +127,69 @@ export class FindTripsComponent implements OnInit {
     ).subscribe(originParishes => {
       this.originParishes = originParishes;
     });
-  
+
     this.originFilteredParishes = this.originParishControl.valueChanges.pipe(
       startWith(''),
       map(value => {
         const filterValue = (value || '').toLowerCase();
         return this.originParishes.filter(parish =>
+          parish.toLowerCase().includes(filterValue)
+        );
+      })
+    );
+
+    // Lógica para destino (municipalidade e freguesia)
+    this.destinationDistrictControl.valueChanges.pipe(
+      startWith(''), // Set initial value to empty string
+      switchMap(district => {
+      if (district && this.districts.includes(district)) {
+        this.destinationMunicipalityControl.enable();
+        this.destinationParishControl.disable();
+        this.destinationParishControl.reset();
+        return this.locationService.getMunicipalities(district);
+      }
+      this.destinationMunicipalities = [];
+        this.destinationMunicipalityControl.disable();
+        this.destinationMunicipalityControl.reset();
+        this.destinationParishes = [];
+        this.destinationParishControl.disable();
+        this.destinationParishControl.reset();
+        return of([]);
+      })
+    ).subscribe(destinationMunicipalities => {
+      this.destinationMunicipalities = destinationMunicipalities;
+    });
+
+    this.destinationFilteredMunicipalities = this.destinationMunicipalityControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const filterValue = (value || '').toLowerCase();
+        return this.destinationMunicipalities.filter(municipality =>
+          municipality.toLowerCase().includes(filterValue)
+        );
+      })
+    );
+
+    this.destinationMunicipalityControl.valueChanges.pipe(
+      switchMap(municipality => {
+        if (municipality && this.destinationMunicipalities.includes(municipality)) {
+          this.destinationParishControl.enable();
+          return this.locationService.getParishes(municipality);
+        }
+        this.destinationParishes = [];
+        this.destinationParishControl.disable();
+        this.destinationParishControl.reset();
+        return of([]);
+      })
+    ).subscribe(destinationParishes => {
+      this.destinationParishes = destinationParishes;
+    });
+
+    this.destinationFilteredParishes = this.destinationParishControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const filterValue = (value || '').toLowerCase();
+        return this.destinationParishes.filter(parish =>
           parish.toLowerCase().includes(filterValue)
         );
       })
@@ -147,11 +200,52 @@ export class FindTripsComponent implements OnInit {
     const currentValue = control.value || '';
     control.setValue(currentValue);
   }
-  
+
   private filterDistricts(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.districts.filter(district =>
       district.toLowerCase().includes(filterValue)
+    );
+  }
+
+  searchRides() {
+    const originDistrict = this.originDistrictControl.value;
+    const originMunicipality = this.originMunicipalityControl.value;
+    const originParish = this.originParishControl.value;
+
+    const destinationDistrict = this.destinationDistrictControl.value;
+    const destinationMunicipality = this.destinationMunicipalityControl.value;
+    const destinationParish = this.destinationParishControl.value;
+    // ?origin[district]=Lisbon&destination[municipality]=Porto&destination[parish]=Cedofeita&status=inOffer
+    let query = '';
+
+    if (originDistrict) {
+      query += `origin[district]=${originDistrict}&`;
+    }
+    if (originMunicipality) {
+      query += `origin[municipality]=${originMunicipality}&`;
+    }
+    if (originParish) {
+      query += `origin[parish]=${originParish}&`;
+    }
+    if (destinationDistrict) {
+      query += `destination[district]=${destinationDistrict}&`;
+    }
+    if (destinationMunicipality) {
+      query += `destination[municipality]=${destinationMunicipality}&`;
+    }
+    if (destinationParish) {
+      query += `destination[parish]=${destinationParish}&`;
+    }
+
+    this.tripsService.getTrips(query).subscribe(
+      data => {
+      this.trips = data;
+      },
+      error => {
+      console.error('Error fetching trips:', error);
+      this.trips = [];
+      }
     );
   }
 

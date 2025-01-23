@@ -4,13 +4,13 @@
 			<mat-list matTooltip="Departure Date">
 				<mat-list-item>
 					<mat-icon matListItemIcon style="color: whitesmoke;">calendar_month</mat-icon>
-					<span matListItemTitle style="color: whitesmoke;">{{this.trip.departureDate | date:'dd/MM/yy'}}</span>
+					<span matListItemTitle style="color: whitesmoke;">{{this.trip?.departureDate | date:'fullDate'}}</span>
 				</mat-list-item>
 			</mat-list>
 			<mat-list matTooltip="Departure Time">
 				<mat-list-item>
 					<mat-icon matListItemIcon style="color: whitesmoke;">schedule</mat-icon>
-					<span matListItemTitle style="color: whitesmoke;">{{this.trip.departureDate | date:'HH:mm'}}</span>
+					<span matListItemTitle style="color: whitesmoke;">{{this.trip?.departureDate | date:'HH:mm'}}</span>
 			</mat-list-item>
 			</mat-list>
 		</div>
@@ -20,19 +20,19 @@
 			<mat-grid-tile [rowspan]="3">
 				<div class="driver">
 					<img src="/avatar.png" alt="Avatar" class="avatar">
-					<h5 style="margin: auto; margin-top: 2px;">{{trip.driver.name}}</h5>
-					<app-star-rating [showEvaluations]="true" [nrEvaluations]=trip.driver.driverRatingCount [rating]=trip.driver.driverRating></app-star-rating>
+					<h5 style="margin: auto; margin-top: 2px;">{{trip?.driver.name}}</h5>
+					<app-star-rating [showEvaluations]="true" [nrEvaluations]=trip?.driver.driverRatingCount [rating]=trip?.driver.driverRating></app-star-rating>
 				</div>
 			</mat-grid-tile>
 			<mat-grid-tile [colspan]="2" rowspan="2">
 				<div id="location-container">
 					<div class="locations">
 						<mat-icon>my_location</mat-icon>
-						<p>{{getLocation(trip.origin)}}</p>
+						<p>{{getLocation(trip?.origin)}}</p>
 					</div>
 					<div class="locations">
 						<mat-icon>location_on</mat-icon>
-						<p>{{getLocation(trip.destination)}}</p>
+						<p>{{getLocation(trip?.destination)}}</p>
 					</div>
 
 				</div>
@@ -41,7 +41,7 @@
 				<mat-list>
 					<mat-list-item matTooltip="passengers on trip">
 						<mat-icon matListItemIcon>people</mat-icon>
-						<span matListItemTitle>{{trip.passengers.length}} / {{trip.nrSeats}}</span>
+						<span matListItemTitle>{{trip?.passengers.length}} / {{trip?.nrSeats}}</span>
 					</mat-list-item>
 				</mat-list>
 			</mat-grid-tile>
@@ -49,7 +49,7 @@
 				<mat-list>
 					<mat-list-item matTooltip="price">
 						<mat-icon matListItemIcon>euro</mat-icon>
-						<span matListItemTitle style="font-size: 30px; color: goldenrod; font-weight: bold;">{{trip.pricePerPerson}}</span>
+						<span matListItemTitle style="font-size: 30px; color: goldenrod; font-weight: bold;">{{trip?.pricePerPerson}}</span>
 					</mat-list-item>
 				</mat-list>
 			</mat-grid-tile>

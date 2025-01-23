@@ -29,9 +29,9 @@ export class TripsService {
 
   // router.get('/', verifyToken, tripsController.getTrips); // <==== UC08
 
-  getTrips(): Observable<Trip[]> {
+  getTrips(query: string): Observable<Trip[]> {
     const localURL = this.APIURL;
-    return this.http.get<Trip[]>(localURL);
+    return this.http.get<Trip[]>(localURL + '?' + query);
   }
 
   // router.get('/all', verifyToken, tripsController.getAllTrips);

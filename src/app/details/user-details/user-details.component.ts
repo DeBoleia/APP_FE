@@ -445,24 +445,40 @@ export class UserDetailsComponent implements OnInit {
   }
 
   saveCarUpdate(index: number): void {
-    console.log('Data saved:', this.carsFormArray.at(index).value);
     const carData = this.carsFormArray.at(index).value;
-
+  
+    // Verificar se todos os campos necessários estão preenchidos
+    if (
+      !carData.brand ||
+      !carData.model ||
+      !carData.color ||
+      !carData.licensePlate
+    ) {
+      Swal.fire('Erro', 'Por favor, preencha todos os detalhes do carro', 'error');
+      return;
+    }
+  
+    // Verificar se os dados do carro foram alterados
     if (
       this.originalCarData[index] &&
       JSON.stringify(this.originalCarData[index]) !== JSON.stringify(carData)
     ) {
       this.carsService.updateCar(this.userID, carData).subscribe({
-        next: () => {
-          console.log(`Car ${carData.licensePlate} updated successfully!`);
+        next: (response) => {
+          console.log('Car updated successfully:', response);
+          Swal.fire('Sucesso', 'Carro atualizado com sucesso!', 'success');
+          
+          // Resetar o índice de edição e carregar os dados novamente
+          this.originalCarData[index] = null;
+          this.editingIndex = null;
+          this.loadAllData(this.userID);
         },
         error: (error) => {
-          console.error(`Error updating car ${carData.licensePlate}:`, error);
+          console.error('Error updating car:', error);
+          Swal.fire('Erro', 'Falha ao atualizar o carro. Tente novamente.', 'error');
         },
       });
     }
-    this.originalCarData[index] = null;
-    this.editingIndex = null;
   }
 
   //   cancelEdit(index: number): void {

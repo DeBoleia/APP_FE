@@ -57,40 +57,31 @@ export class RegisterComponent {
 	}
 
 	onSubmit(): void {
-		//console.log('Form Submitted');
-		//console.log('Form Values:', this.registerForm.value);
-
 		if (this.registerForm.invalid) {
-			//console.log('Form Invalid');
-			//this.registerForm.markAllAsTouched();
-			return;
+		  return;
 		}
-
+	  
 		this.errorMessage = '';
 		this.successMessage = '';
-
-		const { name, email, phoneNumber, password } = this.registerForm.value;
-		//console.log('Name:', name); 
-		//console.log('Email:', email); 
-		//console.log('Phone:', phoneNumber); 
-		//console.log('Password:', password);
-		
-
-		this.authenticatorService.register(name, email,phoneNumber, password).subscribe({
-			next: () => {
-				this.successMessage = 'User registered successfully!';
-				//console.log('User registered successfully');
-				this.registerForm.reset();
-				this.router.navigate(['/login']);
-			},
-			error: (error) => {
-				//console.log('Registration failed', error);
-				this.errorMessage =
-					error.error.error || 'An error occurred during registration.';
-				this.registerForm.reset();
-			},
+	  
+		let { name, email, phoneNumber, password } = this.registerForm.value;
+	  
+		// Capitalizar a primeira letra do nome e deixar o resto em minúsculas
+		name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+	  
+		this.authenticatorService.register(name, email, phoneNumber, password).subscribe({
+		  next: () => {
+			this.successMessage = 'User registered successfully!';
+			this.registerForm.reset();
+			this.router.navigate(['/login']);
+		  },
+		  error: (error) => {
+			this.errorMessage =
+			  error.error.error || 'An error occurred during registration.';
+			this.registerForm.reset();
+		  },
 		});
-	}
+	  }
 
 	ngOnInit(): void {
 		//console.log('Component Initialized');

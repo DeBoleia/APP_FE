@@ -129,11 +129,21 @@ export class UserDialogComponent implements OnInit {
 
 
   onSubmit(): void {
-
-      if (this.userForm.valid) {
-        this.dialogRef.close(this.userForm.value);
-      }
-    // }
+    if (this.userForm.valid) {
+      // Garantir que a primeira letra do nome seja maiúscula
+      const name = this.userForm.get('name')?.value;
+      const capitalizedName = this.capitalizeFirstLetter(name);
+  
+      // Atualizar o valor do nome no formulário com a primeira letra maiúscula
+      this.userForm.patchValue({ name: capitalizedName });
+  
+      // Fechar o diálogo e passar os dados do formulário
+      this.dialogRef.close(this.userForm.value);
+    }
+  }
+  
+  capitalizeFirstLetter(name: string): string {
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   }
 
   onCancel(): void {

@@ -15,12 +15,19 @@
     min-width: 200px;
 }
 
+
+
+
+// mat-card {
+//     //max-width: 1200px; /* Defina a largura máxima do card */
+//     //flex: 1 1 calc(98%);
+// 	width: 100%; /* Garante que o card não ultrapasse o limite da largura */
+//     margin: 0 auto; /* Centraliza o card horizontalmente */
+//     padding: 16px; /* Padding opcional para um melhor espaçamento */
+// }
+
 mat-card {
-    //max-width: 1200px; /* Defina a largura máxima do card */
-    //flex: 1 1 calc(98%);
-	width: 100%; /* Garante que o card não ultrapasse o limite da largura */
-    margin: 0 auto; /* Centraliza o card horizontalmente */
-    padding: 16px; /* Padding opcional para um melhor espaçamento */
+  flex: 1;
 }
 
 
@@ -91,15 +98,20 @@ mat-card {
   }
   
   .table-row {
-    display: table-row;
+    display: flex;
+    align-items: stretch;
   }
   
   .table-cell {
-    display: table-cell;
+    height: 100%;
+    // display: table-cell;
     padding: 10px; /* Ajuste o espaçamento entre os containers */
     width: 50%; /* Tamanho fixo para cada container */
     vertical-align: top; /* Alinha os itens ao topo de cada célula */
     box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
   }
 
 
@@ -167,3 +179,9 @@ mat-card {
     border: 1px solid #ddd;
     vertical-align: middle;
   }
+
+  .borda-customizada {
+    border: 5px solid #b8ffd2;
+    border-radius: 12px;
+  }
+

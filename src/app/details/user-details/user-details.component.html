@@ -26,7 +26,7 @@
 							<p><strong>Email:</strong> {{ user?.email || 'Not Provided' }}</p>
 							<p><strong>Status:</strong>&nbsp;
 								<span class="badge" [ngClass]="user?.status === 'active' ? 'bg-success' : 'bg-danger'">
-									{{ user?.status || 'Não informado' }}
+									{{ user?.status || 'Not available' }}
 								</span>
 							</p>
 							<p><strong>Phone Number:</strong> {{ user?.phoneNumber || 'Not Provided' }}</p>

@@ -115,12 +115,12 @@ export class CarBrandDetailsComponent implements OnInit, AfterViewInit {
         // Se o utilizador forneceu um nome de modelo válido, faz a requisição ao backend
         this.carDatabaseService.createCarModel(this.brand, result).subscribe({
           next: () => {
-            this.messageService.showSnackbar('Modelo adicionado com sucesso', 'success');
+            this.messageService.showSnackbar('Car model added successfully', 'success');
             this.loadBrandModels();  // Recarregar os modelos da marca
           },
           error: (error) => {
-            console.error('Erro ao adicionar modelo:', error);
-            this.messageService.showSnackbar('Erro ao adicionar modelo', 'error');
+            console.error('Error while adding car model:', error);
+            this.messageService.showSnackbar('Error while adding car model', 'error');
           }
         });
       }

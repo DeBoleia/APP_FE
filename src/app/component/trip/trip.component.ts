@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { MatTab, MatTabsModule } from '@angular/material/tabs';
+import { LocationService } from '../../services/location.service';
+import { MapDisplayComponent } from '../map-display/map-display.component';
 
 @Component({
   selector: 'app-trip',
@@ -20,7 +22,8 @@ import { MatTab, MatTabsModule } from '@angular/material/tabs';
     MatInputModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatTabsModule
+    MatTabsModule,
+    MapDisplayComponent
   ],
   templateUrl: './trip.component.html',
   styleUrls: ['./trip.component.scss'],
@@ -39,8 +42,11 @@ export class TripComponent implements OnInit {
   destinationMunicipalities: string[] = [];
   destinationParishes: string[] = [];
 
-  constructor(private _formBuilder: FormBuilder, private tripsService: TripsService) {
-    // Form groups for origin and destination
+  constructor(
+    private _formBuilder: FormBuilder, 
+    private tripsService: TripsService,
+    private locationService: LocationService
+  ) {
     this.originFormGroup = this._formBuilder.group({
       district: ['', Validators.required],
       municipality: [''],
@@ -55,50 +61,81 @@ export class TripComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadDistricts();
     this.setupValueChanges();
   }
 
-  setupValueChanges() {
-    // When district changes, fetch municipalities for origin
+  loadDistricts(): void {
+    this.locationService.getDistricts().subscribe({
+      next: (districts) => {
+        this.districts = districts;
+        this.destinationDistricts = [...districts];
+      },
+      error: (error) => console.error('Failed to load districts:', error),
+    });
+  }
+
+  setupValueChanges(): void {
     this.originFormGroup.get('district')?.valueChanges.subscribe((district) => {
-      this.municipalities = this.getMunicipalities(district);
-      this.originFormGroup.get('municipality')?.reset('');
-      this.parishes = [];
-      this.originFormGroup.get('parish')?.reset('');
+      if (district) {
+        this.locationService.getMunicipalities(district).subscribe({
+          next: (municipalities) => {
+            this.municipalities = municipalities;
+            this.originFormGroup.get('municipality')?.reset('');
+            this.parishes = [];
+            this.originFormGroup.get('parish')?.reset('');
+          },
+          error: (error) => console.error('Failed to load municipalities:', error),
+        });
+      } else {
+        this.municipalities = [];
+        this.parishes = [];
+      }
     });
 
-    // When municipality changes, fetch parishes for origin
     this.originFormGroup.get('municipality')?.valueChanges.subscribe((municipality) => {
-      this.parishes = this.getParishes(municipality);
-      this.originFormGroup.get('parish')?.reset('');
+      if (municipality) {
+        this.locationService.getParishes(municipality).subscribe({
+          next: (parishes) => {
+            this.parishes = parishes;
+            this.originFormGroup.get('parish')?.reset('');
+          },
+          error: (error) => console.error('Failed to load parishes:', error),
+        });
+      } else {
+        this.parishes = [];
+      }
     });
 
-    // Same logic for destination
     this.destinationFormGroup.get('district')?.valueChanges.subscribe((district) => {
-      this.destinationMunicipalities = this.getMunicipalities(district);
-      this.destinationFormGroup.get('municipality')?.reset('');
-      this.destinationParishes = [];
-      this.destinationFormGroup.get('parish')?.reset('');
+      if (district) {
+        this.locationService.getMunicipalities(district).subscribe({
+          next: (municipalities) => {
+            this.destinationMunicipalities = municipalities;
+            this.destinationFormGroup.get('municipality')?.reset('');
+            this.destinationParishes = [];
+            this.destinationFormGroup.get('parish')?.reset('');
+          },
+          error: (error) => console.error('Failed to load municipalities:', error),
+        });
+      } else {
+        this.destinationMunicipalities = [];
+        this.destinationParishes = [];
+      }
     });
 
     this.destinationFormGroup.get('municipality')?.valueChanges.subscribe((municipality) => {
-      this.destinationParishes = this.getParishes(municipality);
-      this.destinationFormGroup.get('parish')?.reset('');
+      if (municipality) {
+        this.locationService.getParishes(municipality).subscribe({
+          next: (parishes) => {
+            this.destinationParishes = parishes;
+            this.destinationFormGroup.get('parish')?.reset('');
+          },
+          error: (error) => console.error('Failed to load parishes:', error),
+        });
+      } else {
+        this.destinationParishes = [];
+      }
     });
-  }
-
-  getMunicipalities(district: string): string[] {
-    // Simulated API call
-    if (district === 'District 1') return ['Municipality A', 'Municipality B'];
-    if (district === 'District 2') return ['Municipality C', 'Municipality D'];
-    if (district === 'District 3') return ['Municipality E', 'Municipality F'];
-    return [];
-  }
-
-  getParishes(municipality: string): string[] {
-    // Simulated API call
-    if (municipality === 'Municipality A') return ['Parish X', 'Parish Y'];
-    if (municipality === 'Municipality C') return ['Parish Z'];
-    return [];
   }
 }

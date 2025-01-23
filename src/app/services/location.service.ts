@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
+import { Observable, catchError, from, of, switchMap } from 'rxjs';
 
 export interface Location {
   lat: number;
@@ -55,7 +55,6 @@ export class LocationService {
         .then(response => response.json())
         .then(data => {
           const municipalityData = data.geojsons.municipios.find((item: any) => {
-            console.log('Checking item: ', item.properties.Concelho);
             return item.properties.Concelho === municipality;
           });
           if (!municipalityData) return { lat: 0, lng: 0 };
@@ -77,6 +76,11 @@ export class LocationService {
     return new Observable<Location>((observer) => {
       observer.error('No valid location attributes provided.');
     });
+  }
+
+  calculateDistance(from: google.maps.LatLng, to: google.maps.LatLng): number {
+    const distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(from, to);
+    return parseFloat((distanceMeters / 1000).toFixed(2));  // Convert meters to kilometers and format to 2 decimal places
   }
   
 }

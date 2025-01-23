@@ -17,6 +17,7 @@ export class MapDisplayComponent implements OnChanges {
   @ViewChild('map', { static: true }) map!: GoogleMap;
 
   zoom = 13;
+  public distance: number = 0;
   center!: google.maps.LatLngLiteral;
 
   @Input() from: { parish?: string; municipality?: string; district?: string } = {};
@@ -46,6 +47,8 @@ export class MapDisplayComponent implements OnChanges {
               this.fromCoords = new google.maps.LatLng(fromCoordinates.lat, fromCoordinates.lng);
               this.toCoords = new google.maps.LatLng(toCoordinates.lat, toCoordinates.lng);
               this.markers = [fromCoordinates, toCoordinates];
+              this.distance = this.locationService.calculateDistance(this.fromCoords, this.toCoords);
+              console.log('Distance:', this.distance);
               this.getDirections(this.fromCoords, this.toCoords);
             },
             error: (err) => console.error('Error fetching destination coordinates:', err),

@@ -106,26 +106,30 @@ export class CarBrandDetailsComponent implements OnInit, AfterViewInit {
   }
 
   addNewModel(): void {
-    this.messageService.showConfirmationDialog(
-      'Add New Model',
-      `Enter model name for ${this.brand}`,
-      ''
-    ).subscribe(result => {
-      if (result && typeof result === 'string') {
-        this.carDatabaseService.addNewCar({ 
-          brand: this.brand, 
-          model: result 
-        }).subscribe({
-          next: () => {
-            this.messageService.showSnackbar('Model added successfully', 'success');
-            this.loadBrandModels();
-          },
-          error: (error) => {
-            console.error('Error adding model:', error);
-            this.messageService.showSnackbar('Error adding model', 'error');
-          }
-        });
-      }
-    });
+  
   }
+
+  // addNewModel(): void {
+  //   this.messageService.showConfirmationDialog(
+  //     'Add New Model',
+  //     `Enter model name for ${this.brand}`,
+  //     ''
+  //   ).subscribe(result => {
+  //     if (result && typeof result === 'string') {
+  //       this.carDatabaseService.addNewCar({ 
+  //         brand: this.brand, 
+  //         model: result 
+  //       }).subscribe({
+  //         next: () => {
+  //           this.messageService.showSnackbar('Model added successfully', 'success');
+  //           this.loadBrandModels();
+  //         },
+  //         error: (error) => {
+  //           console.error('Error adding model:', error);
+  //           this.messageService.showSnackbar('Error adding model', 'error');
+  //         }
+  //       });
+  //     }
+  //   });
+  // }
 }

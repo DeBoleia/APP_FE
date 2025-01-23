@@ -3,6 +3,6 @@ export interface DatabaseCars {
     model: string;
   }
 
-export interface BrandUpdate {
-    newBrand: string;
-}
+// export interface BrandUpdate {
+//     newBrand: string;
+// }

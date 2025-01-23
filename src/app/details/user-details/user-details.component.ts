@@ -247,7 +247,7 @@ export class UserDetailsComponent implements OnInit {
                   console.log(`Carro ${carID} atualizado com sucesso!`);
                 },
                 error: (error) => {
-                  console.error(`Erro ao atualizar o carro ${carID}:`, error);
+                  console.error(`Error while updating car ${carID}:`, error);
                 },
               });
             }
@@ -256,11 +256,11 @@ export class UserDetailsComponent implements OnInit {
           this.loadUserData();
         },
         error: (error) => {
-          console.error('Erro ao atualizar utilizador:', error);
+          console.error('Error updating user:', error);
         },
       });
     } else {
-      console.log('Formulário inválido');
+      console.log('Invalid form');
     }
   }
 
@@ -383,7 +383,7 @@ export class UserDetailsComponent implements OnInit {
           }
         },
         (error) => {
-          console.error('Erro ao buscar modelos de carros:', error);
+          console.error('Error fetching car models:', error);
         }
       );
     }
@@ -421,7 +421,7 @@ export class UserDetailsComponent implements OnInit {
           }
         },
         (error) => {
-          console.error('Erro ao buscar modelos de carros:', error);
+          console.error('Error while fetching car models:', error);
         }
       );
     } else {

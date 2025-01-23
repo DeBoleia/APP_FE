@@ -58,8 +58,8 @@ export class MessageService {
     const dialogRef = this.dialog.open(MessageComponent, {
       width: '400px',
       data: {
-        title: 'Renomear Marca',
-        text: `Introduza o novo nome para a marca "${currentBrandName}"`,
+        title: 'Rename Brand',
+        text: `Insert the new name for the brand "${currentBrandName}"`,
         isConfirmation: true,
         requiresCodeInput: true,  // Ativa o campo de input existente
         requiredCode: '',         // Permite qualquer valor
@@ -75,8 +75,8 @@ export class MessageService {
       const dialogRef = this.dialog.open(MessageComponent, {
         width: '400px',
         data: {
-          title: 'Adicionar Novo Modelo',
-          text: `Introduza o nome do novo modelo para a marca "${brand}"`,
+          title: 'Add New Model',
+          text: `Insert the name of the new "${brand}" model`,
           isConfirmation: true,
           requiresCodeInput: true,  // Ativa o campo de input para o nome do modelo
           requiredCode: '',         // Não requer um código específico

@@ -53,4 +53,40 @@ export class MessageService {
   
     return dialogRef.afterClosed();
   }
+
+  showRenameBrandDialog(currentBrandName: string): Observable<string | null> {
+    const dialogRef = this.dialog.open(MessageComponent, {
+      width: '400px',
+      data: {
+        title: 'Renomear Marca',
+        text: `Introduza o novo nome para a marca "${currentBrandName}"`,
+        isConfirmation: true,
+        requiresCodeInput: true,  // Ativa o campo de input existente
+        requiredCode: '',         // Permite qualquer valor
+        initialBrandName: currentBrandName
+      }
+    });
+  
+    return dialogRef.afterClosed();
+  }
+
+    // Novo método para adicionar um novo modelo
+    showAddModelDialog(brand: string): Observable<string | null> {
+      const dialogRef = this.dialog.open(MessageComponent, {
+        width: '400px',
+        data: {
+          title: 'Adicionar Novo Modelo',
+          text: `Introduza o nome do novo modelo para a marca "${brand}"`,
+          isConfirmation: true,
+          requiresCodeInput: true,  // Ativa o campo de input para o nome do modelo
+          requiredCode: '',         // Não requer um código específico
+          initialBrandName: brand
+        }
+      });
+    
+      return dialogRef.afterClosed();
+    }
+
+
+
 }

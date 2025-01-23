@@ -4,12 +4,13 @@
 		<mat-card-header>
 
 			<div class="filter-row">
-				<mat-form-field appearance="outline">
+				<mat-form-field appearance="outline"  class="search-field">
 					<mat-label>Find user</mat-label>
 					<input (keyup)="filterChange($event)" matInput placeholder="userID, name or email">
 					<mat-icon matSuffix>search</mat-icon>
 				</mat-form-field>
-				<img src="/perfilProfile.jpg" class="filter-image" alt="Car">
+				<img src="/perfilProfile.jpg" class="filter-image" alt="Car" 
+     style="border: 4px solid  #62de8f;;">
 			</div>
 
 		</mat-card-header>

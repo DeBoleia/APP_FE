@@ -10,6 +10,5 @@
 	<map-marker *ngFor="let marker of markers" [position]="marker"></map-marker>
   </google-map>
   <div *ngIf="directionsResult$ | async as directionsResult">
-	<!-- {{ directionsResult | json }} -->
   </div>
   

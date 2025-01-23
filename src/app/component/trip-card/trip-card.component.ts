@@ -46,11 +46,10 @@ export class TripCardComponent implements OnInit {
 
 	getLocation(location: any) {
 		let result = ''
-		result = location.parish ? result + location.parish : result;
-		result = location.municipality ? (location.parish ? result + ', ' + location.municipality : result + location.municipality) : result;
-		result = location.district ? ((location.municipality || location.parish) ? result + ', ' + location.district : result + location.district) : result;
+		result = location?.parish ? result + location?.parish : result;
+		result = location?.municipality ? (location?.parish ? result + ', ' + location?.municipality : result + location?.municipality) : result;
+		result = location?.district ? ((location?.municipality || location?.parish) ? result + ', ' + location?.district : result + location?.district) : result;
 
-		console.log('location result: ' + result);
 		return result;
 	}
 

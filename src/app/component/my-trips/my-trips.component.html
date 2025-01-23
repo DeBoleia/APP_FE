@@ -1,36 +1,29 @@
-<mat-card>
-	<mat-card-header>
-		<mat-card-title>{{user.name}}</mat-card-title>
-		<div>
-			<app-star-rating [rating]="user.driverRating" [nrEvaluations]="user.driverRatingCount"></app-star-rating>
-		</div>
-		<div>
-			<app-star-rating [rating]="user.passengerRating" [nrEvaluations]="user.passengerRatingCount"></app-star-rating>
-		</div>
-	</mat-card-header>
-	<mat-card-content>
-		<div>
-			<img src="/avatar.png" alt="Avatar" class="avatar">
-		</div>
+<div class="header-info">
+	<div class="user-info">
+		<img src="/avatar.png" alt="Avatar" class="avatar" style="margin: auto;">
+		<h1 id="name">{{user.name}}</h1>
+		<app-star-rating matTooltip="{{user.passengerRating}}" [showEvaluations]="false" [rating]="user.passengerRating"
+			[nrEvaluations]="user.passengerRatingCount" [size]="'3x'"></app-star-rating> <p>passenger rating</p>
+		<app-star-rating matTooltip="{{user.driverRating}}" [showEvaluations]="false" [rating]="user.driverRating"
+			[nrEvaluations]="user.driverRatingCount" [size]="'3x'"></app-star-rating> <p>driver rating</p>
+	</div>
+</div>
 
-	</mat-card-content>
-</mat-card>
-<br>
 <mat-tab-group>
 	<mat-tab label="As a driver">
-		<table mat-table [dataSource]="tripsAsDriverDataSource" class="mat-elevation-z8">
+		<table mat-table [dataSource]="tripsAsDriverDataSource">
 
 			<ng-container matColumnDef="origin">
 				<th mat-header-cell *matHeaderCellDef> Origin </th>
-				<td mat-cell *matCellDef="let trip"> 
-					{{trip.origin.municipality}}, {{trip.origin.district}} 
+				<td mat-cell *matCellDef="let trip">
+					{{trip.origin.municipality}}, {{trip.origin.district}}
 					<span *ngIf="trip.origin.parish">, {{trip.origin.parish}}</span>
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="destination">
 				<th mat-header-cell *matHeaderCellDef> Destination </th>
-				<td mat-cell *matCellDef="let trip"> 
-					{{trip.destination.municipality}}, {{trip.destination.district}} 
+				<td mat-cell *matCellDef="let trip">
+					{{trip.destination.municipality}}, {{trip.destination.district}}
 					<span *ngIf="trip.destination.parish">, {{trip.destination.parish}}</span>
 				</td>
 			</ng-container>
@@ -52,12 +45,13 @@
 			<ng-container matColumnDef="actions">
 				<th mat-header-cell *matHeaderCellDef> Actions </th>
 				<td mat-cell *matCellDef="let trip">
-					<button mat-button>Manage Trip</button>
+					<button mat-button (click)="manageTrip(trip.tripCode)" >Manage Trip</button>
 				</td>
 			</ng-container>
 
 			<tr mat-header-row *matHeaderRowDef="['origin', 'destination', 'date', 'car', 'status', 'actions']"></tr>
-			<tr mat-row *matRowDef="let row; columns: ['origin', 'destination', 'date', 'car', 'status', 'actions'];"></tr>
+			<tr mat-row *matRowDef="let row; columns: ['origin', 'destination', 'date', 'car', 'status', 'actions'];">
+			</tr>
 		</table>
 	</mat-tab>
 	<mat-tab label="As a passenger">
@@ -65,15 +59,15 @@
 
 			<ng-container matColumnDef="origin">
 				<th mat-header-cell *matHeaderCellDef> Origin </th>
-				<td mat-cell *matCellDef="let trip"> 
-					{{trip.origin.municipality}}, {{trip.origin.district}} 
+				<td mat-cell *matCellDef="let trip">
+					{{trip.origin.municipality}}, {{trip.origin.district}}
 					<span *ngIf="trip.origin.parish">, {{trip.origin.parish}}</span>
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="destination">
 				<th mat-header-cell *matHeaderCellDef> Destination </th>
-				<td mat-cell *matCellDef="let trip"> 
-					{{trip.destination.municipality}}, {{trip.destination.district}} 
+				<td mat-cell *matCellDef="let trip">
+					{{trip.destination.municipality}}, {{trip.destination.district}}
 					<span *ngIf="trip.destination.parish">, {{trip.destination.parish}}</span>
 				</td>
 			</ng-container>
@@ -100,7 +94,8 @@
 			</ng-container>
 
 			<tr mat-header-row *matHeaderRowDef="['origin', 'destination', 'date', 'driver', 'status', 'actions']"></tr>
-			<tr mat-row *matRowDef="let row; columns: ['origin', 'destination', 'date', 'driver', 'status', 'actions'];"></tr>
+			<tr mat-row
+				*matRowDef="let row; columns: ['origin', 'destination', 'date', 'driver', 'status', 'actions'];"></tr>
 		</table>
 	</mat-tab>
 	<mat-tab label="My Applications">

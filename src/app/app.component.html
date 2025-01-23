@@ -19,12 +19,12 @@
             <a class="nav-link" routerLink="/user">Manage Users</a>
           </li>
         } @else {
-          <li class="nav-item">
-            <a class="nav-link" (click)="manageTrips()">Find Rides</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" (click)="manageTrips()">Offer a ride</a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="manageTrips()">Find Rides</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/offertrip">Offer a ride</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="mytrips">My Trips</a>
         </li>

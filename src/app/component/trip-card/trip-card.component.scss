@@ -7,15 +7,15 @@ mat-card {
 
 	&:hover {
 		cursor: pointer;
-		transform: translateY(-5px);
+		transform: translateX(-5px);
 	}
 	
 }
 
 mat-card-header {
-	height: 65px;
+	height: 55px;
 	border-radius: 15px 15px 0 0;
-	background-color: #001623;
+	background-color: black;
 	color: whitesmoke;
 }
 

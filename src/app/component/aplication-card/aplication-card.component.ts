@@ -32,19 +32,8 @@ export class AplicationCardComponent {
   application: any;
 
   ngOnInit(): void {
-    this.applicationService.getApplicationByApplicationCode('4DOG93').subscribe(application => {
+    this.applicationService.getApplicationByApplicationCode(this.applicationCode).subscribe(application => {
       this.application = application;
-      console.log('application: ', this.application);
     });
   }
 }
-
-// "applicationCode": "4DOG93",
-// "status": "underReview",
-// "applicationDate": "2025-01-22T10:29:16.415Z",
-// "trip": "656CEJ",
-// "user": {
-//     "name": "lika",
-//     "passengerRating": 2.5,
-//     "passengerRatingCount": 1
-// }

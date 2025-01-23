@@ -45,8 +45,8 @@
 	margin: auto;
 	width: 90%;
 	height: 100%;
-	overflow-x: hidden;
-	overflow-y: hidden;
+	overflow-x: scroll;
+	overflow-y: scroll;
 }
 
 .trips-display {
@@ -73,6 +73,13 @@
 }
 
 .search-input {
+	display: flex;
+	flex-direction: row;
+	gap: 25px;
+	align-items: baseline;
+}
+
+.search-input-destination {
 	display: flex;
 	flex-direction: row;
 	gap: 25px;

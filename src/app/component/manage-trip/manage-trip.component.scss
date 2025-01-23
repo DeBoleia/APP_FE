@@ -24,19 +24,22 @@
 }
 
 .avatar {
-	width: 50px;
-	height: 50px;
+	width: 290px;
+	height: 290px;
 	border-radius: 50%;
 	object-fit: cover;
 	border: 2px solid #ccc;
 	margin-bottom: 4px;
+	margin: auto;
 }
 
 .driver-name {
 	text-align: center;
-	font-size: 14px;
+	font-size: 34px;
 	font-weight: bold;
-	margin-bottom: 4px;
+	margin: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .rating {

@@ -21,8 +21,7 @@ interface LoginResponse {
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    MatButtonModule,
-
+    MatButtonModule
   ]
 })
 export class LoginComponent {

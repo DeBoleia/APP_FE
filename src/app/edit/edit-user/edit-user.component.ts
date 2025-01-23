@@ -4,7 +4,7 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EmailValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../interfaces/user';
 import { MatFormField } from '@angular/material/form-field';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,6 +25,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormControl } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UserService } from '../../services/user.service';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import moment from 'moment';
 
 //import { StatusService } from '../../services/status.service';
 
@@ -96,13 +98,17 @@ export class UserDialogComponent implements OnInit {
 
     this.userForm = this.fb.group({
       name: [this.data.user?.name || '', Validators.required],
-      email: [this.data.user?.email || '', Validators.required],
-      phoneNumber: [this.data.user?.phoneNumber || '', /* Validators.required */],
-      NIF: [this.data.user?.NIF || '', /* Validators.required */],
+      email: [this.data.user?.email || '', [emailValidator()]],
+      phoneNumber: [
+        this.data.user?.phoneNumber || '',
+        [phoneNumberValidator()],
+      ],
+      NIF: [this.data.user?.NIF || '', [NIFValidator()]],
       birthDate: [
         this.data.user?.birthDate || '',
-        /* Validators.required */,
+        [ageValidator()],
       ],
+      driversLicense: [this.data.user?.driversLicense || '', [driversLicenseValidator()] ],
       role: [
         {
           value: this.data.user?.role || '',
@@ -110,22 +116,7 @@ export class UserDialogComponent implements OnInit {
         },
         /* Validators.required */,
       ],
-      // rua: [this.data.user?.morada?.rua || '', /* Validators.required */],
-      // localidade: [
-      //   this.data.utilizador?.morada?.localidade || '',
-      //   /* Validators.required */,
-      // ],
-      // codigoPostal: [
-      //   this.data.utilizador?.morada?.codigoPostal || '',
-      //   /* Validators.required */,
-      // ],
-      // localidadePostal: [
-      //   this.data.utilizador?.morada?.localidadePostal || '',
-      //   /* Validators.required */,
-      // ],
-      // pais: [this.data.utilizador?.morada?.pais || '', /* Validators.required */]
 
-      // status: new FormControl(status),
     });
 
     this.initialStatus = status;
@@ -138,30 +129,7 @@ export class UserDialogComponent implements OnInit {
 
 
   onSubmit(): void {
-    // if (this.utilizadorForm.valid) {
-    //   const formData = this.utilizadorForm.value;
-      // this.newStatus = formData.status === 'active' ? 'active' : 'inactive';
 
-      // console.log('INITFORM STATUS 2: ', this.initialStatus);
-      // console.log('onSUBMIT STATUS', this.newStatus);
-
-      // this.statusService.updateStatus(this.newStatus);
-
-      // if (this.newStatus !== this.initialStatus) {
-      //   this.utilizadoresService.ativarUtilizador(formData.email, formData).subscribe(
-      //     (response) => {
-      //       console.log('Utilizador atualizado com sucesso!', response);
-      //       this.dialogRef.close(formData);
-      //     },
-      //     (error) => {
-      //       console.error('Erro ao atualizar o utilizador:', error);
-      //       alert('Erro ao atualizar o utilizador.');
-      //     }
-      //   );
-      // } else {
-      //   console.log('Status não foi alterado, nenhuma ação necessária');
-      //   this.dialogRef.close(formData);
-      // }
       if (this.userForm.valid) {
         this.dialogRef.close(this.userForm.value);
       }
@@ -172,4 +140,78 @@ export class UserDialogComponent implements OnInit {
     this.userForm.reset();
     this.dialogRef.close();
   }
+}
+
+
+  // Validador de e-mail personalizado
+export function emailValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const email = control.value;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // Padrão simples de e-mail
+    return emailPattern.test(email) ? null : { invalidEmail: true };
+  };
+}
+
+export function phoneNumberValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const phoneNumber = control.value;
+    const phonePattern = /^[0-9]{9}$/; // 9 dígitos numéricos
+    return phonePattern.test(phoneNumber) ? null : { invalidPhoneNumber: true };
+  };
+}
+
+export function NIFValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const NIF = control.value;
+    const NIFPattern = /^[0-9]{9}$/; // 9 dígitos numéricos
+    return NIFPattern.test(NIF) ? null : { invalidNIF: true };
+  };
+}
+
+export function driversLicenseValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let license = control.value;
+
+    if (!license) {
+      return null;
+    }
+    const upperCaseLicense = license.toUpperCase();
+    
+    if (license !== upperCaseLicense) {
+      control.setValue(upperCaseLicense, { emitEvent: false });
+    }
+
+    const licensePattern = /^L\d{7}$/;
+
+    return licensePattern.test(upperCaseLicense) ? null : { invalidLicense: true };
+  };
+}
+
+
+export function ageValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const birthDate = control.value;
+
+    console.log('Raw birthDate value:', birthDate);
+
+    const birthDateMoment = moment.isMoment(birthDate)
+      ? birthDate
+      : moment(birthDate, ['DD/MM/YYYY', 'YYYY-MM-DD', moment.ISO_8601], true);
+
+    console.log('Parsed birthDate:', birthDateMoment.format('DD/MM/YYYY'));
+    console.log('Is valid date:', birthDateMoment.isValid());
+
+    if (!birthDateMoment.isValid()) {
+      console.log('Invalid birth date detected');
+      return { invalidDate: true };
+    }
+
+    const today = moment();
+    const age = today.diff(birthDateMoment, 'years');
+
+    console.log('Calculated age:', age);
+    console.log('Age validation:', age >= 18 ? 'Valid' : 'Underage');
+
+    return age >= 18 ? null : { underage: true };
+  };
 }

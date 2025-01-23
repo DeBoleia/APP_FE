@@ -138,4 +138,15 @@ export class UserService {
     }
     return throwError(errorMessage);
   }
+
+  changePassword(oldPassword: string, newPassword: string, confirmPassword: string): Observable<any> {
+    const userID = localStorage.getItem('userID');
+    return this.http.put(`${this.apiUrl}/pass/${userID}`, {
+      oldPassword,
+      newPassword,
+      confirmPassword,
+    });
+  }
+
+
 }

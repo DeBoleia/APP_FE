@@ -110,16 +110,36 @@ export class UserDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const userIDFromToken = this.authenticatorService.getUserID();
+	const roleFromToken = this.authenticatorService.getUserRole();
+	{
+		if (roleFromToken === 'admin') {
+			this.route.paramMap.subscribe((params) => {
+				const userIDFromRoute = params.get('userID');
+			
+				if (userIDFromRoute) {
+				  this.userID = userIDFromRoute;
+				  this.loadAllData(this.userID);
+				  this.isEditing = true;
+				  this.loadCarBrands();
+				} else {
+				  console.error('No userID found in route');
+				  this.router.navigate(['/users']);  // Redireciona se não houver userID
+				}
+			  });
+		}
+		else{
+			const userIDFromToken = this.authenticatorService.getUserID();
   
-    if (userIDFromToken) {
-      this.userID = userIDFromToken;
-      this.loadAllData(this.userID); 
-      this.isEditing = true;
-      this.loadCarBrands();
-    } else {
-      return;
-    }
+			if (userIDFromToken) {
+			  this.userID = userIDFromToken;
+			  this.loadAllData(this.userID); 
+			  this.isEditing = true;
+			  this.loadCarBrands();
+			} else {
+			  return;
+			}
+		}
+	}
   }
 
   loadAllData(userID: string): void {
@@ -196,7 +216,7 @@ export class UserDetailsComponent implements OnInit {
 	  const formData = this.userForm.value;
 	  formData.status = formData.status === 'active' ? 'active' : 'inactive';
   
-	  console.log('Dados do utilizador a serem enviados:', formData);  // Verificar dados do utilizador antes do envio
+	  console.log('Dados do utilizador a serem enviados:', formData);
   
 	  this.userService.updateUserByUserID(formData.userID, formData).subscribe({
 		next: (response) => {
@@ -215,8 +235,7 @@ export class UserDetailsComponent implements OnInit {
 			  this.originalCarData[index] &&
 			  JSON.stringify(this.originalCarData[index]) !== JSON.stringify(carData)
 			) {
-			  console.log(`Dados do carro #${index + 1} a serem enviados:`, carData);  // Verificar dados do carro
-  
+			  console.log(`Dados do carro #${index + 1} a serem enviados:`, carData);
 			  const carID = carData.licensePlate;
 			  this.carsService.updateCar(this.userID, carData).subscribe({
 				next: () => {

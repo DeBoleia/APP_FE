@@ -112,14 +112,14 @@ export class CarDatabaseComponent implements OnInit, AfterViewInit {
 
         this.carDatabaseService.addNewCar(newCar).subscribe(
           (response) => {
-            this.messageService.showSnackbar('car criado com sucesso!', 'success');
+            this.messageService.showSnackbar('Car created successfully!', 'success');
 
             this.loadCarBrands();
           },
           (error) => {
-            console.error('Erro ao criar car:', error);
+            console.error('Error while creating car:', error);
             this.messageService.showSnackbar(
-              'Erro ao criar car: ' +
+              'Error while creating car: ' +
               (error.error?.error ? error.error.error : error.message)
             );
           }
@@ -209,16 +209,16 @@ export class CarDatabaseComponent implements OnInit, AfterViewInit {
       if (newBrandName && newBrandName.trim() !== '') {
         this.carDatabaseService.renameBrand(brand, newBrandName.trim()).subscribe({
           next: () => {
-            this.messageService.showSnackbar('Marca renomeada com sucesso!', 'success');
+            this.messageService.showSnackbar('Car maker successfully rebranded!', 'success');
             this.loadCarBrands();
           },
           error: (error) => {
-            console.error('Erro ao renomear a marca:', error);
-            this.messageService.showSnackbar('Erro ao renomear a marca', 'error');
+            console.error('Error while changing brand name:', error);
+            this.messageService.showSnackbar('Error while changing brand name', 'error');
           }
         });
       } else {
-        this.messageService.showSnackbar('Nome inválido para a marca.', 'warning');
+        this.messageService.showSnackbar('Invalid brand name.', 'warning');
       }
     });
   }

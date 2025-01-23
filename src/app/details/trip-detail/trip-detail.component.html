@@ -83,13 +83,13 @@
 		<ul class="list-group" style="flex: 1;">
 			<li *ngIf="trip?.estimatedCost" style="display: flex; align-items: center;">
 				<mat-icon style="color: black;">attach_money</mat-icon>
-				<strong style="margin-left: 5px;">Custo Total Estimado: </strong> €{{ trip?.estimatedCost }}
+				<strong style="margin-left: 5px;">Estimated total cost: </strong> €{{ trip?.estimatedCost }}
 			</li>
 		</ul>
 		<ul class="list-group" style="flex: 1;">
 			<li *ngIf="trip?.pricePerPerson" style="display: flex; align-items: center;">
 				<mat-icon style="color: black;">person</mat-icon>
-				<strong style="margin-left: 5px;">Preço por Pessoa: </strong> €{{ trip?.pricePerPerson }}
+				<strong style="margin-left: 5px;">Price per person: </strong> €{{ trip?.pricePerPerson }}
 			</li>
 		</ul>
 	</div>
@@ -119,5 +119,5 @@
 
 <mat-dialog-actions align="end">
 	<button mat-button mat-dialog-close (click)="applyToTrip()">Apply</button>
-	<button mat-button mat-dialog-close color="primary">Fechar</button>
+	<button mat-button mat-dialog-close color="primary">Close</button>
 </mat-dialog-actions>

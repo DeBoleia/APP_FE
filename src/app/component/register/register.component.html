@@ -46,7 +46,7 @@
 	<div class="form-group mb-3">
 		<mat-checkbox formControlName="rgpd" class="mt-2">
 			I have read and agree to the Terms of Use of the Website and understand that my personal information is processed in accordance with the Privacy Statement. I declare that I have read and accept the
-			<a [routerLink]="'/rgpd'" target="_blank">Data Processing Act (GDPR)</a>.
+			<a [routerLink]="'/rgpd'" target="_blank">General Data Protection Regulation (GDPR)</a>.
 		</mat-checkbox>
 		<div *ngIf="registerForm.get('rgpd')?.invalid && registerForm.get('rgpd')?.touched" class="text-danger mt-1">
 			You must accept the terms of use to proceed with the registration.
@@ -54,7 +54,7 @@
 	</div>
 
 		<button mat-button  [disabled]="registerForm.invalid">
-			{{ 'Registar' }}
+			{{ 'Register' }}
 		</button>
 
 		<div *ngIf="errorMessage" class="alert alert-danger mt-3">

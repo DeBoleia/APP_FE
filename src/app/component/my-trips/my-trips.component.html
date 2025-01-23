@@ -45,7 +45,7 @@
 			<ng-container matColumnDef="actions">
 				<th mat-header-cell *matHeaderCellDef> Actions </th>
 				<td mat-cell *matCellDef="let trip">
-					<button mat-button>Manage Trip</button>
+					<button mat-button (click)="manageTrip(trip.tripCode)" >Manage Trip</button>
 				</td>
 			</ng-container>
 

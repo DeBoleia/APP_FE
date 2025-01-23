@@ -37,10 +37,10 @@
 							</p>
 							<p><strong>Driver License:</strong> {{ user?.driversLicense || 'Not Provided' }}</p>
 
-							<button type="button" class="btn btn-warning" (click)="editUser(user)" style="margin-right: 20px;">
+							<button type="button" class="btn btn-warning" *ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() !== 'admin')" (click)="editUser(user)" style="margin-right: 20px;">
 								<i class="bi bi-pencil"></i> Edit Personal Info
 							</button>
-							<button type="button" class="btn btn-secondary" [routerLink]="['/change-password']">
+							<button type="button" class="btn btn-secondary" *ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() !== 'admin')" [routerLink]="['/change-password']">
 								<i class="bi bi-lock"></i> Change Password
 							</button>
 
@@ -131,7 +131,7 @@
 	<br>
 
 	<mat-card-content *ngIf="user?.driversLicense && user.driversLicense !== 'Not Provided'">
-		<button type="button" class="btn btn-success" color="primary" (click)="addCar()">
+		<button type="button" class="btn btn-success" color="primary" *ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() !== 'admin')" (click)="addCar()">
 			<i class="bi bi-plus"></i>Add New Car
 		</button>
 	</mat-card-content>
@@ -233,7 +233,7 @@
 
 	<br>
 	<mat-card-content>
-		<button type="button" class="btn btn-danger" color="warn" (click)="desativarConta()">
+		<button type="button" class="btn btn-danger" color="warn" *ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() !== 'admin')" (click)="desativarConta()">
 		  <i class="bi bi-exclamation-triangle"></i> Deactivate Account
 		</button>
 	  </mat-card-content>

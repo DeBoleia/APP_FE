@@ -42,14 +42,14 @@ export class MyTripsComponent implements OnInit {
     private dialog: MatDialog
   ) { }
 
-  user!: User;
+  user: any = undefined;
   tripsAsDriver: any[] = [];
   tripsAsDriverDataSource: any;
   tripsAsPassenger: any[] = [];
   tripsAsPassengerDataSource: any;
 
   ngOnInit(): void {
-    const userID = 'U001' /* this.authenticationService.getUserID() */;
+    const userID =  this.authenticationService.getUserID();
     if (userID) {
       this.userService.getUserByUserID(userID).subscribe(user => {
         this.user = user;

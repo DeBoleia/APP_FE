@@ -23,7 +23,7 @@
 					<span class="driver-name">{{ trip?.driver?.name }}</span>
 					<app-star-rating [rating]="trip?.driver?.driverRating"
 						[nrEvaluations]="trip?.driver?.driverRatingCount" [size]="'2x'"
-						[showEvaluations]="true"></app-star-rating>
+						[showEvaluations]="true" [readOnly]="true"></app-star-rating>
 				</div>
 			</mat-grid-tile>
 			<mat-grid-tile>

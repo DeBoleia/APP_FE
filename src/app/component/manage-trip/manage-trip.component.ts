@@ -13,6 +13,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { StarRatingComponent } from "../star-rating/star-rating.component";
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { catchError, forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-manage-trip',
@@ -27,7 +28,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatDialogModule,
     MatListModule,
     MatGridListModule
-],
+  ],
   templateUrl: './manage-trip.component.html',
   styleUrl: './manage-trip.component.scss'
 })
@@ -56,18 +57,24 @@ export class ManageTripComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-      if (this.data?.tripCode) {
-        this.tripService.getTripByTripCode(this.data?.tripCode).subscribe( data => {
-          this.trip = data;
-        });
-        this.applicationService.getApplicationByTripCode(this.data?.tripCode).subscribe(data => {
-          this.candidates = data;
-        })
-        this.tripService.getPassengersByTripCode(this.data?.tripCode).subscribe(data => {
-          this.passengers = data;
-        })
-      }
+  loadData() {
+    if (this.data?.tripCode) {
+      forkJoin({
+        trip: this.tripService.getTripByTripCode(this.data.tripCode).pipe(catchError(error => of(null))),
+        candidates: this.applicationService.getApplicationByTripCode(this.data.tripCode).pipe(catchError(error => of([]))),
+        passengers: this.tripService.getPassengersByTripCode(this.data.tripCode).pipe(catchError(error => of([])))
+      }).subscribe(({ trip, candidates, passengers }) => {
+        this.trip = trip;
+        this.candidates = candidates;
+        this.passengers = passengers;
+        console.log('trip', this.trip);
+        console.log('candidates', this.candidates);
+        console.log('passengers', this.passengers);
+      });
+    }
   }
 
+  ngOnInit(): void {
+    this.loadData();
+  }
 }

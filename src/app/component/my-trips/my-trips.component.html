@@ -1,11 +1,11 @@
 <div class="header-info">
 	<div class="user-info">
 		<img src="/avatar.png" alt="Avatar" class="avatar" style="margin: auto;">
-		<h1 id="name">{{user.name}}</h1>
-		<app-star-rating matTooltip="{{user.passengerRating}}" [showEvaluations]="false" [rating]="user.passengerRating"
-			[nrEvaluations]="user.passengerRatingCount" [size]="'3x'"></app-star-rating> <p>passenger rating</p>
-		<app-star-rating matTooltip="{{user.driverRating}}" [showEvaluations]="false" [rating]="user.driverRating"
-			[nrEvaluations]="user.driverRatingCount" [size]="'3x'"></app-star-rating> <p>driver rating</p>
+		<h1 id="name">{{user?.name}}</h1>
+		<app-star-rating matTooltip="{{user?.passengerRating}}" [showEvaluations]="false" [rating]="user?.passengerRating"
+			[nrEvaluations]="user?.passengerRatingCount" [size]="'3x'"></app-star-rating> <p>passenger rating</p>
+		<app-star-rating matTooltip="{{user?.driverRating}}" [showEvaluations]="false" [rating]="user?.driverRating"
+			[nrEvaluations]="user?.driverRatingCount" [size]="'3x'"></app-star-rating> <p>driver rating</p>
 	</div>
 </div>
 

@@ -54,7 +54,6 @@ export class LocationService {
         .then(response => response.json())
         .then(data => {
           const municipalityData = data.geojsons.municipios.find((item: any) => {
-            console.log('Checking item: ', item.properties.Concelho);
             return item.properties.Concelho === municipality;
           });
           if (!municipalityData) return { lat: 0, lng: 0 };

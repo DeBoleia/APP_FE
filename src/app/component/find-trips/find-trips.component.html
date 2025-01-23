@@ -5,11 +5,11 @@
 			<p id="subtitle">Discover the best rides at unbeatable prices. Your journey starts here!</p>
 			<div class="search-input">
 				<!-- District Field -->
-				<mat-form-field>
+				<mat-form-field appearance="outline">
 					<input matInput placeholder="District" [formControl]="originDistrictControl"
 						[matAutocomplete]="autoDistrict">
 					<mat-autocomplete #autoDistrict="matAutocomplete">
-						<mat-option *ngFor="let district of filteredDistricts | async" [value]="district">
+						<mat-option *ngFor="let district of originFilteredDistricts | async" [value]="district">
 							{{ district }}
 						</mat-option>
 					</mat-autocomplete>
@@ -17,11 +17,11 @@
 
 				<!-- Municipality Field (only visible if a valid district is selected) -->
 				<ng-container *ngIf="originDistrictControl.value && districts.includes(originDistrictControl.value)">
-					<mat-form-field>
+					<mat-form-field appearance="outline">
 						<input matInput placeholder="Municipality" [formControl]="originMunicipalityControl"
-							[matAutocomplete]="autoMunicipality" (focus)="triggerAutocomplete(originMunicipalityControl, filteredMunicipalities)">
+							[matAutocomplete]="autoMunicipality" (focus)="triggerAutocomplete(originMunicipalityControl, originFilteredMunicipalities)">
 						<mat-autocomplete #autoMunicipality="matAutocomplete">
-							<mat-option *ngFor="let municipality of filteredMunicipalities | async"
+							<mat-option *ngFor="let municipality of originFilteredMunicipalities | async"
 								[value]="municipality">
 								{{ municipality }}
 							</mat-option>
@@ -30,18 +30,19 @@
 				</ng-container>
 
 				<!-- Parish Field (only visible if a valid municipality is selected) -->
-				<ng-container *ngIf="originMunicipalityControl.value && municipalities.includes(originMunicipalityControl.value)">
-					<mat-form-field>
+				<ng-container *ngIf="originMunicipalityControl.value && originMunicipalities.includes(originMunicipalityControl.value)">
+					<mat-form-field appearance="outline">
 						<input matInput placeholder="Parish" [formControl]="originParishControl"
-							[matAutocomplete]="autoParish" (focus)="triggerAutocomplete(originParishControl, filteredParishes)">
+							[matAutocomplete]="autoParish" (focus)="triggerAutocomplete(originParishControl, originFilteredParishes)">
 						<mat-autocomplete #autoParish="matAutocomplete">
-							<mat-option *ngFor="let parish of filteredParishes | async" [value]="parish">
+							<mat-option *ngFor="let parish of originFilteredParishes | async" [value]="parish">
 								{{ parish }}
 							</mat-option>
 						</mat-autocomplete>
 					</mat-form-field>
 				</ng-container>
 
+			
 			</div>
 			<button mat-button style="width: 40%; margin: auto; background-color: #4EC28F;">Search</button>
 			<img src="/findAride.png" alt="" />

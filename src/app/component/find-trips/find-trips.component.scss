@@ -79,6 +79,13 @@
 	align-items: baseline;
 }
 
+.search-input-destination {
+	display: flex;
+	flex-direction: row;
+	gap: 25px;
+	align-items: baseline;
+}
+
 mat-form-field {
 	width: 100%;
 }

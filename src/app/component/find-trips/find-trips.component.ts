@@ -56,17 +56,20 @@ export class FindTripsComponent implements OnInit {
     "Viseu"
   ]
 
-
   trips: Trip[] = [];
   originDistrictControl = new FormControl('');
   originMunicipalityControl = new FormControl({ value: '', disabled: true });
   originParishControl = new FormControl({ value: '', disabled: true });
 
-  filteredDistricts!: Observable<string[]>;
-  filteredMunicipalities!: Observable<string[]>;
-  filteredParishes!: Observable<string[]>;
-  municipalities: string[] = [];
-  parishes: string[] = [];
+  destinationDistrictControl = new FormControl('');
+  destinationMunicipalityControl = new FormControl({ value: '', disabled: true });
+  destinationParishControl = new FormControl({ value: '', disabled: true });
+
+  originFilteredDistricts!: Observable<string[]>;
+  originFilteredMunicipalities!: Observable<string[]>;
+  originFilteredParishes!: Observable<string[]>;
+  originMunicipalities: string[] = [];
+  originParishes: string[] = [];
 
   constructor(
     private tripsService: TripsService,
@@ -79,7 +82,7 @@ export class FindTripsComponent implements OnInit {
       this.trips = data;
     });
   
-    this.filteredDistricts = this.originDistrictControl.valueChanges.pipe(
+    this.originFilteredDistricts = this.originDistrictControl.valueChanges.pipe(
       startWith(''),
       map(value => this.filterDistricts(value || ''))
     );
@@ -92,23 +95,23 @@ export class FindTripsComponent implements OnInit {
           this.originParishControl.reset();
           return this.locationService.getMunicipalities(district);
         }
-        this.municipalities = [];
+        this.originMunicipalities = [];
         this.originMunicipalityControl.disable();
         this.originMunicipalityControl.reset();
-        this.parishes = [];
+        this.originParishes = [];
         this.originParishControl.disable();
         this.originParishControl.reset();
         return of([]);
       })
-    ).subscribe(municipalities => {
-      this.municipalities = municipalities;
+    ).subscribe(originMunicipalities => {
+      this.originMunicipalities = originMunicipalities;
     });
   
-    this.filteredMunicipalities = this.originMunicipalityControl.valueChanges.pipe(
+    this.originFilteredMunicipalities = this.originMunicipalityControl.valueChanges.pipe(
       startWith(''),
       map(value => {
         const filterValue = (value || '').toLowerCase();
-        return this.municipalities.filter(municipality =>
+        return this.originMunicipalities.filter(municipality =>
           municipality.toLowerCase().includes(filterValue)
         );
       })
@@ -116,24 +119,24 @@ export class FindTripsComponent implements OnInit {
   
     this.originMunicipalityControl.valueChanges.pipe(
       switchMap(municipality => {
-        if (municipality && this.municipalities.includes(municipality)) {
+        if (municipality && this.originMunicipalities.includes(municipality)) {
           this.originParishControl.enable();
           return this.locationService.getParishes(municipality);
         }
-        this.parishes = [];
+        this.originParishes = [];
         this.originParishControl.disable();
         this.originParishControl.reset();
         return of([]);
       })
-    ).subscribe(parishes => {
-      this.parishes = parishes;
+    ).subscribe(originParishes => {
+      this.originParishes = originParishes;
     });
   
-    this.filteredParishes = this.originParishControl.valueChanges.pipe(
+    this.originFilteredParishes = this.originParishControl.valueChanges.pipe(
       startWith(''),
       map(value => {
         const filterValue = (value || '').toLowerCase();
-        return this.parishes.filter(parish =>
+        return this.originParishes.filter(parish =>
           parish.toLowerCase().includes(filterValue)
         );
       })

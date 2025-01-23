@@ -12,7 +12,8 @@ export interface Location {
 
 export class LocationService {
 
-  private baseUrl = 'https://geoapi.pt/'
+  // private baseUrl = 'https://geoapi.pt/'
+  private baseUrl = 'http://localhost:8080/'
 
   constructor() { }
 

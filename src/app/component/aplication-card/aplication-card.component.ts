@@ -32,7 +32,7 @@ export class AplicationCardComponent {
   application: any;
 
   ngOnInit(): void {
-    this.applicationService.getApplicationByApplicationCode('4DOG93').subscribe(application => {
+    this.applicationService.getApplicationByApplicationCode(this.applicationCode).subscribe(application => {
       this.application = application;
       console.log('application: ', this.application);
     });

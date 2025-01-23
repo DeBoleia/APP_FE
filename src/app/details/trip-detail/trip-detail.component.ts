@@ -62,7 +62,7 @@ export class TripDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.tripCode = '656CEJ';
+    this.tripCode = this.data?.tripCode;
     this.loadData();
   }
 
@@ -99,7 +99,7 @@ export class TripDetailComponent implements OnInit {
   static openDialog(dialog: MatDialog, data?: {tripCode: string}): MatDialogRef<TripDetailComponent> {
     return dialog.open(TripDetailComponent, {
       minWidth: '1000px',
-      autoFocus: true,
+      autoFocus: false,
       disableClose: true,
       data: data
     });

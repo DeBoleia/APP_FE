@@ -14,6 +14,7 @@ import { StarRatingComponent } from "../star-rating/star-rating.component";
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { catchError, forkJoin, of } from 'rxjs';
+import { AplicationCardComponent } from "../aplication-card/aplication-card.component";
 
 @Component({
   selector: 'app-manage-trip',
@@ -27,8 +28,9 @@ import { catchError, forkJoin, of } from 'rxjs';
     StarRatingComponent,
     MatDialogModule,
     MatListModule,
-    MatGridListModule
-  ],
+    MatGridListModule,
+    AplicationCardComponent
+],
   templateUrl: './manage-trip.component.html',
   styleUrl: './manage-trip.component.scss'
 })

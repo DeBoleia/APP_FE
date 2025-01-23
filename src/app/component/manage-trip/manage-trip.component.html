@@ -22,8 +22,8 @@
 					<img src="/avatar.png" alt="Avatar" class="avatar">
 					<span class="driver-name">{{ trip?.driver?.name }}</span>
 					<app-star-rating [rating]="trip?.driver?.driverRating"
-						[nrEvaluations]="trip?.driver?.driverRatingCount" [size]="'2x'"
-						[showEvaluations]="true" [readOnly]="true"></app-star-rating>
+						[nrEvaluations]="trip?.driver?.driverRatingCount" [size]="'2x'" [showEvaluations]="true"
+						[readOnly]="true"></app-star-rating>
 				</div>
 			</mat-grid-tile>
 			<mat-grid-tile>
@@ -99,14 +99,10 @@
 				<mat-panel-title> Candidates </mat-panel-title>
 			</mat-expansion-panel-header>
 			<ul *ngIf="this.candidates?.length; else noCandidates">
-				<li *ngFor="let passenger of trip?.passengers" style="display: flex; align-items: center;">
-					{{ passenger.name.split(' ')[0] }}
-					<div class="rating" style="margin-left: 10px;">
-						<ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-							<span [class.filled]="i < passenger.passengerRating">&#9733;</span>
-						</ng-container>
-					</div>
-				</li>
+				@for (application of this.candidates; track application) {
+				<app-aplication-card [applicationCode]="application.applicationCode"
+					[isDriver]="true"></app-aplication-card>
+				}
 			</ul>
 			<ng-template #noCandidates>
 				<p style="text-align: center;">There are no applications to this trip yet.</p>

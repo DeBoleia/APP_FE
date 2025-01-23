@@ -1,26 +1,30 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { Cars } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarsService {
 
-  private baseUrl = 'http://localhost:8082/api/cars';  // URL base do seu backend
+  private baseUrl = 'http://localhost:8083/api/cars';  // URL base do seu backend
 
   constructor(private http: HttpClient) { }
 
   // Função para obter todas as marcas de carros
   getCarBrands(): Observable<any> {
 
-    return this.http.get(`${this.baseUrl}/brands`);
+    const cars = this.http.get(`${this.baseUrl}`);
+    console.log(cars);
+    return cars.pipe(map((carArray: any) => new Set(carArray.map((car: any) => car.brand))));
   }
-
+  
   // Função para obter os modelos de carros baseado na marca
   getCarModels(brand: string): Observable<any> {
-    console.log('getCarModels ESTOU AQUI');
-    return this.http.post(`${this.baseUrl}/models`, { brand });
+    const cars = this.http.get<Cars>(`${this.baseUrl}`);
+    console.log(cars);
+    return cars.pipe(map((carArray: any) => carArray.map((car: any) => car.model)));
   }
 
   // Função para atualizar o carro (por ID de usuário)
@@ -30,7 +34,7 @@ export class CarsService {
 
   // Função para criar um carro no usuário (por ID de usuário)
   createCarInUser(userID: string, carData: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/selectCar/${userID}`, carData);
+    return this.http.post(`http://localhost:8082/api/cars/selectCar/${userID}`, carData);
   }
 
   // Função para excluir todos os carros de um usuário

@@ -1,38 +1,40 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, ViewChild, OnChanges, AfterViewInit, OnInit } from '@angular/core';
+import { Component, Input, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { GoogleMap, GoogleMapsModule, MapDirectionsService } from '@angular/google-maps';
 import { BehaviorSubject, map } from 'rxjs';
 import { LocationService } from '../../services/location.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-map-display',
-  imports: [CommonModule, GoogleMapsModule],
+  imports: [
+    GoogleMapsModule, 
+    CommonModule
+  ],
   templateUrl: './map-display.component.html',
-  styleUrl: './map-display.component.scss'
+  styleUrls: ['./map-display.component.scss']
 })
-export class MapDisplayComponent implements OnInit {
+export class MapDisplayComponent implements OnChanges {
   @ViewChild('map', { static: true }) map!: GoogleMap;
 
   zoom = 13;
   center!: google.maps.LatLngLiteral;
-  
-  @Input() from: { parish?: string; municipality?: string; district?: string } = { municipality: 'Vila Nova de Gaia', district: 'Porto' };
-  @Input() to: { parish?: string; municipality?: string; district?: string } = { parish: 'Bonfim', municipality: 'Porto', district: 'Porto' };
+
+  @Input() from: { parish?: string; municipality?: string; district?: string } = {};
+  @Input() to: { parish?: string; municipality?: string; district?: string } = {};
 
   fromCoords!: google.maps.LatLng;
   toCoords!: google.maps.LatLng;
 
   markers: { lat: number; lng: number }[] = [];
 
-  directionsResult$ = new BehaviorSubject<
-    google.maps.DirectionsResult | undefined
-  >(undefined);
+  directionsResult$ = new BehaviorSubject<google.maps.DirectionsResult | undefined>(undefined);
 
   constructor(private directionsService: MapDirectionsService, private locationService: LocationService) {}
 
-
-  ngOnInit(): void {
-    this.initializeMap();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['from'] || changes['to']) {
+      this.initializeMap();
+    }
   }
 
   initializeMap() {
@@ -43,10 +45,8 @@ export class MapDisplayComponent implements OnInit {
             next: (toCoordinates) => {
               this.fromCoords = new google.maps.LatLng(fromCoordinates.lat, fromCoordinates.lng);
               this.toCoords = new google.maps.LatLng(toCoordinates.lat, toCoordinates.lng);
-              // this.center = this.calculateCenter();
               this.markers = [fromCoordinates, toCoordinates];
               this.getDirections(this.fromCoords, this.toCoords);
-              // this.updateMap();
             },
             error: (err) => console.error('Error fetching destination coordinates:', err),
           });
@@ -58,64 +58,13 @@ export class MapDisplayComponent implements OnInit {
     }
   }
 
-  updateMap() {
-    const bounds = new google.maps.LatLngBounds();
-
-    bounds.extend(this.fromCoords);
-    bounds.extend(this.toCoords);
-    this.map?.googleMap?.fitBounds(bounds);
-
-    this.zoom = this.calculateZoomLevel(bounds);
-    this.map?.googleMap?.setZoom(this.zoom);
-
-    this.center = { lat: bounds.getCenter().lat(), lng: bounds.getCenter().lng() };
-    this.map?.googleMap?.setCenter(this.center);
-  }
-
-  calculateZoomLevel(bounds: google.maps.LatLngBounds): number {
-    // You can fine-tune this based on your preference and the size of your markers
-    const maxLat = bounds.getNorthEast().lat();
-    const minLat = bounds.getSouthWest().lat();
-    const maxLng = bounds.getNorthEast().lng();
-    const minLng = bounds.getSouthWest().lng();
-
-    const latDiff = maxLat - minLat;
-    const lngDiff = maxLng - minLng;
-
-    const zoomLevel = Math.max(2, Math.min(16, Math.round(15 - Math.log(Math.max(latDiff, lngDiff)) / Math.LN2)));
-    return zoomLevel;
-  }
-
-
-
-  gotoLocation(location: google.maps.LatLng | google.maps.LatLngLiteral) {
-    const position =
-      location instanceof google.maps.LatLng
-        ? { lat: location.lat(), lng: location.lng() }
-        : location;
-
-    if (this.map && this.map.googleMap) {
-      this.map.googleMap.panTo(position);
-      this.zoom = 13;
-      this.directionsResult$.next(undefined);
-    } else {
-      console.error('GoogleMap instance is not available');
-    }
-  }
-
-  getDirections(
-    fromLocation: google.maps.LatLng,
-    toLocation: google.maps.LatLng
-  ) {
-    const origin = { lat: fromLocation.lat(), lng: fromLocation.lng() };
-    const destination = { lat: toLocation.lat(), lng: toLocation.lng() };
-  
+  getDirections(fromLocation: google.maps.LatLng, toLocation: google.maps.LatLng) {
     const request: google.maps.DirectionsRequest = {
-      destination,
-      origin,
+      origin: { lat: fromLocation.lat(), lng: fromLocation.lng() },
+      destination: { lat: toLocation.lat(), lng: toLocation.lng() },
       travelMode: google.maps.TravelMode.DRIVING,
     };
-  
+
     this.directionsService
       .route(request)
       .pipe(map((response) => response.result))
@@ -127,24 +76,7 @@ export class MapDisplayComponent implements OnInit {
             console.error('No valid routes found:', res);
           }
         },
-        error: (err) => {
-          console.error('Error fetching directions:', err);
-        },
-      });  
-  }
-
-  calculateCenter() {
-    if (this.fromCoords && this.toCoords) {
-      return {
-        lat: (this.fromCoords.lat() + this.toCoords.lat()) / 2,
-        lng: (this.fromCoords.lng() + this.toCoords.lng()) / 2,
-      };
-    } else if (this.fromCoords) {
-      return { lat: this.fromCoords.lat(), lng: this.fromCoords.lng() };
-    } else if (this.toCoords) {
-      return { lat: this.toCoords.lat(), lng: this.toCoords.lng() };
-    } else {
-      return { lat: 41.1403, lng: -8.6110 };
-    }
+        error: (err) => console.error('Error fetching directions:', err),
+      });
   }
 }

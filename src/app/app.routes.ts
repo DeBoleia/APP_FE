@@ -24,6 +24,7 @@ export const routes: Routes = [
 	{ path: "home", component: HomeComponent },
 	{ path: "application", component: ApplicationComponent },
 	{ path: "trips", component: FindTripsComponent },
+	{ path: "offertrip", component: TripComponent },
 	{ path: 'rgpd', component: RgpdComponent },
 	{ path: 'aboutus', component: AboutusComponent },
 	{ path: "trips", component: FindTripsComponent },

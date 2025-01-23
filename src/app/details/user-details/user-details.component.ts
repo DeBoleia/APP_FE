@@ -32,7 +32,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { DeleteConfirmationSnackbarComponent } from '../../component/delete-confirmation-snackbar/delete-confirmation-snackbar.component';
 
-
 import { ChangePasswordComponent } from '../../component/change-password/change-password.component';
 
 @Component({
@@ -50,7 +49,7 @@ import { ChangePasswordComponent } from '../../component/change-password/change-
     MatCheckboxModule,
     MatDivider,
     MatSelectModule,
-	MatSnackBarModule,
+    MatSnackBarModule,
   ],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss',
@@ -76,7 +75,7 @@ export class UserDetailsComponent implements OnInit {
     private dialog: MatDialog,
     private messageService: MessageService,
     private fb: FormBuilder,
-	private snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     private carsService: CarsService
   ) {
     this.userForm = this.fb.group({
@@ -111,10 +110,10 @@ export class UserDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const userIDFromToken = this.authenticatorService.getUserID();
-  
+
     if (userIDFromToken) {
       this.userID = userIDFromToken;
-      this.loadAllData(this.userID); 
+      this.loadAllData(this.userID);
       this.isEditing = true;
       this.loadCarBrands();
     } else {
@@ -192,52 +191,57 @@ export class UserDetailsComponent implements OnInit {
   }
 
   onSubmit(): void {
-	if (this.userForm.valid && this.isAllCarsValid()) {
-	  const formData = this.userForm.value;
-	  formData.status = formData.status === 'active' ? 'active' : 'inactive';
-  
-	  console.log('Dados do utilizador a serem enviados:', formData);  // Verificar dados do utilizador antes do envio
-  
-	  this.userService.updateUserByUserID(formData.userID, formData).subscribe({
-		next: (response) => {
-		  this.userForm.patchValue({
-			status: formData.status,
-		  });
-  
-		  if (this.user) {
-			this.user.status = formData.status === 'active' ? 'active' : 'inactive';
-		  }
-  
-		  this.carsFormArray.controls.forEach((carGroup, index) => {
-			const carData = carGroup.value;
-  
-			if (
-			  this.originalCarData[index] &&
-			  JSON.stringify(this.originalCarData[index]) !== JSON.stringify(carData)
-			) {
-			  console.log(`Dados do carro #${index + 1} a serem enviados:`, carData);  // Verificar dados do carro
-  
-			  const carID = carData.licensePlate;
-			  this.carsService.updateCar(this.userID, carData).subscribe({
-				next: () => {
-				  console.log(`Carro ${carID} atualizado com sucesso!`);
-				},
-				error: (error) => {
-				  console.error(`Erro ao atualizar o carro ${carID}:`, error);
-				},
-			  });
-			}
-		  });
-  
-		  this.loadUserData();
-		},
-		error: (error) => {
-		  console.error('Erro ao atualizar utilizador:', error);
-		},
-	  });
-	} else {
-	  console.log('Formulário inválido');
-	}
+    if (this.userForm.valid && this.isAllCarsValid()) {
+      const formData = this.userForm.value;
+      formData.status = formData.status === 'active' ? 'active' : 'inactive';
+
+      console.log('Dados do utilizador a serem enviados:', formData); // Verificar dados do utilizador antes do envio
+
+      this.userService.updateUserByUserID(formData.userID, formData).subscribe({
+        next: (response) => {
+          this.userForm.patchValue({
+            status: formData.status,
+          });
+
+          if (this.user) {
+            this.user.status =
+              formData.status === 'active' ? 'active' : 'inactive';
+          }
+
+          this.carsFormArray.controls.forEach((carGroup, index) => {
+            const carData = carGroup.value;
+
+            if (
+              this.originalCarData[index] &&
+              JSON.stringify(this.originalCarData[index]) !==
+                JSON.stringify(carData)
+            ) {
+              console.log(
+                `Dados do carro #${index + 1} a serem enviados:`,
+                carData
+              ); // Verificar dados do carro
+
+              const carID = carData.licensePlate;
+              this.carsService.updateCar(this.userID, carData).subscribe({
+                next: () => {
+                  console.log(`Carro ${carID} atualizado com sucesso!`);
+                },
+                error: (error) => {
+                  console.error(`Erro ao atualizar o carro ${carID}:`, error);
+                },
+              });
+            }
+          });
+
+          this.loadUserData();
+        },
+        error: (error) => {
+          console.error('Erro ao atualizar utilizador:', error);
+        },
+      });
+    } else {
+      console.log('Formulário inválido');
+    }
   }
 
   toggleEditMode(): void {
@@ -262,7 +266,7 @@ export class UserDetailsComponent implements OnInit {
           phoneNumber: result.phoneNumber ?? this.user.phoneNumber,
           NIF: result.NIF ? result.NIF.toString() : this.user.NIF,
           birthDate: result.birthDate ?? this.user.birthDate,
-		  driversLicense: result.driversLicense ?? this.user.driversLicense,
+          driversLicense: result.driversLicense ?? this.user.driversLicense,
           status: result.status ?? this.user.status,
         };
         console.log('User updated:', updatedUser);
@@ -315,110 +319,109 @@ export class UserDetailsComponent implements OnInit {
     'Lavender',
   ];
 
-
-
   loadCarBrands(): void {
-	this.carsService.getCarBrands().subscribe(
-	  (response) => {
-		//console.log('Marcas de carros recebidas:', response);
-		this.brandOptions = response;
-	  },
-	  (error) => {
-		//console.error('Error fetching car brands:', error);
-	  }
-	);
+    this.carsService.getAllCarBrands().subscribe(
+      (response) => {
+        //console.log('Marcas de carros recebidas:', response);
+        this.brandOptions = response;
+      },
+      (error) => {
+        //console.error('Error fetching car brands:', error);
+      }
+    );
   }
 
   loadCarModels(brand: string): void {
-	//console.log('Marca recebida para carregar modelos:', brand);
+    //console.log('Marca recebida para carregar modelos:', brand);
 
-	this.carsService.getCarModels(brand).subscribe(
-	  (response) => {
-		if (response && response.length > 0) {
-		  //console.log(`Modelos de carros para ${brand}:`, response);
-		  this.modelOptions = response;
-		  //console.log('modelOptions atualizados:', this.modelOptions);
-		} else {
-		 //console.warn('Nenhum modelo encontrado para:', brand);
-		  this.modelOptions = [];
-		}
-	  },
-	  (error) => {
-		console.error('Error finding model cars:', error);
-	  }
-	);
+    this.carsService.getCarModels(brand).subscribe(
+      (response) => {
+        if (response && response.length > 0) {
+          //console.log(`Modelos de carros para ${brand}:`, response);
+          this.modelOptions = response;
+          //console.log('modelOptions atualizados:', this.modelOptions);
+        } else {
+          //console.warn('Nenhum modelo encontrado para:', brand);
+          this.modelOptions = [];
+        }
+      },
+      (error) => {
+        console.error('Error finding model cars:', error);
+      }
+    );
   }
   loadModelsForExistingBrand(index: number): void {
-	const car = this.carsFormArray.at(index);
-	const brand = car.get('brand')?.value;
+    const car = this.carsFormArray.at(index);
+    const brand = car.get('brand')?.value;
 
-	if (brand) {
-	  this.carsService.getCarModels(brand).subscribe(
-		(response) => {
-		  if (response && response.length > 0) {
-			console.log(`Modelos de carros para ${brand}:`, response);
-			this.modelOptionsMap[index] = response;
-		  }
-		},
-		(error) => {
-		  console.error('Erro ao buscar modelos de carros:', error);
-		}
-	  );
-	}
+    if (brand) {
+      this.carsService.getCarModels(brand).subscribe(
+        (response) => {
+          if (response && response.length > 0) {
+            console.log(`Modelos de carros para ${brand}:`, response);
+            this.modelOptionsMap[index] = response;
+          }
+        },
+        (error) => {
+          console.error('Erro ao buscar modelos de carros:', error);
+        }
+      );
+    }
   }
 
   editCar(index: number): void {
-	this.isAddingCar = false;
-	this.editingIndex = index;
-	const car = this.carsFormArray.at(index).value;
-	this.originalCarData[index] = { ...car };
+    this.isAddingCar = false;
+    this.editingIndex = index;
+    const car = this.carsFormArray.at(index).value;
+    this.originalCarData[index] = { ...car };
 
-	this.loadModelsForExistingBrand(index);
+    this.loadModelsForExistingBrand(index);
   }
 
   onBrandChange(selectedBrand: string | null, index: number): void {
-	console.log(
-	  `Evento disparado - Marca selecionada para carro ${index}:`,
-	  selectedBrand
-	);
+    console.log(
+      `Evento disparado - Marca selecionada para carro ${index}:`,
+      selectedBrand
+    );
 
-	if (selectedBrand && selectedBrand.trim() !== '') {
-	  this.carsService.getCarModels(selectedBrand).subscribe(
-		(response) => {
-		  if (response && response.length > 0) {
-			console.log(`Modelos de carros para ${selectedBrand}:`, response);
-			this.modelOptionsMap[index] = response;
+    if (selectedBrand && selectedBrand.trim() !== '') {
+      console.log('Buscando modelos para:', selectedBrand);
+      this.carsService.getCarModels(selectedBrand).subscribe(
+        (response) => {
+          if (response && response.length > 0) {
+            console.log(`Modelos de carros para ${selectedBrand}:`, response);
+            this.modelOptionsMap[index] = response;
 
-			const currentModel = this.carsFormArray
-			  .at(index)
-			  .get('model')?.value;
-			if (!this.modelOptionsMap[index].includes(currentModel)) {
-			  this.carsFormArray.at(index).patchValue({ model: '' });
-			}
-		  }
-		},
-		(error) => {
-		  console.error('Erro ao buscar modelos de carros:', error);
-		}
-	  );
-	} else {
-	  this.modelOptionsMap[index] = [];
-	  this.carsFormArray.at(index).patchValue({ model: '' });
-	}
+            const currentModel = this.carsFormArray
+              .at(index)
+              .get('model')?.value;
+            if (!this.modelOptionsMap[index].includes(currentModel)) {
+              this.carsFormArray.at(index).patchValue({ model: '' });
+            }
+          }
+        },
+        (error) => {
+          console.error('Erro ao buscar modelos de carros:', error);
+        }
+      );
+    } else {
+      this.modelOptionsMap[index] = [];
+      this.carsFormArray.at(index).patchValue({ model: '' });
+    }
   }
 
   modelOptionsMap: { [key: number]: string[] } = {};
 
   isEditing1(index: number): boolean {
-	return this.editingIndex === index;
+    return this.editingIndex === index;
   }
 
   handleSave(index: number): void {
-	if (!this.isAddingCar && this.isEditing1(index)) {
-	  this.saveCarUpdate(index);
-	} else {
-	  this.saveCar(index);
-	}
+    if (!this.isAddingCar && this.isEditing1(index)) {
+      this.saveCarUpdate(index);
+    } else {
+      this.saveCar(index);
+    }
   }
 
   saveCarUpdate(index: number): void {
@@ -434,10 +437,7 @@ export class UserDetailsComponent implements OnInit {
           console.log(`Car ${carData.licensePlate} updated successfully!`);
         },
         error: (error) => {
-          console.error(
-            `Error updating car ${carData.licensePlate}:`,
-            error
-          );
+          console.error(`Error updating car ${carData.licensePlate}:`, error);
         },
       });
     }
@@ -445,24 +445,24 @@ export class UserDetailsComponent implements OnInit {
     this.editingIndex = null;
   }
 
-//   cancelEdit(index: number): void {
-//     if (this.originalCarData[index]) {
-//       this.carsFormArray.at(index).patchValue(this.originalCarData[index]);
-//     }
-//     this.originalCarData[index] = null;
-//     this.editingIndex = null;
-//   }
+  //   cancelEdit(index: number): void {
+  //     if (this.originalCarData[index]) {
+  //       this.carsFormArray.at(index).patchValue(this.originalCarData[index]);
+  //     }
+  //     this.originalCarData[index] = null;
+  //     this.editingIndex = null;
+  //   }
 
-	cancelEdit(index: number): void {
-		if (this.originalCarData[index]) {
-		this.carsFormArray.at(index).patchValue(this.originalCarData[index]);
-		} else {
-		this.carsFormArray.removeAt(index);
-		}
-		this.originalCarData[index] = null;
-		this.editingIndex = null;
-		this.isAddingCar = false;
-	}
+  cancelEdit(index: number): void {
+    if (this.originalCarData[index]) {
+      this.carsFormArray.at(index).patchValue(this.originalCarData[index]);
+    } else {
+      this.carsFormArray.removeAt(index);
+    }
+    this.originalCarData[index] = null;
+    this.editingIndex = null;
+    this.isAddingCar = false;
+  }
 
   deleteCar(index: number): void {
     const car = this.carsFormArray.at(index).value;
@@ -473,7 +473,9 @@ export class UserDetailsComponent implements OnInit {
         .deleteCarByLicensePlate(this.userID, licensePlate)
         .subscribe({
           next: (response) => {
-            console.log(`Car with license plate ${licensePlate} successfully deleted`);
+            console.log(
+              `Car with license plate ${licensePlate} successfully deleted`
+            );
             this.carsFormArray.removeAt(index);
           },
           error: (error) => {
@@ -487,35 +489,35 @@ export class UserDetailsComponent implements OnInit {
 
   isAddingCar: boolean = false;
 
-//   addCar() {
-//     this.isAddingCar = true;
-//     const newCarGroup = this.fb.group({
-//       brand: [''],
-//       model: [''],
-//       color: [''],
-//       licensePlate: [''],
-//     });
-//     this.carsFormArray.push(newCarGroup);
-//     const newIndex = this.carsFormArray.length - 1;
-//     this.editingIndex = newIndex;
-//   }
+  //   addCar() {
+  //     this.isAddingCar = true;
+  //     const newCarGroup = this.fb.group({
+  //       brand: [''],
+  //       model: [''],
+  //       color: [''],
+  //       licensePlate: [''],
+  //     });
+  //     this.carsFormArray.push(newCarGroup);
+  //     const newIndex = this.carsFormArray.length - 1;
+  //     this.editingIndex = newIndex;
+  //   }
 
-addCar() {
-	this.isAddingCar = true;
-	const newCarGroup = this.fb.group({
-	  brand: [''],
-	  model: [''],
-	  color: [''],
-	  licensePlate: [''],
-	});
-	this.carsFormArray.push(newCarGroup);
-	const newIndex = this.carsFormArray.length - 1;
-	this.editingIndex = newIndex;
-	console.log('Adicionando carro:', newIndex);
-  
-	setTimeout(() => {
-	  window.scrollTo(0, document.body.scrollHeight);
-	}, 0);
+  addCar() {
+    this.isAddingCar = true;
+    const newCarGroup = this.fb.group({
+      brand: [''],
+      model: [''],
+      color: [''],
+      licensePlate: [''],
+    });
+    this.carsFormArray.push(newCarGroup);
+    const newIndex = this.carsFormArray.length - 1;
+    this.editingIndex = newIndex;
+    console.log('Adicionando carro:', newIndex);
+
+    setTimeout(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    }, 0);
   }
 
   saveCar(index: number): void {
@@ -583,44 +585,45 @@ addCar() {
   }
 
   confirmDeleteCar(index: number): void {
-	const snackBarRef = this.snackBar.openFromComponent(DeleteConfirmationSnackbarComponent, {
-	  data: { message: `Are you sure you want to delete car #${index + 1}?` },
-	  duration: 10000, 
-	  panelClass: ['center-snackbar'],
-	});
-  
-	snackBarRef.afterDismissed().subscribe(() => {
-	  console.log('Snackbar closed');
-	});
-  
-	snackBarRef.onAction().subscribe(() => {
-	  this.deleteCar(index);
-	});
+    const snackBarRef = this.snackBar.openFromComponent(
+      DeleteConfirmationSnackbarComponent,
+      {
+        data: { message: `Are you sure you want to delete car #${index + 1}?` },
+        duration: 10000,
+        panelClass: ['center-snackbar'],
+      }
+    );
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      console.log('Snackbar closed');
+    });
+
+    snackBarRef.onAction().subscribe(() => {
+      this.deleteCar(index);
+    });
   }
 
   formatLicensePlate(event: any): void {
-	let value = event.target.value.toUpperCase(); // Converter para maiúsculas
-  
-	// Remover todos os caracteres que não sejam letras ou números
-	value = value.replace(/[^A-Z0-9]/gi, '');
-  
-	// Formatar a matrícula corretamente com hífens nos locais certos
-	if (value.length > 2) {
-	  value = value.substring(0, 2) + '-' + value.substring(2);
-	}
-	if (value.length > 5) {
-	  value = value.substring(0, 5) + '-' + value.substring(5);
-	}
-  
-	// Garantir que não há mais do que dois hífens
-	const parts = value.split('-');
-	if (parts.length > 3) {
-	  value = parts.slice(0, 3).join('-'); // Permitir no máximo dois hífens
-	}
-  
-	// Atualizar o campo de entrada com a formatação correta
-	event.target.value = value;
-  }
+    let value = event.target.value.toUpperCase(); // Converter para maiúsculas
 
-  
+    // Remover todos os caracteres que não sejam letras ou números
+    value = value.replace(/[^A-Z0-9]/gi, '');
+
+    // Formatar a matrícula corretamente com hífens nos locais certos
+    if (value.length > 2) {
+      value = value.substring(0, 2) + '-' + value.substring(2);
+    }
+    if (value.length > 5) {
+      value = value.substring(0, 5) + '-' + value.substring(5);
+    }
+
+    // Garantir que não há mais do que dois hífens
+    const parts = value.split('-');
+    if (parts.length > 3) {
+      value = parts.slice(0, 3).join('-'); // Permitir no máximo dois hífens
+    }
+
+    // Atualizar o campo de entrada com a formatação correta
+    event.target.value = value;
+  }
 }

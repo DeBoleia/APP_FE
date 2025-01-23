@@ -58,11 +58,13 @@ export class FindTripsComponent implements OnInit {
 
 
   trips: Trip[] = [];
-  originControl = new FormControl('');
-  municipalityControl = new FormControl({ value: '', disabled: true });
-  parishControl = new FormControl({ value: '', disabled: true });
+  originDistrictControl = new FormControl('');
+  originMunicipalityControl = new FormControl({ value: '', disabled: true });
+  originParishControl = new FormControl({ value: '', disabled: true });
 
   filteredDistricts!: Observable<string[]>;
+  filteredMunicipalities!: Observable<string[]>;
+  filteredParishes!: Observable<string[]>;
   municipalities: string[] = [];
   parishes: string[] = [];
 
@@ -73,54 +75,76 @@ export class FindTripsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Carrega as viagens da API
     this.tripsService.getAllTrips().subscribe(data => {
       this.trips = data;
-      console.log(this.trips);
     });
-
-    this.filteredDistricts = this.originControl.valueChanges.pipe(
+  
+    this.filteredDistricts = this.originDistrictControl.valueChanges.pipe(
       startWith(''),
       map(value => this.filterDistricts(value || ''))
     );
-
-    this.originControl.valueChanges.pipe(
+  
+    this.originDistrictControl.valueChanges.pipe(
       switchMap(district => {
         if (district && this.districts.includes(district)) {
-          this.municipalityControl.enable();
-          this.parishControl.disable();
-          this.parishControl.reset();
+          this.originMunicipalityControl.enable();
+          this.originParishControl.disable();
+          this.originParishControl.reset();
           return this.locationService.getMunicipalities(district);
         }
         this.municipalities = [];
-        this.municipalityControl.disable();
-        this.municipalityControl.reset();
-        this.parishControl.disable();
-        this.parishControl.reset();
+        this.originMunicipalityControl.disable();
+        this.originMunicipalityControl.reset();
+        this.parishes = [];
+        this.originParishControl.disable();
+        this.originParishControl.reset();
         return of([]);
       })
     ).subscribe(municipalities => {
       this.municipalities = municipalities;
-      console.log('Municipalities:', this.municipalities);
     });
-
-    this.municipalityControl.valueChanges.pipe(
+  
+    this.filteredMunicipalities = this.originMunicipalityControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const filterValue = (value || '').toLowerCase();
+        return this.municipalities.filter(municipality =>
+          municipality.toLowerCase().includes(filterValue)
+        );
+      })
+    );
+  
+    this.originMunicipalityControl.valueChanges.pipe(
       switchMap(municipality => {
         if (municipality && this.municipalities.includes(municipality)) {
-          this.parishControl.enable();
+          this.originParishControl.enable();
           return this.locationService.getParishes(municipality);
         }
         this.parishes = [];
-        this.parishControl.disable();
-        this.parishControl.reset();
+        this.originParishControl.disable();
+        this.originParishControl.reset();
         return of([]);
       })
     ).subscribe(parishes => {
       this.parishes = parishes;
-      console.log('Parishes:', this.parishes);
     });
+  
+    this.filteredParishes = this.originParishControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const filterValue = (value || '').toLowerCase();
+        return this.parishes.filter(parish =>
+          parish.toLowerCase().includes(filterValue)
+        );
+      })
+    );
   }
 
+  triggerAutocomplete(control: FormControl, filteredOptions: Observable<string[]>): void {
+    const currentValue = control.value || '';
+    control.setValue(currentValue);
+  }
+  
   private filterDistricts(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.districts.filter(district =>
@@ -131,5 +155,4 @@ export class FindTripsComponent implements OnInit {
   tripDetails(tripCode: string) {
     TripDetailComponent.openDialog(this.dialog, { tripCode: tripCode });
   }
-
 }

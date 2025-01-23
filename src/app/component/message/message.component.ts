@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-message',
+  standalone: true,
   imports: [
     CommonModule,
     MatDialogModule,
@@ -21,25 +22,36 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss'
 })
-
 export class MessageComponent {
-  inputCode: string = '';
+  inputCode: string = '';  // Usado para novo nome da marca
   isCodeValid: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<MessageComponent>
-  ) {}
+  ) {
+    if (this.data.initialBrandName) {
+      this.inputCode = this.data.initialBrandName;
+    }
+  }
 
   onConfirm(): void {
-    this.dialogRef.close(true);
+    if (this.data.requiresCodeInput) {
+      if (this.inputCode.trim() === '') {
+        return;  // Evita fechar o diálogo com nome inválido
+      }
+      this.dialogRef.close(this.inputCode.trim());
+    } else {
+      this.dialogRef.close(true);
+    }
   }
 
   onClose(): void {
-    this.dialogRef.close(false);
+    this.dialogRef.close(null);
   }
 
   validateCode(): void {
-    this.isCodeValid = this.inputCode === this.data.requiredCode;
+    // Desativa validação de código e permite qualquer nome de marca
+    this.isCodeValid = this.inputCode.trim() !== '';
   }
 }

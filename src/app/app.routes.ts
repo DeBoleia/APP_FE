@@ -9,9 +9,13 @@ import { MapDisplayComponent } from './component/map-display/map-display.compone
 import { RegisterComponent } from './component/register/register.component';
 import { ApplicationComponent } from './component/application/application.component';
 import { TripComponent } from './component/trip/trip.component';
+import { CarDatabaseComponent } from './component/car-database/car-database.component';
+import { CarBrandDetailsComponent } from './details/car-brand-details/car-brand-details.component';
 import { RgpdComponent } from './component/rgpd/rgpd.component';
 import { AboutusComponent } from './component/aboutus/aboutus.component';
 import { MyTripsComponent } from './component/my-trips/my-trips.component';
+import { ChangePasswordComponent } from './component/change-password/change-password.component';
+
 
 export const routes: Routes = [
 	{ path: '', component: HomeComponent },
@@ -29,5 +33,11 @@ export const routes: Routes = [
 	{ path: 'aboutus', component: AboutusComponent },
 	{ path: "trips", component: FindTripsComponent },
 	{ path: "mytrips", component: MyTripsComponent },
-	{ path: "map", component: MapDisplayComponent }
+	{ path: "map", component: MapDisplayComponent },
+	{ path: 'cars', component: CarDatabaseComponent },
+	{ path: 'cars/:brand', component: CarBrandDetailsComponent },	
+	{ path: 'rgpd', component: RgpdComponent }, 
+	{ path: 'aboutus', component: AboutusComponent },
+	{ path: 'change-password', component: ChangePasswordComponent }
+
 ];

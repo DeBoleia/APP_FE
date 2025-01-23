@@ -7,39 +7,49 @@ import { Observable } from 'rxjs';
 })
 export class CarsService {
 
-  private baseUrl = 'http://localhost:8082/api/cars';  // URL base do seu backend
+  private baseUrlCarros = 'http://localhost:8083/api/cars';
+  private baseUrlDeBoleia = 'http://localhost:8082/api/cars'; 
 
   constructor(private http: HttpClient) { }
 
   // Função para obter todas as marcas de carros
   getCarBrands(): Observable<any> {
 
-    return this.http.get(`${this.baseUrl}/brands`);
+    return this.http.get(`${this.baseUrlDeBoleia}/brands`);
   }
 
   // Função para obter os modelos de carros baseado na marca
+  // getCarModels(brand: string): Observable<any> {
+  //   console.log('getCarModels ESTOU AQUI');
+  //   return this.http.post(`${this.baseUrl}/models`, { brand });
+  // }
   getCarModels(brand: string): Observable<any> {
-    console.log('getCarModels ESTOU AQUI');
-    return this.http.post(`${this.baseUrl}/models`, { brand });
+    console.log('getCarModels ESTOU AQUI para a brand:', brand);
+    return this.http.get(`${this.baseUrlCarros}/${brand}/models`);
   }
 
   // Função para atualizar o carro (por ID de usuário)
   updateCar(userID: string, carData: any): Observable<any> {
-    return this.http.put(`${this.baseUrl}/updateCar/${userID}`, carData);
+    return this.http.put(`${this.baseUrlDeBoleia}/updateCar/${userID}`, carData);
   }
 
   // Função para criar um carro no usuário (por ID de usuário)
   createCarInUser(userID: string, carData: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/selectCar/${userID}`, carData);
+    return this.http.post(`${this.baseUrlDeBoleia}/selectCar/${userID}`, carData);
   }
 
   // Função para excluir todos os carros de um usuário
   deleteCars(userID: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/deleteCars/${userID}`);
+    return this.http.delete(`${this.baseUrlDeBoleia}/deleteCars/${userID}`);
   }
 
   // Função para excluir um carro pelo license plate
   deleteCarByLicensePlate(userID: string, licensePlate: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/deleteCars/${userID}/${licensePlate}`);
+    return this.http.delete(`${this.baseUrlDeBoleia}/deleteCars/${userID}/${licensePlate}`);
+  }
+
+  getAllCarBrands(): Observable<any> {
+    console.log('A obter todas as marcas de carros...');
+    return this.http.get(`${this.baseUrlCarros}/all/brands`);
   }
 }

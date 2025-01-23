@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class CarDatabaseService {
   private baseUrl = 'http://localhost:8082/api/cars';
-  private baseUrl1 = 'http://localhost:8083/api/cars';
+  private baseUrlCarros = 'http://localhost:8083/api/cars';
 
   constructor(private http: HttpClient) { }
 
@@ -25,18 +25,22 @@ export class CarDatabaseService {
   }
 
   renameBrand(oldBrand: string, newBrand: string): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${oldBrand}`, { newBrand });
+    return this.http.put(`${this.baseUrlCarros}/${oldBrand}`, { newBrand });
   }
 
   updateCarModel(brand: string, model: string, updates: { 
     newBrand?: string, 
     newModel?: string 
   }): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${brand}/${model}`, updates);
+    return this.http.put(`${this.baseUrlCarros}/${brand}/${model}`, updates);
   }
 
   addNewCar(carData: { brand: string, model: string }): Observable<any> {
-    return this.http.post(`${this.baseUrl1}`, carData);
+    return this.http.post(`${this.baseUrlCarros}`, carData);
+  }
+
+  createCarModel(brand: string, model: string): Observable<any> {
+    return this.http.post(`${this.baseUrlCarros}/${brand}/models`, { model });
   }
 
 }

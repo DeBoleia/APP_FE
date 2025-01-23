@@ -205,7 +205,22 @@ export class CarDatabaseComponent implements OnInit, AfterViewInit {
   // }
 
   renameBrand(brand: string): void {
-
+    this.messageService.showRenameBrandDialog(brand).subscribe((newBrandName: string | null) => {
+      if (newBrandName && newBrandName.trim() !== '') {
+        this.carDatabaseService.renameBrand(brand, newBrandName.trim()).subscribe({
+          next: () => {
+            this.messageService.showSnackbar('Marca renomeada com sucesso!', 'success');
+            this.loadCarBrands();
+          },
+          error: (error) => {
+            console.error('Erro ao renomear a marca:', error);
+            this.messageService.showSnackbar('Erro ao renomear a marca', 'error');
+          }
+        });
+      } else {
+        this.messageService.showSnackbar('Nome inválido para a marca.', 'warning');
+      }
+    });
   }
   
   // renameBrand(brand: string): void {

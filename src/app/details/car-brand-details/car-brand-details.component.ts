@@ -109,30 +109,23 @@ export class CarBrandDetailsComponent implements OnInit, AfterViewInit {
   }
 
   addNewModel(): void {
-  
+    // Abre a caixa de diálogo para o utilizador inserir o nome do novo modelo
+    this.messageService.showAddModelDialog(this.brand).subscribe(result => {
+      if (result && typeof result === 'string') {
+        // Se o utilizador forneceu um nome de modelo válido, faz a requisição ao backend
+        this.carDatabaseService.createCarModel(this.brand, result).subscribe({
+          next: () => {
+            this.messageService.showSnackbar('Modelo adicionado com sucesso', 'success');
+            this.loadBrandModels();  // Recarregar os modelos da marca
+          },
+          error: (error) => {
+            console.error('Erro ao adicionar modelo:', error);
+            this.messageService.showSnackbar('Erro ao adicionar modelo', 'error');
+          }
+        });
+      }
+    });
   }
 
-  // addNewModel(): void {
-  //   this.messageService.showConfirmationDialog(
-  //     'Add New Model',
-  //     `Enter model name for ${this.brand}`,
-  //     ''
-  //   ).subscribe(result => {
-  //     if (result && typeof result === 'string') {
-  //       this.carDatabaseService.addNewCar({ 
-  //         brand: this.brand, 
-  //         model: result 
-  //       }).subscribe({
-  //         next: () => {
-  //           this.messageService.showSnackbar('Model added successfully', 'success');
-  //           this.loadBrandModels();
-  //         },
-  //         error: (error) => {
-  //           console.error('Error adding model:', error);
-  //           this.messageService.showSnackbar('Error adding model', 'error');
-  //         }
-  //       });
-  //     }
-  //   });
-  // }
+
 }

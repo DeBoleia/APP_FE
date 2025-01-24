@@ -5,9 +5,9 @@
 	top: 55px;
 	left: 0;
 	width: 100%;
-	height: calc(100vh - 55px);
-	overflow: hidden;
-	min-width: 1200px;
+	// height: calc(100vh - 55px);
+	// overflow: hidden;
+	// min-width: 1200px;
 }
 
 #title {
@@ -31,22 +31,25 @@
 
 .col-right {
 	position: relative;
-	width: 100%;
+	min-width: 50%;
 	height: 100%;
-	overflow-x: hidden;
-	overflow-y: scroll;
+	// overflow-x: hidden;
+	// overflow-y: scroll;
 }
 
 .col-left {
+	position: sticky;
 	// background-color: whitesmoke;
 	// color: whitesmoke;
 	padding-top: 0px;
-	padding-left: 20px;
+	// padding-left: 20px;
 	margin: auto;
-	width: 90%;
+	width: 50%;
 	height: 100%;
-	overflow-x: hidden;
-	overflow-y: scroll;
+	max-width: 700px;
+	// overflow-x: scroll;
+	// overflow-y: scroll;
+	// z-index: 1000;
 }
 
 .trips-display {
@@ -134,4 +137,21 @@ img {
 :host {
 	--mat-sys-primary : black;
 	// --bs-body-color: green;
+}
+
+.animated-text {
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	animation: typing 3.5s steps(40, end);
+}
+
+@keyframes typing {
+	from { width: 0; }
+	to { width: 30%; }
+}
+
+@keyframes blink-caret {
+	from, to { border-color: transparent; }
+	50% { border-color: orange; }
 }

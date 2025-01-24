@@ -64,15 +64,15 @@ export class AuthenticatorService {
   // }
 
   login(email: string, password: string): Observable<{ userToken: string }> {
-    console.log('Login email:', email);
-    console.log('Login password:', password);  // Não fazer em produção (apenas para testes)
+    // console.log('Login email:', email);
+    // console.log('Login password:', password);  // Não fazer em produção (apenas para testes)
   
     const body = { email, password };
   
     return this.http.post<{ userToken: string }>(`${this.apiUrl}/login`, body)
       .pipe(
         tap(response => {
-          console.log('Received token:', response.userToken);
+          // console.log('Received token:', response.userToken);
           this.saveToken(response.userToken);
         })
       );
@@ -82,13 +82,13 @@ export class AuthenticatorService {
     const decodedToken: any = jwtDecode(token);
     localStorage.setItem(this.tokenKey, token);
     const role = decodedToken.role || decodedToken.userRole;
-    console.log('Extracted role:', role);
+    // console.log('Extracted role:', role);
     localStorage.setItem(this.tokenRole, role);
     localStorage.setItem(this.tokenUserID, decodedToken.userID);
-    console.log('userID SAVE AAA decoded==> :', decodedToken.userID);
+    // console.log('userID SAVE AAA decoded==> :', decodedToken.userID);
     
     localStorage.setItem(this.tokenStatus, decodedToken.status);
-    console.log('status SAVE AAA decoded==> :', decodedToken.status);
+    // console.log('status SAVE AAA decoded==> :', decodedToken.status);
   }
 
   getToken(): string | null {
@@ -158,7 +158,7 @@ export class AuthenticatorService {
     const token = this.getToken();
     if (!token) return null;
     const decodedToken: any = jwtDecode(token);
-    console.log('status @@@ decoded==> :', decodedToken.userStatus);
+    // console.log('status @@@ decoded==> :', decodedToken.userStatus);
 
     return decodedToken.userStatus || null;
   }

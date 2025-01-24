@@ -30,7 +30,6 @@ export class PendingEvaluationDialogComponent {
   ) {
     this.pendingPassengerEvaluations = data.pendingPassengerEvaluation;
     this.pendingDriverEvaluations = data.pendingDriverEvaluation;
-    console.log('Pending passenger evaluations:', data);
   }
 
   setPassengerRating(evaluation: any, rating: number): void {

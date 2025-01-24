@@ -21,6 +21,8 @@ export interface User {
 	passengerRatingCount: number;
 	driversLicense: string;
     cars?: Cars; 
+	pendingDriverEvaluation?: string[];
+	pendingPassengerEvaluation?: string[];
 }
 
  

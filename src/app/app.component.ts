@@ -7,6 +7,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { RgpdComponent } from './component/rgpd/rgpd.component';
 import { LoadingService } from './services/loading-service.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,8 @@ export class AppComponent implements OnInit {
   constructor(
     private auth: AuthenticatorService,
     private router: Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService, 
+    private userService: UserService
   ) {}
 
   ngOnInit() {

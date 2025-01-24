@@ -20,10 +20,9 @@ import { AuthGuard } from './Guards/auth.guard';
 
 export const routes: Routes = [
 	{ path: '', component: HomeComponent },
-	// { path: 'trips', component: TripComponent },
 	{ path: 'login', component: LoginComponent },
-	{ path: "user", component: UserComponent/*, canActivate: [AuthGuard], data: { requiresAuth: true} */ },
-	{ path: "user/:userID", component: UserDetailsComponent/*, canActivate: [AuthGuard], data: { requiresAuth: true} */ },
+	{ path: "user", component: UserComponent, canActivate: [PendingEvaluationGuard] },
+	{ path: "user/:userID", component: UserDetailsComponent, canActivate: [PendingEvaluationGuard] },
 	{ path: "login", component: LoginComponent },
 	{ path: "register", component: RegisterComponent },
 	{ path: "home", component: HomeComponent },

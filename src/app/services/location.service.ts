@@ -21,21 +21,21 @@ export class LocationService {
     const url = `${this.baseUrl}distritos?json=true`;
     return from(fetch(url)
       .then(response => response.json())
-      .then(data => data.map((item: any) => item.distrito)));
+      .then(data => data?.map((item: any) => item.distrito)));
   }
 
   getMunicipalities(district: string): Observable<string[]> {
     const url = `${this.baseUrl}distrito/${district}/municipios?json=true`;
     return from(fetch(url)
       .then(response => response.json())
-      .then(data => data.municipios.map((item: any) => item.nome)));
+      .then(data => data?.municipios.map((item: any) => item.nome)));
   }
 
   getParishes(municipality: string): Observable<string[]> {
     const url = `${this.baseUrl}municipio/${municipality}/freguesias?json=true`;
     return from(fetch(url)
       .then(response => response.json())
-      .then(data => data.freguesias));
+      .then(data => data?.freguesias));
   }
 
   getCoordinates({ parish, municipality, district }: { parish?: string; municipality?: string; district?: string }): Observable<Location> {
@@ -44,7 +44,7 @@ export class LocationService {
       return from(fetch(url)
         .then(response => response.json())
         .then(data => {
-          const [lng, lat] = data.geojson.properties.centros.centro;
+          const [lng, lat] = data?.geojson?.properties?.centros?.centro;
           return { lat, lng };
         }));
     }
@@ -54,11 +54,11 @@ export class LocationService {
       return from(fetch(url)
         .then(response => response.json())
         .then(data => {
-          const municipalityData = data.geojsons.municipios.find((item: any) => {
-            return item.properties.Concelho === municipality;
+          const municipalityData = data?.geojsons.municipios.find((item: any) => {
+            return item.properties?.Concelho === municipality;
           });
           if (!municipalityData) return { lat: 0, lng: 0 };
-          const [lng, lat] = municipalityData.properties.centros.centro;
+          const [lng, lat] = municipalityData.properties?.centros?.centro;
           return { lat, lng };
         }));
     }
@@ -68,7 +68,7 @@ export class LocationService {
       return from(fetch(url)
         .then(response => response.json())
         .then(data => {
-          const [lng, lat] = data.geojson.properties.centros.centro;
+          const [lng, lat] = data?.geojson?.properties?.centros?.centro;
           return { lat, lng };
         }));
     }

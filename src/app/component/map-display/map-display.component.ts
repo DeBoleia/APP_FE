@@ -75,6 +75,7 @@ export class MapDisplayComponent implements OnChanges {
           if (res && res.routes && res.routes.length > 0) {
             this.directionsResult$.next(res);
           } else {
+            this.distance = 0;
             console.error('No valid routes found:', res);
           }
         },

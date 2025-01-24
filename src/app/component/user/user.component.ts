@@ -51,6 +51,7 @@ export class UserComponent implements OnInit {
     'userID',
     'name',
     'email',
+    'phoneNumber',
     'status',
     'acoes',
   ];
@@ -92,7 +93,7 @@ export class UserComponent implements OnInit {
           data: User,
           filter: string
         ) => {
-          const dataStr = data.userID + data.name + data.email;
+          const dataStr = data.userID + data.name + data.email + data.phoneNumber;
           return dataStr.toLowerCase().includes(filter.toLowerCase());
         };
       },

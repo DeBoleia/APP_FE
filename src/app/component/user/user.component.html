@@ -6,7 +6,7 @@
 			<div class="filter-row">
 				<mat-form-field appearance="outline"  class="search-field">
 					<mat-label>Find user</mat-label>
-					<input (keyup)="filterChange($event)" matInput placeholder="userID, name or email">
+					<input (keyup)="filterChange($event)" matInput placeholder="by userID, name, email or phone number">
 					<mat-icon matSuffix>search</mat-icon>
 				</mat-form-field>
 				<img src="/avatar.png" class="filter-image" alt="Car" 
@@ -33,6 +33,11 @@
 				<ng-container matColumnDef="email">
 					<th mat-sort-header mat-header-cell *matHeaderCellDef>EMAIL</th>
 					<td mat-cell *matCellDef="let element">{{element.email}}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="phoneNumber">
+					<th mat-sort-header mat-header-cell *matHeaderCellDef>PHONE</th>
+					<td mat-cell *matCellDef="let element">{{element.phoneNumber}}</td>
 				</ng-container>
 
 

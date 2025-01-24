@@ -23,7 +23,7 @@ export const routes: Routes = [
 	{ path: '', component: HomeComponent },
 	{ path: 'home', component: HomeComponent },
 	{ path: 'login', component: LoginComponent },
-	{ path: "user", component: UserComponent, canActivate: [PendingEvaluationGuard] },
+	{ path: "user", component: UserComponent},
 	{ path: "user/:userID", component: UserDetailsComponent, canActivate: [PendingEvaluationGuard] },
 	{ path: "login", component: LoginComponent },
 	{ path: "register", component: RegisterComponent },

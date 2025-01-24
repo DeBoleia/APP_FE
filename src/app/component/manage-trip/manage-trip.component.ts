@@ -107,12 +107,21 @@ export class ManageTripComponent implements OnInit {
     this.messageService.showConfirmationDialog(
       'START TRIP',
       'Are you sure you want to start this trip? Please confirm by entering the trip code:',
-      tripCode).subscribe(result => {
-        if (result) {
-          this.tripService.startTrip(tripCode).subscribe(data => {
-            this.loadData();
-          });
+      tripCode).subscribe({
+        next: (result) => {
+
+          if (result) {
+            this.tripService.startTrip(tripCode).subscribe(data => {
+              this.loadData();
+            });
+            this.messageService.showSnackbar('Trip started');
+          }
+        },
+        error: (error) => {
+          console.log('error', error);
+          this.messageService.showSnackbar(error.error.message);
         }
+
       });
   }
 

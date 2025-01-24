@@ -100,12 +100,17 @@ export class UserService {
 		);
 	}
 
-	// Rate passengers
-	ratePassengers(ratingData: any): Observable<any> {
-		return this.http.patch<any>(`${this.apiUrl}/ratepassengers`, ratingData, { headers: this.getHeaders() }).pipe(
-			catchError(this.handleError)
-		);
-	}
+  // Rate passengers
+  ratePassengers(ratingData: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/ratepassengers`, ratingData, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  rateOnePassenger(ratingData: any): Observable<any> {
+    console.log('Rating Data:', ratingData);
+    return this.http.patch<any>(`${this.apiUrl}/rateOnePassenger`, ratingData);
+  }
 
 	// ======================== DELETE ======================== //
 

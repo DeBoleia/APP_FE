@@ -13,6 +13,7 @@ import { StarRatingComponent } from "../star-rating/star-rating.component";
 import { catchError, forkJoin, of } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { TripsService } from '../../services/trips.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-aplication-card',
@@ -23,7 +24,8 @@ import { TripsService } from '../../services/trips.service';
     MatIconModule,
     MatListModule,
     StarRatingComponent,
-    MatButtonModule
+    MatButtonModule,
+    MatTooltipModule
   ],
   templateUrl: './aplication-card.component.html',
   styleUrl: './aplication-card.component.scss'
@@ -42,11 +44,31 @@ export class AplicationCardComponent {
   @Input() user: string = '';
   @Input() isDriver: boolean = false;
   application: any;
+  trip: any;
 
   loadData() {
-    this.applicationService.getApplicationByApplicationCode(this.applicationCode).subscribe(application => {
+    this.applicationService.getApplicationByApplicationCode(this.applicationCode).pipe(
+      catchError(error => {
+      console.error('Error fetching application:', error);
+      return of(null);
+      })
+    ).subscribe(application => {
+      if (application) {
       this.application = application;
       console.log('application: ', this.application);
+
+      forkJoin({
+        trip: this.tripsService.getTripByTripCode(this.application.trip.tripCode).pipe(
+        catchError(error => {
+          console.error('Error fetching trip:', error);
+          return of(null);
+        })
+        )
+      }).subscribe(({ trip }) => {
+        this.trip = trip;
+        console.log('trip: ', this.trip);
+      });
+      }
     });
   }
    acceptPassenger(userID: string) {
@@ -57,6 +79,12 @@ export class AplicationCardComponent {
 
   rejectPassenger(userID: string) {
     this.applicationService.rejectApplication(this.application.applicationCode).subscribe (data => {
+      this.loadData();
+    });
+  }
+
+  cancelApplication() {
+    this.applicationService.cancelApplication(this.application.applicationCode).subscribe (data => {
       this.loadData();
     });
   }

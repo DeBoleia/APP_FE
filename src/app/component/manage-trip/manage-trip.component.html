@@ -147,7 +147,7 @@
 		@if (trip?.status === 'closed' || trip?.status === 'inOffer') {
 		<button mat-button style="background-color: #4EC28F; color: black; width: 140px;"
 		(click)="startTrip(trip?.tripCode)"
-		>START TRIP</button>
+		><mat-icon>play_circle</mat-icon>START TRIP</button>
 		}
 		@if (trip?.status === 'ongoing') {
 		<button mat-button style="background-color: #000000; color: whitesmoke; width: 140px;"
@@ -155,9 +155,9 @@
 		>FINISH TRIP</button>
 		}
 		@if (trip?.status === 'closed' || trip?.status === 'inOffer') {
-		<button mat-button style="background-color: #c24e4e; color: black; width: 140px;"
+		<button mat-button style="background-color: #c24e4e; color: black; width: 150px;"
 		(click)="cancelTrip(trip?.tripCode)"
-		>CANCEL TRIP</button>
+		><mat-icon>cancel</mat-icon>CANCEL TRIP</button>
 		}
-	<button mat-button mat-dialog-close style="background-color: #616161; color: rgb(255, 255, 255); width: 40px;">Fechar</button>
+	<button mat-button mat-dialog-close style="background-color: #616161; color: rgb(255, 255, 255); width: 100px;"> <mat-icon>exit_to_app</mat-icon> leave</button>
 </mat-dialog-actions>

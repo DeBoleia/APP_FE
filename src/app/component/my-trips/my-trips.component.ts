@@ -17,6 +17,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ManageTripComponent } from '../manage-trip/manage-trip.component';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ApplicationsService } from '../../services/applications.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-my-trips',
@@ -29,7 +31,8 @@ import { catchError } from 'rxjs/operators';
     MatButton,
     AplicationCardComponent,
     StarRatingComponent,
-    MatTooltip
+    MatTooltip,
+    MatIconModule
 ],
   templateUrl: './my-trips.component.html',
   styleUrl: './my-trips.component.scss'
@@ -41,6 +44,7 @@ export class MyTripsComponent implements OnInit {
     private userService: UserService,
     private messageService: MessageService,
     private tripService: TripsService,
+    private applicationService: ApplicationsService,
     private dialog: MatDialog
   ) { }
 
@@ -49,6 +53,7 @@ export class MyTripsComponent implements OnInit {
   tripsAsDriverDataSource: any;
   tripsAsPassenger: any[] = [];
   tripsAsPassengerDataSource: any;
+  myApplications: any[] = [];
 
   ngOnInit(): void {
     const userID =  this.authenticationService.getUserID();
@@ -65,15 +70,20 @@ export class MyTripsComponent implements OnInit {
           tripsAsPassenger: this.tripService.getTripsByPassenger(userID).pipe(catchError(error => {
             console.error('Error fetching trips as passenger', error);
             return of([]);
+          })),
+          myApplications: this.applicationService.getApplicationByUserID(userID).pipe(catchError(error => {
+            console.error('Error fetching all applications', error);
+            return of([]);
           }))
-        }).subscribe(({ tripsAsDriver, tripsAsPassenger }) => {
+        }).subscribe(({ tripsAsDriver, tripsAsPassenger, myApplications }) => {
           this.tripsAsDriver = tripsAsDriver;
           this.tripsAsDriverDataSource = new MatTableDataSource(this.tripsAsDriver);
-          console.log('tripsAsDriver: ', this.tripsAsDriver);
+
 
           this.tripsAsPassenger = tripsAsPassenger;
           this.tripsAsPassengerDataSource = new MatTableDataSource(this.tripsAsPassenger);
-          console.log('tripsAsPassenger: ', this.tripsAsPassenger);
+          
+          this.myApplications = myApplications;
         });
       });
     }

@@ -63,11 +63,11 @@ export class AppComponent implements OnInit {
     }
   }
 
-  manageTrips(): void {
+  manageTrips(url : string): void {
     if (this.isLoggedIn()) {
-      this.router.navigate(['/trips']);
+      this.router.navigate([url]);
     } else {
-      this.auth.saveTargetUrl('/trips');
+      this.auth.saveTargetUrl(url);
       this.router.navigate(['/login']);
     }
   }

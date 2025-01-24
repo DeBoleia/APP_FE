@@ -17,6 +17,7 @@ import { map, startWith, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { LocationService } from '../../services/location.service';
 import { MapDisplayComponent } from "../map-display/map-display.component";
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-find-trips',
@@ -30,7 +31,8 @@ import { MapDisplayComponent } from "../map-display/map-display.component";
     MatIconModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    MapDisplayComponent
+    MapDisplayComponent,
+    MatTooltip
   ],
   templateUrl: './find-trips.component.html',
   styleUrl: './find-trips.component.scss'

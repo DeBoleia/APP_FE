@@ -30,7 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatTableModule,
     MatButton,
     AplicationCardComponent,
-    MatIconModule
+    MatIconModule,
 ],
   templateUrl: './my-trips.component.html',
   styleUrl: './my-trips.component.scss'
@@ -99,4 +99,9 @@ export class MyTripsComponent implements OnInit {
     }
 
   
+    trackApplication(index: number, application: any): any {
+
+      return application.applicationCode;
+  
+    }
 }

@@ -5,6 +5,7 @@
 			<p id="subtitle">Discover the best rides at unbeatable prices. Your journey starts here!</p>
 			<div class="search-input">
 				<!-- District Field -->
+				<mat-label matTooltip="origin"><mat-icon>my_location</mat-icon></mat-label>
 				<mat-form-field appearance="outline">
 					<input matInput placeholder="District" [formControl]="originDistrictControl"
 						[matAutocomplete]="autoOriginDistrict">
@@ -49,6 +50,7 @@
 			</div>
 			<div class="search-input">
 				<!-- District Field -->
+				<mat-label matTooltip="destination"><mat-icon>location_on</mat-icon></mat-label>
 				<mat-form-field appearance="outline">
 					<input matInput placeholder="District" [formControl]="destinationDistrictControl"
 						[matAutocomplete]="autoDestinationDistrict">

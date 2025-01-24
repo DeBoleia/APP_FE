@@ -428,19 +428,11 @@
     <p>For any further questions regarding the right to erasure or our data protection practices, please do not hesitate
         to contact us at <strong>{{email}}</strong>.</p>
 
-
-        							<!-- <button
-          style="background-color: #bebebe; color: black; padding: 10px 15px; border: none; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px;"
-          (click)="goBack()">
-          <mat-icon>arrow_back</mat-icon>
-          Back to Brands
-        </button> -->
-
-    <!-- Botão apenas se não estiver logado -->
-    <button style="background-color: #bebebe; color: black; padding: 10px 15px; border: none; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px;" *ngIf="!isLoggedIn" (click)="voltarParaRegisto()"><i class="bi bi-arrow-left"></i>
+    <button
+        style="background-color: #bebebe; color: black; padding: 10px 15px; border: none; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px;"
+        *ngIf="!isLoggedIn" (click)="voltarParaRegisto()"><i class="bi bi-arrow-left"></i>
         Back to Register
     </button>
     <br><br><br>
-
 
 </div>

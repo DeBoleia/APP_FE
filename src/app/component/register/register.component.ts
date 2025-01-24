@@ -65,8 +65,6 @@ export class RegisterComponent {
 		this.successMessage = '';
 	  
 		let { name, email, phoneNumber, password } = this.registerForm.value;
-	  
-		// Capitalizar a primeira letra do nome e deixar o resto em minúsculas
 		name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 	  
 		this.authenticatorService.register(name, email, phoneNumber, password).subscribe({
@@ -84,12 +82,10 @@ export class RegisterComponent {
 	  }
 
 	ngOnInit(): void {
-		//console.log('Component Initialized');
 		this.resetForm();
 	}
 
 	resetForm(): void {
-		//console.log('Resetting Form');
 		this.registerForm.reset({
 			name: '',
 			email: '',

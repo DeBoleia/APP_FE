@@ -15,7 +15,9 @@ import { RgpdComponent } from './component/rgpd/rgpd.component';
 import { AboutusComponent } from './component/aboutus/aboutus.component';
 import { MyTripsComponent } from './component/my-trips/my-trips.component';
 import { ChangePasswordComponent } from './component/change-password/change-password.component';
-import { PendingEvaluationGuard } from './guards/pending-evaluation.guard';
+import { AuthGuard } from './Guards/auth.guard';
+import { PendingEvaluationGuard } from './Guards/pending-evaluation.guard';
+
 
 export const routes: Routes = [
 	{ path: '', component: HomeComponent },
@@ -24,16 +26,14 @@ export const routes: Routes = [
 	{ path: "user/:userID", component: UserDetailsComponent, canActivate: [PendingEvaluationGuard] },
 	{ path: "login", component: LoginComponent },
 	{ path: "register", component: RegisterComponent },
-	{ path: "application", component: ApplicationComponent, canActivate: [PendingEvaluationGuard]},
-	{ path: "trips", component: FindTripsComponent, canActivate: [PendingEvaluationGuard] },
-	{ path: "offertrip", component: TripComponent, canActivate: [PendingEvaluationGuard]},
+	{ path: "home", component: HomeComponent },
+	{ path: "trips", component: FindTripsComponent , canActivate: [AuthGuard], data: { requiresAuth: true}},
+	{ path: "offertrip", component: TripComponent , canActivate: [AuthGuard], data: { requiresAuth: true}},
 	{ path: 'rgpd', component: RgpdComponent },
 	{ path: 'aboutus', component: AboutusComponent },
-	{ path: "trips", component: FindTripsComponent, canActivate: [PendingEvaluationGuard] },
-	{ path: "mytrips", component: MyTripsComponent, canActivate: [PendingEvaluationGuard] },
-	{ path: "map", component: MapDisplayComponent, canActivate: [PendingEvaluationGuard] },
-	{ path: 'cars', component: CarDatabaseComponent, canActivate: [PendingEvaluationGuard] },
-	{ path: 'cars/:brand', component: CarBrandDetailsComponent },	
-	{ path: 'change-password', component: ChangePasswordComponent, canActivate: [PendingEvaluationGuard]}
+	{ path: "mytrips", component: MyTripsComponent , canActivate: [AuthGuard], data: { requiresAuth: true}},
+	{ path: 'cars', component: CarDatabaseComponent , canActivate: [AuthGuard], data: { requiresAuth: true}},
+	{ path: 'cars/:brand', component: CarBrandDetailsComponent , canActivate: [AuthGuard], data: { requiresAuth: true}},	
+	{ path: 'change-password', component: ChangePasswordComponent , canActivate: [AuthGuard], data: { requiresAuth: true}}
 
 ];

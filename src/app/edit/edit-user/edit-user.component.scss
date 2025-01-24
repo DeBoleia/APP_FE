@@ -12,19 +12,16 @@ mat-form-field {
 
 }
 
-/* Estilo para o hint (mensagem de erro) */
 mat-hint {
 	color: var(--warn-default);
 }
 
-/* Estilo para os botões */
 .dialog-actions {
 	display: flex;
 	justify-content: flex-end;
 	margin-top: 20px;
 }
 
-/* Botão de Salvar */
 button[type="submit"]:enabled {
 	background-color: #4caf50;
 	color: white;
@@ -46,4 +43,3 @@ button {
 	margin: 10px;
 
 }
-

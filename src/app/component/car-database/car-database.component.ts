@@ -19,7 +19,6 @@ import { DatabaseCars } from '../../interfaces/car';
 import { CarsEditComponent } from '../../edit/cars-edit/cars-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 
-
 @Component({
   selector: 'app-car-database',
   standalone: true,
@@ -40,21 +39,20 @@ import { MatDialog } from '@angular/material/dialog';
     MatSelectModule,
   ],
   templateUrl: './car-database.component.html',
-  styleUrl: './car-database.component.scss'
+  styleUrl: './car-database.component.scss',
 })
 export class CarDatabaseComponent implements OnInit, AfterViewInit {
-  
   displayedColumns: string[] = ['brand', 'actions'];
-    @ViewChild(MatPaginator) paginator!: MatPaginator;
-    @ViewChild(MatSort) sort!: MatSort;
-  
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   dataSource = new MatTableDataSource<DatabaseCars>();
-  
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  
+
   brandOptions: string[] = [];
   modelOptions: string[] = [];
 
@@ -63,21 +61,31 @@ export class CarDatabaseComponent implements OnInit, AfterViewInit {
     private carsService: CarsService,
     private messageService: MessageService,
     private router: Router,
-    private dialog: MatDialog 
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.loadCarBrands();
+
+    this.dataSource.sortingDataAccessor = (item: DatabaseCars, property: keyof DatabaseCars) => {
+      const value = item[property];
+      if (typeof value === 'string') {
+        return value.toLowerCase();
+      }
+      return value ?? '';
+    };
   }
 
   loadCarBrands(): void {
     this.carDatabaseService.getBrandsList().subscribe({
       next: (brands: string[]) => {
-        this.dataSource.data = brands.map((brand: string) => ({ brand } as DatabaseCars));
+        this.dataSource.data = brands.map(
+          (brand: string) => ({ brand } as DatabaseCars)
+        );
       },
       error: (error) => {
         this.messageService.showSnackbar('Error loading brands', 'error');
-      }
+      },
     });
   }
 
@@ -101,7 +109,6 @@ export class CarDatabaseComponent implements OnInit, AfterViewInit {
       if (result) {
         console.log('Dados recebidos após fechamento do diálogo:', result);
 
-
         const newCar: DatabaseCars = {
           brand: result.brand,
           model: result.model,
@@ -109,10 +116,12 @@ export class CarDatabaseComponent implements OnInit, AfterViewInit {
 
         console.log('Novo objeto de carsDB a ser enviado:', newCar);
 
-
         this.carDatabaseService.addNewCar(newCar).subscribe(
           (response) => {
-            this.messageService.showSnackbar('Car created successfully!', 'success');
+            this.messageService.showSnackbar(
+              'Car created successfully!',
+              'success'
+            );
 
             this.loadCarBrands();
           },
@@ -120,129 +129,44 @@ export class CarDatabaseComponent implements OnInit, AfterViewInit {
             console.error('Error while creating car:', error);
             this.messageService.showSnackbar(
               'Error while creating car: ' +
-              (error.error?.error ? error.error.error : error.message)
+                (error.error?.error ? error.error.error : error.message)
             );
           }
         );
       } else {
-
         console.log('Ação de criação de car foi cancelada');
       }
     });
   }
 
-
-  // openVirusDialog(): void {
-  //   const dialogRef = this.dialog.open(VirusDialogComponent, {
-  //     width: '900px',
-  //     data: {
-  //       codigoVirus: '',
-  //       nomeVirus: '',
-  //     },
-  //   });
-
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     if (result) {
-  //       console.log('Dados recebidos após fechamento do diálogo:', result);
-
-
-  //       const newVirus: Virus = {
-  //         codigoVirus: result.codigoVirus,
-  //         nomeVirus: result.nomeVirus,
-  //       };
-
-  //       console.log('Novo objeto de vírus a ser enviado:', newVirus);
-
-
-  //       this.virusService.createVirus(newVirus).subscribe(
-  //         (response) => {
-  //           this.messageService.showSnackbar('Vírus criado com sucesso!', 'success');
-
-  //           this.getAllVirus();
-  //         },
-  //         (error) => {
-  //           console.error('Erro ao criar vírus:', error);
-  //           this.messageService.showSnackbar(
-  //             'Erro ao criar vírus: ' +
-  //             (error.error?.error ? error.error.error : error.message)
-  //           );
-  //         }
-  //       );
-  //     } else {
-
-  //       console.log('Ação de criação de vírus foi cancelada');
-  //     }
-  //   });
-  // }
-
-  // addNewCar(): void {
-  //   this.messageService.showConfirmationDialog(
-  //     'Add New Car',
-  //     'Enter brand and model (separated by comma)',
-  //     ''
-  //   ).subscribe((result: string | boolean) => {
-  //     if (result && typeof result === 'string') {
-  //       const parts: string[] = result.split(',');
-  //       const brand = parts[0]?.trim();
-  //       const model = parts[1]?.trim();
-        
-  //       if (brand && model) {
-  //         this.carDatabaseService.addNewCar({ brand, model }).subscribe({
-  //           next: () => {
-  //             this.messageService.showSnackbar('Car added successfully', 'success');
-  //             this.loadCarBrands();
-  //           },
-  //           error: (error) => {
-  //             console.error('Error adding car:', error);
-  //             this.messageService.showSnackbar('Error adding car', 'error');
-  //           }
-  //         });
-  //       } else {
-  //         this.messageService.showSnackbar('Please enter both brand and model', 'error');
-  //       }
-  //     }
-  //   });
-  // }
-
   renameBrand(brand: string): void {
-    this.messageService.showRenameBrandDialog(brand).subscribe((newBrandName: string | null) => {
-      if (newBrandName && newBrandName.trim() !== '') {
-        this.carDatabaseService.renameBrand(brand, newBrandName.trim()).subscribe({
-          next: () => {
-            this.messageService.showSnackbar('Car maker successfully rebranded!', 'success');
-            this.loadCarBrands();
-          },
-          error: (error) => {
-            console.error('Error while changing brand name:', error);
-            this.messageService.showSnackbar('Error while changing brand name', 'error');
-          }
-        });
-      } else {
-        this.messageService.showSnackbar('Invalid brand name.', 'warning');
-      }
-    });
+    this.messageService
+      .showRenameBrandDialog(brand)
+      .subscribe((newBrandName: string | null) => {
+        if (newBrandName && newBrandName.trim() !== '') {
+          this.carDatabaseService
+            .renameBrand(brand, newBrandName.trim())
+            .subscribe({
+              next: () => {
+                this.messageService.showSnackbar(
+                  'Car maker successfully rebranded!',
+                  'success'
+                );
+                this.loadCarBrands();
+              },
+              error: (error) => {
+                console.error('Error while changing brand name:', error);
+                this.messageService.showSnackbar(
+                  'Error while changing brand name',
+                  'error'
+                );
+              },
+            });
+        } else {
+          this.messageService.showSnackbar('Invalid brand name.', 'warning');
+        }
+      });
   }
-  
-  // renameBrand(brand: string): void {
-  //   this.messageService.showConfirmationDialog(
-  //     'Rename Brand',
-  //     `Enter new name for ${brand}`,
-  //     brand
-  //   ).subscribe(result => {
-  //     if (result && typeof result === 'string') {
-  //       this.carDatabaseService.renameBrand(brand, result).subscribe({
-  //         next: () => {
-  //           this.messageService.showSnackbar('Brand renamed successfully', 'success');
-  //           this.loadCarBrands();
-  //         },
-  //         error: (error) => {
-  //           console.error('Error renaming brand:', error);
-  //           this.messageService.showSnackbar('Error renaming brand', 'error');
-  //         }
-  //       });
-  //     }
-  //   });
-  // }
 
   viewBrandDetails(brand: string): void {
     this.router.navigate(['/cars', brand]);

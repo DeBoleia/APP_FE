@@ -1,32 +1,28 @@
-/* Layout geral */
+
 .mat-dialog-content {
 	display: flex;
 	flex-direction: column;
 	padding: 20px;
-	max-height: 70vh;  /* Limita a altura do formulário */
-	overflow-y: auto;  /* Adiciona rolagem vertical quando necessário */
+	max-height: 70vh; 
+	overflow-y: auto;  
 }
 
 mat-form-field {
 	width: 100%;
 	margin-bottom: 15px;
-	/* Espaçamento entre os campos */
+
 }
 
-
-/* Estilo para o hint (mensagem de erro) */
 mat-hint {
 	color: var(--warn-default);
 }
 
-/* Estilo para os botões */
 .dialog-actions {
 	display: flex;
 	justify-content: flex-end;
 	margin-top: 20px;
 }
 
-/* Botão de Salvar */
 button[type="submit"]:enabled {
 	background-color: #4caf50;
 	color: white;
@@ -46,10 +42,8 @@ button[type="submit"]:disabled {
 button {
 	padding: auto;
 	margin: 10px;
-	/* Add space around the button */
 }
 
-/* Estilo do título */
 h2[mat-dialog-title] {
 	font-size: 30px;
 	font-weight: normal;
@@ -58,12 +52,11 @@ h2[mat-dialog-title] {
 	margin-top: 20px;
 }
 
-/* Estilo para "Ativo" (vermelho) */
+
 .ativo {
 	color: red;
   }
   
-  /* Estilo para "Ocorrido" (verde) */
   .ocorrido {
 	color: green;
   }

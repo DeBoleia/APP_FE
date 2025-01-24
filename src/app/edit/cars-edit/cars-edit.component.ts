@@ -21,58 +21,58 @@ import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({
-  selector: 'app-cars-edit',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatFormField,
-    MatDatepickerModule,
-    MatDialogContent,
-    ReactiveFormsModule,
-    MatNativeDateModule,
-    CommonModule,
-    MatSelectModule,
-    MatInputModule,
-    MatButtonModule
-  ],
-  providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter },
-  ],
-  templateUrl: './cars-edit.component.html',
-  styleUrl: './cars-edit.component.scss'
+	selector: 'app-cars-edit',
+	standalone: true,
+	imports: [
+		MatFormFieldModule,
+		MatFormField,
+		MatDatepickerModule,
+		MatDialogContent,
+		ReactiveFormsModule,
+		MatNativeDateModule,
+		CommonModule,
+		MatSelectModule,
+		MatInputModule,
+		MatButtonModule
+	],
+	providers: [
+		{ provide: DateAdapter, useClass: MomentDateAdapter },
+	],
+	templateUrl: './cars-edit.component.html',
+	styleUrl: './cars-edit.component.scss'
 })
 export class CarsEditComponent {
-  carsForm!: FormGroup;
-  isEditing: boolean = false;
+	carsForm!: FormGroup;
+	isEditing: boolean = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<CarsEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+	constructor(
+		private fb: FormBuilder,
+		private dialogRef: MatDialogRef<CarsEditComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: any
+	) {}
 
-  ngOnInit(): void {
-    this.isEditing = !!this.data.cars;
-    this.initForm();
-  }
+	ngOnInit(): void {
+		this.isEditing = !!this.data.cars;
+		this.initForm();
+	}
 
-  initForm(): void {
-    this.carsForm = this.fb.group({
-      brand: [this.data.cars?.brand || '', ],
-      model: [this.data.cars?.model || '', ]  
-     
-    });
-    console.log("form: ", this.carsForm);
-  }
+	initForm(): void {
+		this.carsForm = this.fb.group({
+			brand: [this.data.cars?.brand || '', ],
+			model: [this.data.cars?.model || '', ]  
+		 
+		});
+		console.log("form: ", this.carsForm);
+	}
 
-  onSubmit(): void {
-    if (this.carsForm.valid) {
-      this.dialogRef.close(this.carsForm.value);
-    }
-  }
+	onSubmit(): void {
+		if (this.carsForm.valid) {
+			this.dialogRef.close(this.carsForm.value);
+		}
+	}
 
-  onCancel(): void {
-    this.carsForm.reset();
-    this.dialogRef.close();
-  }
+	onCancel(): void {
+		this.carsForm.reset();
+		this.dialogRef.close();
+	}
 }

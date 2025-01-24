@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CarDatabaseService } from '../../services/cardatabase.service';
 import { MessageService } from '../../services/message.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-car-brand-details',
@@ -35,12 +36,14 @@ import { MessageService } from '../../services/message.service';
 })
 export class CarBrandDetailsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   brand = '';
   displayedColumns: string[] = ['model', 'actions'];
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
   
   dataSource = new MatTableDataSource<{model: string}>();
@@ -82,7 +85,7 @@ export class CarBrandDetailsComponent implements OnInit, AfterViewInit {
     this.messageService.showConfirmationDialog(
       'Edit Model',
       `Enter new name for ${model}`,
-      model  // Provide current value as default
+      model
     ).subscribe(result => {
       if (result && typeof result === 'string') {
         this.carDatabaseService.updateCarModel(this.brand, model, { 
@@ -112,12 +115,12 @@ export class CarBrandDetailsComponent implements OnInit, AfterViewInit {
         // Se o utilizador forneceu um nome de modelo válido, faz a requisição ao backend
         this.carDatabaseService.createCarModel(this.brand, result).subscribe({
           next: () => {
-            this.messageService.showSnackbar('Modelo adicionado com sucesso', 'success');
+            this.messageService.showSnackbar('Car model added successfully', 'success');
             this.loadBrandModels();  // Recarregar os modelos da marca
           },
           error: (error) => {
-            console.error('Erro ao adicionar modelo:', error);
-            this.messageService.showSnackbar('Erro ao adicionar modelo', 'error');
+            console.error('Error while adding car model:', error);
+            this.messageService.showSnackbar('Error while adding car model', 'error');
           }
         });
       }

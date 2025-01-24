@@ -3,7 +3,7 @@
   
     .search-field {
       width: 100%;
-      margin-bottom: 16px;
+
     }
   
     .button-container {
@@ -30,4 +30,15 @@
       padding: 20px;
       color: rgba(0, 0, 0, 0.54);
     }
+  }
+
+
+  ::ng-deep .custom-view-models-button.mat-flat-button {
+    background-color: #b8ffd2 !important;
+    color: black !important;
+  }
+  
+  ::ng-deep .custom-rename-brand-button.mat-flat-button {
+    background-color: #4caf50 !important;
+    color: white !important;
   }

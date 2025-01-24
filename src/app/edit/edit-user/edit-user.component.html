@@ -1,39 +1,32 @@
 <div>
 	<br>
 	<h4 mat-dialog-title style="text-align: center; margin-left: 20px; padding: 0 20px;"> {{ isEditing ? 'Edit User' : 'Add New User' }}</h4>
-	<!-- <form [formGroup]="userForm" (ngSubmit)="onSubmit()"> -->
 	<form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="onSubmit()">
 	  <mat-dialog-content>
   
-		<!-- Nome -->
 		<mat-form-field appearance="outline">
 		  <mat-label>Name</mat-label>
 		  <input matInput formControlName="name" placeholder="Insert your name" />
 		</mat-form-field>
   
-		<!-- Email -->
 		<mat-form-field appearance="outline">
 		  <mat-label>Email</mat-label>
 		  <input matInput type="email" formControlName="email" placeholder="Insert an email address" />
 		</mat-form-field>
   
-		<!-- Telefone -->
 		<mat-form-field appearance="outline">
 			<mat-label>Phone Number	</mat-label>
 			<input matInput placeholder="Phone Number" formControlName="phoneNumber" />
 			<mat-error *ngIf="userForm.get('phoneNumber')?.hasError('invalidPhoneNumber')">
 				The phone number must have 9 digits.
 			  </mat-error>
-			  
 		  </mat-form-field>
   
-		<!-- NIF -->
 		<mat-form-field appearance="outline">
 		  <mat-label>NIF</mat-label>
 		  <input matInput formControlName="NIF" placeholder="Insert a Tax Identification Number" />
 		</mat-form-field>
   
-		<!-- Data de Nascimento -->
 		<mat-form-field appearance="outline">
 		  <mat-label>Birth Date</mat-label>
 		  <input matInput [matDatepicker]="nascimentoPicker" formControlName="birthDate" />
@@ -45,7 +38,6 @@
 			</mat-error>
 		</mat-form-field>
 
-		<!-- drivers license -->
 		<mat-form-field appearance="outline">
 			<mat-label>Drivers License</mat-label>
 			<input matInput type="tel" formControlName="driversLicense" placeholder="Insert a Drivers License" />
@@ -53,43 +45,11 @@
 				The driver's license must start with 'L' followed by 6 digits.
 			  </mat-error>
 		</mat-form-field>
-	
-  
-		<!-- Morada
-		<h6>Morada:</h6>
-		<mat-form-field appearance="outline">
-		  <mat-label>Rua</mat-label>
-		  <input matInput formControlName="rua" placeholder="Digite a rua" />
-		</mat-form-field>
-  
-		<mat-form-field appearance="outline">
-		  <mat-label>Localidade</mat-label>
-		  <input matInput formControlName="localidade" placeholder="Digite a localidade" />
-		</mat-form-field>
-  
-		<mat-form-field appearance="outline">
-		  <mat-label>Código Postal</mat-label>
-		  <input matInput formControlName="codigoPostal" placeholder="Digite o código postal" />
-		</mat-form-field>
-  
-		<mat-form-field appearance="outline">
-		  <mat-label>Localidade Postal</mat-label>
-		  <input matInput formControlName="localidadePostal" placeholder="Digite a localidade postal" />
-		</mat-form-field>
-  
-		<mat-form-field appearance="outline">
-		  <mat-label>País</mat-label>
-		  <input matInput formControlName="pais" placeholder="Digite o país" />
-		</mat-form-field> -->
   
 		<div *ngIf="showWarning" style="color: red; margin-top: 10px;">
 		  Are you sure you want to deactivate the account?
 		</div>
 		<br>
-  
-
-  
-  
   
 	  </mat-dialog-content>
   

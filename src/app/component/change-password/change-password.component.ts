@@ -8,16 +8,10 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { MessageService } from '../../services/message.service';
 
-
 @Component({
   selector: 'app-change-password',
   standalone: true,
-  imports: [
-	CommonModule,
-	ReactiveFormsModule,
-	FormsModule,
-	RouterModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule],
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss'],
 })
@@ -33,11 +27,14 @@ export class ChangePasswordComponent {
 	private authenticatorService: AuthenticatorService,
 	private messageService: MessageService
   ) {
-	this.changePasswordForm = this.fb.group({
-	  oldPassword: ['', Validators.required],
-	  newPassword: ['', [Validators.required, Validators.minLength(6)]],
-	  confirmPassword: ['', Validators.required],
-	}, { validator: this.passwordMatchValidator });
+	this.changePasswordForm = this.fb.group(
+	  {
+		oldPassword: ['', Validators.required],
+		newPassword: ['', [Validators.required, Validators.minLength(6)]],
+		confirmPassword: ['', Validators.required],
+	  },
+	  { validator: this.passwordMatchValidator }
+	);
   }
 
   get formControls() {
@@ -47,11 +44,8 @@ export class ChangePasswordComponent {
   passwordMatchValidator(group: FormGroup) {
 	const newPassword = group.get('newPassword')?.value;
 	const confirmPassword = group.get('confirmPassword')?.value;
-	//console.log('New Password:', newPassword);
-	//console.log('Confirm Password:', confirmPassword);
 	if (newPassword !== confirmPassword) {
 	  group.get('confirmPassword')?.setErrors({ mismatch: true });
-	  //console.error('Passwords do not match!');
 	  return { mismatch: true };
 	}
 	group.get('confirmPassword')?.setErrors(null);
@@ -61,49 +55,47 @@ export class ChangePasswordComponent {
   onSubmit() {
 	this.errorMessage = '';
 	this.successMessage = '';
-	
+
 	if (this.changePasswordForm.valid) {
-	  const { oldPassword, newPassword, confirmPassword } = this.changePasswordForm.value;
-	  
-	  this.userService.changePassword(oldPassword, newPassword, confirmPassword)
+	  const { oldPassword, newPassword, confirmPassword } =
+		this.changePasswordForm.value;
+
+	  this.userService
+		.changePassword(oldPassword, newPassword, confirmPassword)
 		.subscribe({
 		  next: () => {
 			this.successMessage = 'Password changed successfully!';
 			this.messageService.showSnackbar(this.successMessage, 'success');
-			//console.log('Password changed successfully');
 			this.authenticatorService.logout();
 			this.router.navigate(['/login']);
 		  },
 		  error: (err) => {
-			//console.log('Changing password failure', err);
 			if (err.error && err.error.error) {
-			  this.errorMessage = err.error.error; 
+			  this.errorMessage = err.error.error;
 			  this.messageService.showSnackbar(this.errorMessage, 'error');
 			} else {
-			  const genericError = err.statusText || 'An error occurred during password change.';
+			  const genericError =
+				err.statusText || 'An error occurred during password change.';
 			  this.messageService.showSnackbar(genericError, 'error', 5000);
 			}
 			if (!this.errorMessage) {
 			  this.errorMessage = 'Unknown error occurred.';
 			}
-		  }
+		  },
 		});
 	} else {
 	  if (this.changePasswordForm.hasError('mismatch')) {
 		this.messageService.showSnackbar('Passwords do not match.', 'error');
-		//console.log('Passwords do not match.');
 	  }
 	}
   }
 
   onCancel() {
-    // Recupera o userID utilizando o método getUserId() do AuthenticatorService
-    const userID = this.authenticatorService.getUserId();
-
-    if (userID) {
-      this.router.navigate([`/user/${userID}`]);  // Navega para a página do usuário com o userID
-    } else {
-      this.router.navigate(['/profile']);  // Se o userID não for encontrado, redireciona para o perfil
-    }
+	const userID = this.authenticatorService.getUserId();
+	if (userID) {
+	  this.router.navigate([`/user/${userID}`]);
+	} else {
+	  this.router.navigate(['/profile']);
+	}
   }
 }

@@ -1,12 +1,3 @@
-// import { Injectable } from '@angular/core';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class UserService {
-
-//   constructor() { }
-// }
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -15,99 +6,99 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+	providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = `http://localhost:8082/api/user`;
 
-  constructor(private http: HttpClient) {}
+	private apiUrl = 'http://localhost:8082/api' + '/user';
 
-  // Common headers, assuming 'verifyToken' middleware checks the token from local storage or session storage
-  private getHeaders() {
-    const token = localStorage.getItem('userToken');
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-    });
-  }
+	constructor(private http: HttpClient) {}
 
-  // ======================== GET ======================== //
+	private getHeaders() {
+		const token = localStorage.getItem('userToken');
+		return new HttpHeaders({
+			'Authorization': `Bearer ${token}`,
+		});
+	}
 
-  // Get all users
-  getAllUsers(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}`, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError)
-    );
-  }
+	// ======================== GET ======================== //
 
-  // Get user by userID
-  getUserByUserID(userID: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/id/${userID}`, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError)
-    );
-  }
+	// Get all users
+	getAllUsers(): Observable<any> {
+		return this.http.get<any>(`${this.apiUrl}`, { headers: this.getHeaders() }).pipe(
+			catchError(this.handleError)
+		);
+	}
 
-  // Get user by email
-  getUserByEmail(email: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/email/${email}`, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError)
-    );
-  }
+	// Get user by userID
+	getUserByUserID(userID: string): Observable<any> {
+		return this.http.get<any>(`${this.apiUrl}/id/${userID}`, { headers: this.getHeaders() }).pipe(
+			catchError(this.handleError)
+		);
+	}
 
-  // Get user by token
-  getUserByToken(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/byToken`, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError)
-    );
-  }
+	// Get user by email
+	getUserByEmail(email: string): Observable<any> {
+		return this.http.get<any>(`${this.apiUrl}/email/${email}`, { headers: this.getHeaders() }).pipe(
+			catchError(this.handleError)
+		);
+	}
 
-  // Get user info for passenger (for driver)
-  getPassengersInfo(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/passenger`, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError)
-    );
-  }
+	// Get user by token
+	getUserByToken(): Observable<any> {
+		return this.http.get<any>(`${this.apiUrl}/byToken`, { headers: this.getHeaders() }).pipe(
+			catchError(this.handleError)
+		);
+	}
 
-  // ======================== PUT ======================== //
+	// Get user info for passenger (for driver)
+	getPassengersInfo(): Observable<any> {
+		return this.http.get<any>(`${this.apiUrl}/passenger`, { headers: this.getHeaders() }).pipe(
+			catchError(this.handleError)
+		);
+	}
 
-  // Update user by userID
-  updateUserByUserID(userID: string, userData: any): Observable<any> {
-    const token = localStorage.getItem('authToken');
-    console.log('Token recuperado:', token);
-    console.log('USER DATA USERSERVICE:', userData);
-    return this.http.put<any>(`${this.apiUrl}/id/${userID}`, userData, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError)
-    );
-  }
+	// ======================== PUT ======================== //
 
-  // Update user by email
-  updateUserByEmail(email: string, userData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/email/${email}`, userData, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError)
-    );
-  }
+	// Update user by userID
+	updateUserByUserID(userID: string, userData: any): Observable<any> {
+		const token = localStorage.getItem('authToken');
+		console.log('Token recuperado:', token);
+		console.log('USER DATA USERSERVICE:', userData);
+		return this.http.put<any>(`${this.apiUrl}/id/${userID}`, userData, { headers: this.getHeaders() }).pipe(
+			catchError(this.handleError)
+		);
+	}
 
-  // Change user status by userID
-  changeStatusByEmail(email: string, statusData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/status/${email}`, statusData, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError)
-    );
-  }
+	// Update user by email
+	updateUserByEmail(email: string, userData: any): Observable<any> {
+		return this.http.put<any>(`${this.apiUrl}/email/${email}`, userData, { headers: this.getHeaders() }).pipe(
+			catchError(this.handleError)
+		);
+	}
 
-  // Change user password by userID
-  changePasswordByUserID(userID: string, passwordData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/pass/${userID}`, passwordData, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError)
-    );
-  }
+	// Change user status by userID
+	changeStatusByEmail(email: string, statusData: any): Observable<any> {
+		return this.http.put<any>(`${this.apiUrl}/status/${email}`, statusData, { headers: this.getHeaders() }).pipe(
+			catchError(this.handleError)
+		);
+	}
 
-  // ======================== PATCH ======================== //
+	// Change user password by userID
+	changePasswordByUserID(userID: string, passwordData: any): Observable<any> {
+		return this.http.put<any>(`${this.apiUrl}/pass/${userID}`, passwordData, { headers: this.getHeaders() }).pipe(
+			catchError(this.handleError)
+		);
+	}
 
-  // Rate driver by userID
-  rateDriver(userID: string, ratingData: any): Observable<any> {
-    return this.http.patch<any>(`${this.apiUrl}/ratedriver/${userID}`, ratingData, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError)
-    );
-  }
+	// ======================== PATCH ======================== //
+
+	// Rate driver by userID
+	rateDriver(userID: string, ratingData: any): Observable<any> {
+		return this.http.patch<any>(`${this.apiUrl}/ratedriver/${userID}`, ratingData, { headers: this.getHeaders() }).pipe(
+			catchError(this.handleError)
+		);
+	}
 
   // Rate passengers
   ratePassengers(ratingData: any): Observable<any> {
@@ -121,36 +112,34 @@ export class UserService {
     return this.http.patch<any>(`${this.apiUrl}/rateOnePassenger`, ratingData);
   }
 
-  // ======================== DELETE ======================== //
+	// ======================== DELETE ======================== //
 
-  // Delete user by userID
-  deleteUser(userID: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/id/${userID}`, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError)
-    );
-  }
+	// Delete user by userID
+	deleteUser(userID: string): Observable<any> {
+		return this.http.delete<any>(`${this.apiUrl}/id/${userID}`, { headers: this.getHeaders() }).pipe(
+			catchError(this.handleError)
+		);
+	}
 
-  // ======================== Error Handler ======================== //
+	// ======================== Error Handler ======================== //
 
-  private handleError(error: any): Observable<never> {
-    let errorMessage = 'An error occurred while processing the request.';
-    if (error.error instanceof ErrorEvent) {
-      // Client-side error
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Server-side error
-      errorMessage = `Error: ${error.status} - ${error.message}`;
-    }
-    return throwError(errorMessage);
-  }
+	private handleError(error: any): Observable<never> {
+		let errorMessage = 'An error occurred while processing the request.';
+		if (error.error instanceof ErrorEvent) {
+			errorMessage = `Error: ${error.error.message}`;
+		} else {
+			errorMessage = `Error: ${error.status} - ${error.message}`;
+		}
+		return throwError(errorMessage);
+	}
 
-  changePassword(oldPassword: string, newPassword: string, confirmPassword: string): Observable<any> {
-    const userID = localStorage.getItem('userID');
-    return this.http.put(`${this.apiUrl}/pass/${userID}`, {
-      oldPassword,
-      newPassword,
-      confirmPassword,
-    });
-  }
+	changePassword(oldPassword: string, newPassword: string, confirmPassword: string): Observable<any> {
+		const userID = localStorage.getItem('userID');
+		return this.http.put(`${this.apiUrl}/pass/${userID}`, {
+			oldPassword,
+			newPassword,
+			confirmPassword,
+		});
+	}
 
 }

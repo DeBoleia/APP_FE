@@ -101,7 +101,7 @@
 			</button>
 			<img *ngIf="!searchReady || !(originDistrictControl.value && destinationDistrictControl.value)" src="/findAride.png"
 				alt="" />
-				<div *ngIf="searchReady && originDistrictControl.value && destinationDistrictControl.value" style="margin:20px;">
+				<div *ngIf="searchReady && originDistrictControl.value && destinationDistrictControl.value" style="margin:auto; margin-top: 25px;">
 					<app-map-display
 					  [from]="{
 						district: originDistrictControl.value || undefined,

@@ -116,6 +116,12 @@ export class UserService {
     );
   }
 
+  rateOnePassenger(ratingData: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/rateOnePassenger`, ratingData, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   // ======================== DELETE ======================== //
 
   // Delete user by userID
@@ -147,6 +153,5 @@ export class UserService {
       confirmPassword,
     });
   }
-
 
 }

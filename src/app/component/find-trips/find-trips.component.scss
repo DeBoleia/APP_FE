@@ -138,3 +138,20 @@ img {
 	--mat-sys-primary : black;
 	// --bs-body-color: green;
 }
+
+.animated-text {
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	animation: typing 3.5s steps(40, end);
+}
+
+@keyframes typing {
+	from { width: 0; }
+	to { width: 30%; }
+}
+
+@keyframes blink-caret {
+	from, to { border-color: transparent; }
+	50% { border-color: orange; }
+}

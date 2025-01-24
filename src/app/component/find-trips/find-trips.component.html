@@ -99,8 +99,14 @@
 				Search
 				}
 			</button>
-			<img *ngIf="!searchReady || !(originDistrictControl.value && destinationDistrictControl.value)" src="/findAride.png"
+			<img *ngIf="!searchReady || !(originDistrictControl.value && destinationDistrictControl.value)" src="/DeBoleiaLogo.svg"
 				alt="" />
+				<!-- <h2 style="margin: auto;">Go DeBoleia</h2> -->
+				<h2 *ngIf="!searchReady || !(originDistrictControl.value && destinationDistrictControl.value)" style="margin: auto;" class="animated-text">Go DeBoleia..!</h2>
+
+				<style>
+					
+				</style>
 				<div *ngIf="searchReady && originDistrictControl.value && destinationDistrictControl.value" style="margin:auto; margin-top: 25px;">
 					<app-map-display
 					  [from]="{

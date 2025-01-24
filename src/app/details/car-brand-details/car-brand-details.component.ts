@@ -13,6 +13,7 @@ import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CarDatabaseService } from '../../services/cardatabase.service';
 import { MessageService } from '../../services/message.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { DatabaseCars } from '../../interfaces/car'; 
 
 @Component({
   selector: 'app-car-brand-details',
@@ -60,6 +61,14 @@ export class CarBrandDetailsComponent implements OnInit, AfterViewInit {
       this.brand = params['brand'] || '';
       this.loadBrandModels();
     });
+
+    this.dataSource.sortingDataAccessor = (item: { model: string }, property: string) => {
+      const value = item[property as keyof typeof item];
+      if (typeof value === 'string') {
+        return value.toLowerCase();
+      }
+      return value ?? '';
+    };
   }
 
   loadBrandModels(): void {

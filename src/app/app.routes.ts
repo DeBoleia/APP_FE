@@ -15,6 +15,7 @@ import { RgpdComponent } from './component/rgpd/rgpd.component';
 import { AboutusComponent } from './component/aboutus/aboutus.component';
 import { MyTripsComponent } from './component/my-trips/my-trips.component';
 import { ChangePasswordComponent } from './component/change-password/change-password.component';
+import { AuthGuard } from './Guards/auth.guard';
 
 
 export const routes: Routes = [
@@ -26,18 +27,13 @@ export const routes: Routes = [
 	{ path: "login", component: LoginComponent },
 	{ path: "register", component: RegisterComponent },
 	{ path: "home", component: HomeComponent },
-	{ path: "application", component: ApplicationComponent },
-	{ path: "trips", component: FindTripsComponent },
-	{ path: "offertrip", component: TripComponent },
+	{ path: "trips", component: FindTripsComponent , canActivate: [AuthGuard], data: { requiresAuth: true}},
+	{ path: "offertrip", component: TripComponent , canActivate: [AuthGuard], data: { requiresAuth: true}},
 	{ path: 'rgpd', component: RgpdComponent },
 	{ path: 'aboutus', component: AboutusComponent },
-	{ path: "trips", component: FindTripsComponent },
-	{ path: "mytrips", component: MyTripsComponent },
-	{ path: "map", component: MapDisplayComponent },
-	{ path: 'cars', component: CarDatabaseComponent },
-	{ path: 'cars/:brand', component: CarBrandDetailsComponent },	
-	{ path: 'rgpd', component: RgpdComponent }, 
-	{ path: 'aboutus', component: AboutusComponent },
-	{ path: 'change-password', component: ChangePasswordComponent }
+	{ path: "mytrips", component: MyTripsComponent , canActivate: [AuthGuard], data: { requiresAuth: true}},
+	{ path: 'cars', component: CarDatabaseComponent , canActivate: [AuthGuard], data: { requiresAuth: true}},
+	{ path: 'cars/:brand', component: CarBrandDetailsComponent , canActivate: [AuthGuard], data: { requiresAuth: true}},	
+	{ path: 'change-password', component: ChangePasswordComponent , canActivate: [AuthGuard], data: { requiresAuth: true}}
 
 ];

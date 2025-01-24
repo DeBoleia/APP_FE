@@ -20,12 +20,12 @@
           </li>
         } @else {
         <li class="nav-item">
-          <a class="nav-link" (click)="manageTrips()">Find Rides</a>
+          <a class="nav-link" (click)="manageTrips('/trips')">Find Rides</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/offertrip">Offer a ride</a>
+          <a class="nav-link" (click)="manageTrips('/offertrip')">Offer a ride</a>
         </li>
-        <li class="nav-item">
+        <li *ngIf="isLoggedIn()" class="nav-item">
           <a class="nav-link" routerLink="mytrips">My Trips</a>
         </li>
         }

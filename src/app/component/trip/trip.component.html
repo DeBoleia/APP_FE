@@ -53,7 +53,6 @@
   
 			<!-- Navigation Buttons -->
 			<div class="button-group">
-			  
 			  <button mat-raised-button color="primary" (click)="goToNextTab()">Next</button>
 			</div>
 		  </form>
@@ -97,8 +96,9 @@
 					</mat-option>
 				  </mat-select>
 				</mat-form-field>
-  
-				<button mat-button color="primary" matStepperNext>Next</button>
+				<div class="button-group">
+					<button mat-button color="primary" style="top: 20px;" matStepperNext>Next</button>
+				</div>
 			  </form>
 			</mat-step>
   

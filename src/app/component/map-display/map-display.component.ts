@@ -16,9 +16,9 @@ import { CommonModule } from '@angular/common';
 export class MapDisplayComponent implements OnChanges {
   @ViewChild('map', { static: true }) map!: GoogleMap;
 
-  zoom = 13;
+  zoom = 6;
   public distance: number = 0;
-  center!: google.maps.LatLngLiteral;
+  center: google.maps.LatLngLiteral = { lat: 41.1579, lng: -8.6291 };
 
   @Input() from: { parish?: string; municipality?: string; district?: string } = {};
   @Input() to: { parish?: string; municipality?: string; district?: string } = {};

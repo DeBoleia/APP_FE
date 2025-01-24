@@ -1,5 +1,5 @@
 // Global cursor styles
-a, 
+a,
 button,
 [role="button"],
 [routerLink],
@@ -7,7 +7,7 @@ button,
 mat-button,
 .nav-link,
 .logo-item {
-  cursor: pointer !important;
+	cursor: pointer !important;
 }
 
 // For images within clickable elements
@@ -17,7 +17,7 @@ button img,
 [routerLink] img,
 .clickable img,
 .logo-item img {
-  cursor: pointer !important;
+	cursor: pointer !important;
 }
 
 html,
@@ -28,4 +28,8 @@ body {
 body {
 	margin: 0;
 	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-elevation-z8 {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

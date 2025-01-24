@@ -19,6 +19,7 @@ import { PendingEvaluationGuard } from './guards/pending-evaluation.guard';
 
 export const routes: Routes = [
 	{ path: '', component: HomeComponent },
+	{ path: 'home', component: HomeComponent },
 	{ path: 'login', component: LoginComponent },
 	{ path: "user", component: UserComponent, canActivate: [PendingEvaluationGuard] },
 	{ path: "user/:userID", component: UserDetailsComponent, canActivate: [PendingEvaluationGuard] },

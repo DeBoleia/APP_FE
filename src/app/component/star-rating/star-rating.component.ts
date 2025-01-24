@@ -57,6 +57,7 @@ export class StarRatingComponent implements OnInit {
 
 
   ngOnInit(): void {
+    
   }
 
 }

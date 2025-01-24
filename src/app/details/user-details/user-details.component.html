@@ -1,7 +1,5 @@
 <div class="utilizador-details-container">
 	<div class="details-header">
-		<!-- <h2 id="title">Personal Information</h2> -->
-		<!-- <button mat-button (click)="editUtilizador(user)">Edit</button> -->
 	</div>
 
 	<br>
@@ -16,8 +14,6 @@
 								<h3 style="margin: 0;">Personal Info</h3>
 							</div>
 						</div>
-
-
 
 						<mat-divider></mat-divider><br>
 						<br>
@@ -57,8 +53,6 @@
 					</mat-card-content>
 				</mat-card>
 			</div>
-
-
 
 			<div class="table-cell">
 				<mat-card class="borda-customizada">
@@ -144,15 +138,13 @@
 
 	<br>
 
-
-
 	<mat-card-content *ngIf="user?.driversLicense && user.driversLicense !== 'Not Provided'">
 		<form [formGroup]="userForm">
 
 			<div formArrayName="cars" class="cars-container">
 				<mat-card class="borda-customizada" *ngFor="let carCtrl of carsFormArray.controls; let i = index"
 					[formGroupName]="i">
-					<!-- class="car-card" -->
+
 					<mat-card-header>
 						<div style="display: flex; align-items: center; position: relative; width: 100%;">
 							<div style="flex: 1;">
@@ -250,10 +242,5 @@
 	</mat-card-content>
 
 	<br>
-
-
-
 	<br>
-
-
 </div>

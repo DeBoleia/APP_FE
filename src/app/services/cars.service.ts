@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { Cars } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class CarsService {
 
     return this.http.get(`${this.baseUrlDeBoleia}/brands`);
   }
-
+  
   // Função para obter os modelos de carros baseado na marca
   // getCarModels(brand: string): Observable<any> {
   //   console.log('getCarModels ESTOU AQUI');

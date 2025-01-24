@@ -60,14 +60,26 @@
 
 /* Footer styles */
 .footer {
-  position: absolute;
+  position: fixed; /* OldProperty */
   bottom: 0;
+  left: 0;
   width: 100%;
-  height: 60px;
+  height: 2.1em;
   background-color: #000000;
   color: white;
   z-index: 1000;
 }
+
+// .footer {
+//   bottom: 0;
+//  color: #707070;
+//  height: 2em;
+//  left: 0;
+//  position: fixed; /* OldProperty */
+//  position: static;/* Updated Property */
+//  font-size: small;
+//  width:100%;
+// }
 
 .footer-content {
   position: relative;

@@ -13,6 +13,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { StarRatingComponent } from "../star-rating/star-rating.component";
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { catchError, forkJoin, of } from 'rxjs';
+import { AplicationCardComponent } from "../aplication-card/aplication-card.component";
 
 @Component({
   selector: 'app-manage-trip',
@@ -26,8 +28,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
     StarRatingComponent,
     MatDialogModule,
     MatListModule,
-    MatGridListModule
-],
+    MatGridListModule,
+    AplicationCardComponent
+  ],
   templateUrl: './manage-trip.component.html',
   styleUrl: './manage-trip.component.scss'
 })
@@ -56,18 +59,77 @@ export class ManageTripComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-      if (this.data?.tripCode) {
-        this.tripService.getTripByTripCode(this.data?.tripCode).subscribe( data => {
-          this.trip = data;
-        });
-        this.applicationService.getApplicationByTripCode(this.data?.tripCode).subscribe(data => {
-          this.candidates = data;
-        })
-        this.tripService.getPassengersByTripCode(this.data?.tripCode).subscribe(data => {
-          this.passengers = data;
-        })
-      }
+  loadData() {
+    if (this.data?.tripCode) {
+      forkJoin({
+        trip: this.tripService.getTripByTripCode(this.data.tripCode).pipe(catchError(error => of(null))),
+        candidates: this.applicationService.getApplicationByTripCode(this.data.tripCode).pipe(catchError(error => of([]))),
+        passengers: this.tripService.getPassengersByTripCode(this.data.tripCode).pipe(catchError(error => of([])))
+      }).subscribe(({ trip, candidates, passengers }) => {
+        this.trip = trip;
+        this.candidates = candidates;
+        this.passengers = passengers;
+        console.log('trip', this.trip);
+        console.log('candidates', this.candidates);
+        console.log('passengers', this.passengers);
+      });
+    }
   }
 
+  offerTrip(tripCode: string) {
+    this.messageService.showConfirmationDialog(
+      'OFFER TRIP',
+      'Are you sure you want to offer this trip? Please confirm by entering the trip code:',
+      tripCode).subscribe(result => {
+        if (result) {
+          this.tripService.offerTrip(tripCode).subscribe(data => {
+            this.loadData();
+          });
+        }
+      });
+  }
+
+
+  cancelTrip(tripCode: string) {
+    this.messageService.showConfirmationDialog(
+      'Cancel Trip',
+      'Are you sure you want to cancel this trip? Please confirm by entering the trip code:',
+      tripCode).subscribe(result => {
+        if (result) {
+          this.tripService.cancelTrip(tripCode).subscribe(data => {
+            this.loadData();
+          });
+        }
+      });
+  }
+
+  startTrip(tripCode: string) {
+    this.messageService.showConfirmationDialog(
+      'START TRIP',
+      'Are you sure you want to start this trip? Please confirm by entering the trip code:',
+      tripCode).subscribe(result => {
+        if (result) {
+          this.tripService.startTrip(tripCode).subscribe(data => {
+            this.loadData();
+          });
+        }
+      });
+  }
+
+  finishTrip(tripCode: string) {
+    this.messageService.showConfirmationDialog(
+      'FINISH TRIP',
+      'Please confirm by entering the trip code:',
+      tripCode).subscribe(result => {
+        if (result) {
+          this.tripService.finishTrip(tripCode).subscribe(data => {
+            this.loadData();
+          });
+        }
+      });
+  }
+
+  ngOnInit(): void {
+    this.loadData();
+  }
 }

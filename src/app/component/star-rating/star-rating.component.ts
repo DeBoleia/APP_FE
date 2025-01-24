@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FontAwesomeModule, SizeProp } from '@fortawesome/angular-fontawesome';
 import { faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 
@@ -23,6 +23,8 @@ export class StarRatingComponent implements OnInit {
   @Input() showEvaluations: boolean = false;
   @Input() readOnly: boolean = true;
 
+  @Output() ratingChange = new EventEmitter<number>();
+
   constructor() { }
 
   setRating(rating: number) {
@@ -30,6 +32,7 @@ export class StarRatingComponent implements OnInit {
       return;
     }
     this.rating = rating;
+    this.ratingChange.emit(this.rating);
   }
 
   getStarIcon(star: number) {

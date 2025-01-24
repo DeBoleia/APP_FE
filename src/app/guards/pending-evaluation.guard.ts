@@ -32,13 +32,13 @@ export class PendingEvaluationGuard implements CanActivate {
     return this.userService.getUserByUserID(userId).pipe(
       map((user) => {
         if (
-          user.pendingPassengerEvaluations.length > 0 || 
-          user.pendingDriverEvaluations.length > 0
+          user.pendingPassengerEvaluation.length > 0 || 
+          user.pendingDriverEvaluation.length > 0
         ) {
           this.dialog.open(PendingEvaluationDialogComponent, {
             data: {
-              pendingPassengerEvaluations: user.pendingPassengerEvaluations,
-              pendingDriverEvaluations: user.pendingDriverEvaluations,
+              pendingPassengerEvaluation: user.pendingPassengerEvaluation,
+              pendingDriverEvaluation: user.pendingDriverEvaluation,
             },
             disableClose: true,
           });

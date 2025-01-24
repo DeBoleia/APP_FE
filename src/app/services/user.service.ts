@@ -117,9 +117,8 @@ export class UserService {
   }
 
   rateOnePassenger(ratingData: any): Observable<any> {
-    return this.http.patch<any>(`${this.apiUrl}/rateOnePassenger`, ratingData, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError)
-    );
+    console.log('Rating Data:', ratingData);
+    return this.http.patch<any>(`${this.apiUrl}/rateOnePassenger`, ratingData);
   }
 
   // ======================== DELETE ======================== //

@@ -15,29 +15,25 @@ import { RgpdComponent } from './component/rgpd/rgpd.component';
 import { AboutusComponent } from './component/aboutus/aboutus.component';
 import { MyTripsComponent } from './component/my-trips/my-trips.component';
 import { ChangePasswordComponent } from './component/change-password/change-password.component';
-
+import { PendingEvaluationGuard } from './guards/pending-evaluation.guard';
 
 export const routes: Routes = [
 	{ path: '', component: HomeComponent },
-	// { path: 'trips', component: TripComponent },
 	{ path: 'login', component: LoginComponent },
-	{ path: "user", component: UserComponent/*, canActivate: [AuthGuard], data: { requiresAuth: true} */ },
-	{ path: "user/:userID", component: UserDetailsComponent/*, canActivate: [AuthGuard], data: { requiresAuth: true} */ },
+	{ path: "user", component: UserComponent, canActivate: [PendingEvaluationGuard] },
+	{ path: "user/:userID", component: UserDetailsComponent, canActivate: [PendingEvaluationGuard] },
 	{ path: "login", component: LoginComponent },
 	{ path: "register", component: RegisterComponent },
-	{ path: "home", component: HomeComponent },
-	{ path: "application", component: ApplicationComponent },
-	{ path: "trips", component: FindTripsComponent },
-	{ path: "offertrip", component: TripComponent },
+	{ path: "application", component: ApplicationComponent, canActivate: [PendingEvaluationGuard]},
+	{ path: "trips", component: FindTripsComponent, canActivate: [PendingEvaluationGuard] },
+	{ path: "offertrip", component: TripComponent, canActivate: [PendingEvaluationGuard]},
 	{ path: 'rgpd', component: RgpdComponent },
 	{ path: 'aboutus', component: AboutusComponent },
-	{ path: "trips", component: FindTripsComponent },
-	{ path: "mytrips", component: MyTripsComponent },
-	{ path: "map", component: MapDisplayComponent },
-	{ path: 'cars', component: CarDatabaseComponent },
+	{ path: "trips", component: FindTripsComponent, canActivate: [PendingEvaluationGuard] },
+	{ path: "mytrips", component: MyTripsComponent, canActivate: [PendingEvaluationGuard] },
+	{ path: "map", component: MapDisplayComponent, canActivate: [PendingEvaluationGuard] },
+	{ path: 'cars', component: CarDatabaseComponent, canActivate: [PendingEvaluationGuard] },
 	{ path: 'cars/:brand', component: CarBrandDetailsComponent },	
-	{ path: 'rgpd', component: RgpdComponent }, 
-	{ path: 'aboutus', component: AboutusComponent },
-	{ path: 'change-password', component: ChangePasswordComponent }
+	{ path: 'change-password', component: ChangePasswordComponent, canActivate: [PendingEvaluationGuard]}
 
 ];

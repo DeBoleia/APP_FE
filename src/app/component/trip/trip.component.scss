@@ -145,3 +145,14 @@ mat-error {
 		transform: translateY(0);
 	}
 }
+
+button {
+	padding: 8px 15px;
+	font-size: 1rem;
+}
+
+button[color="primary"] {
+	background-color: #4EC28F;
+	color: #fff;
+	border: none;
+}

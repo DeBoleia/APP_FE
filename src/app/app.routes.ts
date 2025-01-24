@@ -16,6 +16,7 @@ import { AboutusComponent } from './component/aboutus/aboutus.component';
 import { MyTripsComponent } from './component/my-trips/my-trips.component';
 import { ChangePasswordComponent } from './component/change-password/change-password.component';
 import { AuthGuard } from './Guards/auth.guard';
+import { PendingEvaluationGuard } from './Guards/pending-evaluation.guard';
 
 
 export const routes: Routes = [

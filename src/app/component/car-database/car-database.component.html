@@ -17,7 +17,7 @@
         Add New Car
       </button>
 
-      <img src="/carr03.jpg" alt="Car Image" style="height: 80px; border-radius: 12px;">
+      <img src="/carr03.jpg" alt="Car Image" style="height: 80px; border-radius: 12px; border: 4px solid  #62de8f;">
     </div>
 
     <mat-card-content>
@@ -36,7 +36,7 @@
             <div class="button-group">
               <button
                 style="background-color: #96e0b1; color: black; padding: 10px 15px; border: none; border-radius: 10px; cursor: pointer;"
-                (click)="viewBrandDetails(element.brand)">
+                (click)="viewBrandDetails(element.brand)"><i class="bi bi-eye"></i>
                 View Models
               </button>
               <button mat-flat-button color="accent" [ngStyle]="{ 

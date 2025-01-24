@@ -47,7 +47,7 @@
 								[routerLink]="['/change-password']">
 								<i class="bi bi-lock"></i> Change Password
 							</button>
-							<button type="button" class="btn btn-primary"
+							<button  style="background-color: #bebebe; color: black; padding: 10px 15px; border: none; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px;"
 								*ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() === 'admin')"
 								[routerLink]="['/user']">
 								<i class="bi bi-arrow-left"></i> Go Back
@@ -68,7 +68,7 @@
 							style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
 
 						<ng-template #defaultImage>
-							<img src="/perfilProfile.jpg" alt="Default Profile Picture"
+							<img src="/avatar.png" alt="Default Profile Picture"
 								style="width: 400px; height: 400px; border-radius: 50%; object-fit: cover;">
 						</ng-template>
 					</mat-card-content>

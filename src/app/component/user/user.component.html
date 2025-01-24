@@ -9,7 +9,7 @@
 					<input (keyup)="filterChange($event)" matInput placeholder="userID, name or email">
 					<mat-icon matSuffix>search</mat-icon>
 				</mat-form-field>
-				<img src="/perfilProfile.jpg" class="filter-image" alt="Car" 
+				<img src="/avatar.png" class="filter-image" alt="Car" 
      style="border: 4px solid  #62de8f;;">
 			</div>
 
@@ -39,20 +39,25 @@
 				<ng-container matColumnDef="status">
 					<th mat-sort-header mat-header-cell *matHeaderCellDef>STATUS</th>
 					<td mat-cell *matCellDef="let element" 
-						[ngStyle]="{'color': element.status === 'active' ? 'green' : 'red'}">
-					  {{element.status}}
-					</td>
+					[ngStyle]="{'color': element.status === 'active' ? 'green' : 'red', 'font-weight': 'bold'}">
+				  {{ element.status }}
+				</td>
 				  </ng-container>
 
 				<!-- Coluna Ações -->
 				<ng-container matColumnDef="acoes">
 					<th mat-header-cell *matHeaderCellDef class="custom-cell"></th>
 					<td mat-cell *matCellDef="let element">
-						<button mat-raised-button 
+						<button
+						style="background-color: #96e0b1; color: black; padding: 10px 15px; border: none; border-radius: 10px; cursor: pointer;"
+						(click)="showDetails(element.userID)"><i class="bi bi-eye"></i>
+						User Details
+					  </button>
+						<!-- <button mat-raised-button 
 								class="bttn-details bttn-custom-green" 
 								(click)="showDetails(element.userID)">
 						  Details
-						</button>
+						</button> -->
 					  </td>
 				</ng-container>
 

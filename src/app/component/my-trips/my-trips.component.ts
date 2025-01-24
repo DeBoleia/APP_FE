@@ -30,8 +30,6 @@ import { MatIconModule } from '@angular/material/icon';
     MatTableModule,
     MatButton,
     AplicationCardComponent,
-    StarRatingComponent,
-    MatTooltip,
     MatIconModule
 ],
   templateUrl: './my-trips.component.html',

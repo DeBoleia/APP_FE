@@ -7,8 +7,8 @@ import { finalize } from 'rxjs/operators';
 
 export function AuthInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> {
   const authService = inject(AuthenticatorService);
-  const loadingService = inject(LoadingService);
   const token = authService.getToken();
+  const loadingService = inject(LoadingService);
 
   loadingService.setLoading(true);
 

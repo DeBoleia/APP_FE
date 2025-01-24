@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { fullBackEndUrl } from '../../environments/environment';
 import { Application } from '../interfaces/application';
+import { Observable } from 'rxjs';
 
 
 // // ================================ POST ================================
@@ -31,7 +32,7 @@ export class ApplicationsService {
 
   constructor(private http: HttpClient) { }
 
-  createApplication(userID: string | null, tripCode: string | null) {
+  createApplication(userID: string | null, tripCode: string | null) : Observable<Application> {
     return this.http.post<Application>(this.url, { userID: userID, trip: tripCode });
   }
 

@@ -37,7 +37,7 @@ import { MapDisplayComponent } from "../map-display/map-display.component";
 })
 export class FindTripsComponent implements OnInit {
   districts = [
-    "Aveiro", "Beja", "Braga", "Bragança", "Castelo Branco", "Coimbra", "Évora", "Faro", "Guarda", "Leiria", "Lisboa", "Portalegre", "Porto", "Santarém", "Setúbal", "Viana do Castelo", "Vila Real", "Viseu"
+    "Aveiro", "Beja", "Braga", "Bragança", "Castelo Branco", "Coimbra", "Faro", "Guarda", "Leiria", "Lisboa", "Portalegre", "Porto", "R. A. Açores", "R. A. Madeira", "Santarém", "Setúbal", "Viana do Castelo", "Vila Real", "Viseu", "Évora"
   ];
 
   trips: Trip[] = [];

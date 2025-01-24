@@ -15,6 +15,10 @@ import { StarRatingComponent } from "../star-rating/star-rating.component";
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { ManageTripComponent } from '../manage-trip/manage-trip.component';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { ApplicationsService } from '../../services/applications.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-my-trips',
@@ -26,8 +30,7 @@ import { ManageTripComponent } from '../manage-trip/manage-trip.component';
     MatTableModule,
     MatButton,
     AplicationCardComponent,
-    StarRatingComponent,
-    MatTooltip
+    MatIconModule
 ],
   templateUrl: './my-trips.component.html',
   styleUrl: './my-trips.component.scss'
@@ -39,35 +42,56 @@ export class MyTripsComponent implements OnInit {
     private userService: UserService,
     private messageService: MessageService,
     private tripService: TripsService,
+    private applicationService: ApplicationsService,
     private dialog: MatDialog
   ) { }
 
-  user!: User;
+  user: any = undefined;
   tripsAsDriver: any[] = [];
   tripsAsDriverDataSource: any;
   tripsAsPassenger: any[] = [];
   tripsAsPassengerDataSource: any;
+  myApplications: any[] = [];
 
   ngOnInit(): void {
-    const userID = 'U001' /* this.authenticationService.getUserID() */;
+    const userID =  this.authenticationService.getUserID();
     if (userID) {
       this.userService.getUserByUserID(userID).subscribe(user => {
         this.user = user;
         console.log('user: ', this.user);
 
-        this.tripService.getTripsByDriver(userID).subscribe(trips => {
-          this.tripsAsDriver = trips;
+        forkJoin({
+          tripsAsDriver: this.tripService.getTripsByDriver(userID).pipe(catchError(error => {
+            console.error('Error fetching trips as driver', error);
+            return of([]);
+          })),
+          tripsAsPassenger: this.tripService.getTripsByPassenger(userID).pipe(catchError(error => {
+            console.error('Error fetching trips as passenger', error);
+            return of([]);
+          })),
+          myApplications: this.applicationService.getApplicationByUserID(userID).pipe(catchError(error => {
+            console.error('Error fetching all applications', error);
+            return of([]);
+          }))
+        }).subscribe(({ tripsAsDriver, tripsAsPassenger, myApplications }) => {
+          this.tripsAsDriver = tripsAsDriver;
           this.tripsAsDriverDataSource = new MatTableDataSource(this.tripsAsDriver);
-          console.log('tripsAsDriver: ', this.tripsAsDriver);
-        });
 
-        this.tripService.getTripsByPassenger(userID).subscribe(trips => {
-          this.tripsAsPassenger = trips;
+
+          this.tripsAsPassenger = tripsAsPassenger;
           this.tripsAsPassengerDataSource = new MatTableDataSource(this.tripsAsPassenger);
-          console.log('tripsAsPassenger: ', this.tripsAsPassenger);
+          
+          this.myApplications = myApplications;
         });
       });
     }
+  }
+
+  cancelRide(tripCode: string) {
+    this.tripService.removePassengerFromTrip(tripCode, this.user.userID).subscribe(() => {
+      this.messageService.showSnackbar('Ride cancelled successfully');
+      this.ngOnInit();
+    });
   }
 
   manageTrip(tripCode: string) {

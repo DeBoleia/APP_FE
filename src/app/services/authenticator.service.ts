@@ -45,18 +45,18 @@ export class AuthenticatorService {
 			);
 	}
 
-	saveToken(token: string): void {
-		const decodedToken: any = jwtDecode(token);
-		localStorage.setItem(this.tokenKey, token);
-		const role = decodedToken.role || decodedToken.userRole;
-		console.log('Extracted role:', role);
-		localStorage.setItem(this.tokenRole, role);
-		localStorage.setItem(this.tokenUserID, decodedToken.userID);
-		console.log('userID SAVE AAA decoded==> :', decodedToken.userID);
-
-		localStorage.setItem(this.tokenStatus, decodedToken.status);
-		console.log('status SAVE AAA decoded==> :', decodedToken.status);
-	}
+  saveToken(token: string): void {
+    const decodedToken: any = jwtDecode(token);
+    localStorage.setItem(this.tokenKey, token);
+    const role = decodedToken.role || decodedToken.userRole;
+    // console.log('Extracted role:', role);
+    localStorage.setItem(this.tokenRole, role);
+    localStorage.setItem(this.tokenUserID, decodedToken.userID);
+    // console.log('userID SAVE AAA decoded==> :', decodedToken.userID);
+    
+    localStorage.setItem(this.tokenStatus, decodedToken.status);
+    // console.log('status SAVE AAA decoded==> :', decodedToken.status);
+  }
 
 	getToken(): string | null {
 		return localStorage.getItem(this.tokenKey);
@@ -119,11 +119,11 @@ export class AuthenticatorService {
 		return decodedToken.userID || null;
 	}
 
-	getUserStatus(): string | null {
-		const token = this.getToken();
-		if (!token) return null;
-		const decodedToken: any = jwtDecode(token);
-		console.log('status @@@ decoded==> :', decodedToken.userStatus);
+  getUserStatus(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+    const decodedToken: any = jwtDecode(token);
+    // console.log('status @@@ decoded==> :', decodedToken.userStatus);
 
 		return decodedToken.userStatus || null;
 	}

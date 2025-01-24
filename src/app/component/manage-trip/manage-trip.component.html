@@ -2,28 +2,33 @@
 	<div style="display: flex; flex-direction: column; gap: 20px;">
 
 		<h2 style="display: flex; justify-content: space-between; align-items: center;">
-			<span>Trip Code: {{ trip?.tripCode }}</span>
 			<span class="badge" [ngClass]="{
-					'bg-primary': trip?.status === 'created',
-					'bg-success': trip?.status === 'inOffer',
-					'bg-secondary': trip?.status === 'closed',
-					'bg-warning': trip?.status === 'ongoing',
-					'bg-info': trip?.status === 'arrived',
-					'bg-dark': trip?.status === 'finished',
-					'bg-danger': trip?.status === 'canceled'
-				}" style="padding: 5px 10px; border-radius: 5px; color: white;">
+				'bg-primary': trip?.status === 'created',
+				'bg-success': trip?.status === 'inOffer',
+				'bg-secondary': trip?.status === 'closed',
+				'bg-warning': trip?.status === 'ongoing',
+				'bg-info': trip?.status === 'arrived',
+				'bg-dark': trip?.status === 'finished',
+				'bg-danger': trip?.status === 'canceled'
+			}" style="padding: 5px 10px; border-radius: 5px; color: white;">
 				{{ trip?.status === 'inOffer' ? 'In Offer' : (trip?.status | titlecase) }}
 			</span>
+			<span style="color: #000000; font-size: 24px;" > code: {{ trip?.tripCode }}</span>
+			
 		</h2>
 
-		<mat-grid-list cols="2" rowHeight="1:1" style="border: solid black 1px; border-radius: 10px;">
+		<mat-expansion-panel hideToggle>
+			<mat-expansion-panel-header>
+				<mat-panel-title> DRIVER | TRIP INFORMATION </mat-panel-title>
+			</mat-expansion-panel-header>
+		<mat-grid-list cols="2" rowHeight="1:1" >
 			<mat-grid-tile>
 				<div style="display: flex; flex-direction: column;">
 					<img src="/avatar.png" alt="Avatar" class="avatar">
 					<span class="driver-name">{{ trip?.driver?.name }}</span>
 					<app-star-rating [rating]="trip?.driver?.driverRating"
-						[nrEvaluations]="trip?.driver?.driverRatingCount" [size]="'2x'"
-						[showEvaluations]="true"></app-star-rating>
+						[nrEvaluations]="trip?.driver?.driverRatingCount" [size]="'2x'" [showEvaluations]="true"
+						[readOnly]="true"></app-star-rating>
 				</div>
 			</mat-grid-tile>
 			<mat-grid-tile>
@@ -74,21 +79,40 @@
 				</div>
 			</mat-grid-tile>
 		</mat-grid-list>
-
+	</mat-expansion-panel>
 
 		<mat-expansion-panel hideToggle>
 			<mat-expansion-panel-header>
 				<mat-panel-title> Passengers </mat-panel-title>
 			</mat-expansion-panel-header>
 			<ul *ngIf="trip?.passengers?.length; else noPassengers">
-				<li *ngFor="let passenger of trip?.passengers" style="display: flex; align-items: center;">
-					{{ passenger.name.split(' ')[0] }}
-					<div class="rating" style="margin-left: 10px;">
-						<ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-							<span [class.filled]="i < passenger.passengerRating">&#9733;</span>
-						</ng-container>
-					</div>
-				</li>
+				@for (passenger of trip?.passengers; track passenger) {
+				<mat-grid-list cols="2" rowHeight="3:1" style="border-bottom: solid black 1px;">
+					<mat-grid-tile>
+						<div style="display: flex; flex-direction: column;">
+							<img src="/avatar.png" alt="Avatar2" class="avatar2">
+							<span class="driver-name2">{{ passenger?.name }}</span>
+							<app-star-rating [rating]="passenger?.passengerRating"
+								[nrEvaluations]="passenger?.passengerRatingCount" [size]="'1x'" [showEvaluations]="true"
+								[readOnly]="true"></app-star-rating>
+						</div>
+					</mat-grid-tile>
+					<mat-grid-tile>
+						<div style="display: flex; flex-direction: column;">
+							<mat-list>
+								<mat-list-item>
+									<mat-icon matListItemIcon>phone</mat-icon>
+									<span matListItemTitle>{{passenger.phoneNumber}}</span>
+								</mat-list-item>
+								<mat-list-item>
+									<mat-icon matListItemIcon>email</mat-icon>
+									<span matListItemTitle>{{passenger.email}}</span>
+								</mat-list-item>
+							</mat-list>
+						</div>
+					</mat-grid-tile>
+				</mat-grid-list>
+				}
 			</ul>
 			<ng-template #noPassengers>
 				<p style="text-align: center;">There are no passengers yet.</p>
@@ -99,14 +123,12 @@
 				<mat-panel-title> Candidates </mat-panel-title>
 			</mat-expansion-panel-header>
 			<ul *ngIf="this.candidates?.length; else noCandidates">
-				<li *ngFor="let passenger of trip?.passengers" style="display: flex; align-items: center;">
-					{{ passenger.name.split(' ')[0] }}
-					<div class="rating" style="margin-left: 10px;">
-						<ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-							<span [class.filled]="i < passenger.passengerRating">&#9733;</span>
-						</ng-container>
-					</div>
-				</li>
+				<div style="display: flex; flex-direction: column; gap: 10px;">
+					@for (application of this.candidates; track application) {
+					<app-aplication-card [applicationCode]="application.applicationCode"
+						[isDriver]="true"></app-aplication-card>
+					}
+				</div>
 			</ul>
 			<ng-template #noCandidates>
 				<p style="text-align: center;">There are no applications to this trip yet.</p>
@@ -116,7 +138,26 @@
 
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
-	<button mat-button mat-dialog-close>Apply</button>
-	<button mat-button mat-dialog-close color="primary">Close</button>
+<mat-dialog-actions align="end" style="background-color: #000000; max-height: 64px;">
+	@if (trip?.status === 'created') {
+		<button mat-button style="background-color: #00a6ff; color: whitesmoke; width: 140px;"
+		(click)="offerTrip(trip?.tripCode)"
+		>OFFER TRIP</button>
+		}
+		@if (trip?.status === 'closed' || trip?.status === 'inOffer') {
+		<button mat-button style="background-color: #4EC28F; color: black; width: 140px;"
+		(click)="startTrip(trip?.tripCode)"
+		><mat-icon>play_circle</mat-icon>START TRIP</button>
+		}
+		@if (trip?.status === 'ongoing') {
+		<button mat-button style="background-color: #000000; color: whitesmoke; width: 140px;"
+		(click)="finishTrip(trip?.tripCode)"
+		>FINISH TRIP</button>
+		}
+		@if (trip?.status === 'closed' || trip?.status === 'inOffer') {
+		<button mat-button style="background-color: #c24e4e; color: black; width: 150px;"
+		(click)="cancelTrip(trip?.tripCode)"
+		><mat-icon>cancel</mat-icon>CANCEL TRIP</button>
+		}
+	<button mat-button mat-dialog-close style="background-color: #616161; color: rgb(255, 255, 255); width: 100px;"> <mat-icon>exit_to_app</mat-icon> leave</button>
 </mat-dialog-actions>

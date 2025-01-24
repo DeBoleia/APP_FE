@@ -62,7 +62,7 @@ export class TripDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.tripCode = this.data.tripCode;
+    this.tripCode = this.data?.tripCode;
     this.loadData();
   }
 

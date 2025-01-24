@@ -48,7 +48,6 @@ export class MapDisplayComponent implements OnChanges {
               this.toCoords = new google.maps.LatLng(toCoordinates.lat, toCoordinates.lng);
               this.markers = [fromCoordinates, toCoordinates];
               this.distance = this.locationService.calculateDistance(this.fromCoords, this.toCoords);
-              console.log('Distance:', this.distance);
               this.getDirections(this.fromCoords, this.toCoords);
             },
             error: (err) => console.error('Error fetching destination coordinates:', err),

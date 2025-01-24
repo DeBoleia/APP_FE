@@ -20,7 +20,7 @@ export class TripsService {
   // ================================ POST ================================
   // router.post('/', verifyToken, tripsController.createTrip); // <==== UC06 
 
-  createTrip(trip: Trip): Observable<Trip> {
+  createTrip(trip: any): Observable<Trip> {
     const localURL = this.APIURL;
     return this.http.post<Trip>(localURL, trip);
   }

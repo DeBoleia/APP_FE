@@ -1,13 +1,3 @@
-// import { Injectable } from '@angular/core';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class AuthenticatorService {
-
-//   constructor() { }
-// }
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -17,66 +7,43 @@ import { tap } from 'rxjs/operators';
 //import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+	providedIn: 'root',
 })
 export class AuthenticatorService {
-  private tokenKey = 'userToken';
-  private tokenUserID = 'userID';
-  private tokenRole = 'role';
-  private tokenStatus = 'userStatus';
-  //private apiUrl = environment.SAFE_BE_URL +  '/auth';
-  private apiUrl = 'http://localhost:8082/api/auth';
+	private tokenKey = 'userToken';
+	private tokenUserID = 'userID';
+	private tokenRole = 'role';
+	private tokenStatus = 'userStatus';
+	//private apiUrl = environment.SAFE_BE_URL +  '/auth';
+	private apiUrl = 'http://localhost:8082/api' + '/auth';
 
-  constructor(private http: HttpClient, private router: Router) { }
+	constructor(private http: HttpClient, private router: Router) {}
 
-  private targetUrl: string = '/';
+	private targetUrl: string = '/';
 
-  saveTargetUrl(url: string) {
-    this.targetUrl = url;
-  }
+	saveTargetUrl(url: string) {
+		this.targetUrl = url;
+	}
 
-  getTargetUrl(): string {
-    return this.targetUrl;
-  }
-  clearTargetUrl(): void {
-    this.targetUrl = '/';
-  }
+	getTargetUrl(): string {
+		return this.targetUrl;
+	}
+	clearTargetUrl(): void {
+		this.targetUrl = '/';
+	}
 
-  // login(email: string, password: string): Observable<{ userToken: string }> {
-  //   const body = { email, password };
-  //   // localStorage.setItem('email', email); //fred
-  //   // this.userEmail = email; //fred
-  //   return this.http.post<{ userToken: string }>(`${this.apiUrl}/login`, body);
-  // }
+	login(email: string, password: string): Observable<{ userToken: string }> {
+		const body = { email, password };
 
-  // login(email: string, password: string): Observable<{ userToken: string }> {
-  //   const body = { email, password };
-    
-  //   return this.http
-  //     .post<{ userToken: string }>(`${this.apiUrl}/login`, body)
-  //     .pipe(
-  //       tap((response) => {
-  //         this.saveToken(response.userToken);
-
-  //         localStorage.setItem('email', email);
-  //       })
-  //     );
-  // }
-
-  login(email: string, password: string): Observable<{ userToken: string }> {
-    // console.log('Login email:', email);
-    // console.log('Login password:', password);  // Não fazer em produção (apenas para testes)
-  
-    const body = { email, password };
-  
-    return this.http.post<{ userToken: string }>(`${this.apiUrl}/login`, body)
-      .pipe(
-        tap(response => {
-          // console.log('Received token:', response.userToken);
-          this.saveToken(response.userToken);
-        })
-      );
-  }
+		return this.http
+			.post<{ userToken: string }>(`${this.apiUrl}/login`, body)
+			.pipe(
+				tap((response) => {
+					console.log('Received token:', response.userToken);
+					this.saveToken(response.userToken);
+				})
+			);
+	}
 
   saveToken(token: string): void {
     const decodedToken: any = jwtDecode(token);
@@ -91,68 +58,66 @@ export class AuthenticatorService {
     // console.log('status SAVE AAA decoded==> :', decodedToken.status);
   }
 
-  getToken(): string | null {
-    // console.log('token @@@ decoded==> :', localStorage.getItem(this.tokenKey));
-    return localStorage.getItem(this.tokenKey);
-  }
+	getToken(): string | null {
+		return localStorage.getItem(this.tokenKey);
+	}
 
-  getUserRole(): string | null {
-    const role = localStorage.getItem(this.tokenRole);
-    // console.log('Retrieved role from localStorage:', role);
-    return role;
-  }
+	getUserRole(): string | null {
+		const role = localStorage.getItem(this.tokenRole);
 
-  getUserId(): string | null {
-    // console.log('userID @@@ decoded==> :', localStorage.getItem(this.tokenUserID));
-    return localStorage.getItem(this.tokenUserID);
-  }
+		return role;
+	}
 
-  isLoggedIn(): boolean {
-    return !!this.getToken();
-  }
+	getUserId(): string | null {
+		// console.log('userID @@@ decoded==> :', localStorage.getItem(this.tokenUserID));
+		return localStorage.getItem(this.tokenUserID);
+	}
 
-  logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem('email');
-    sessionStorage.removeItem('userEmail');
-    localStorage.removeItem('role');
-    
-    this.router.navigate(['/home']);
-  }
+	isLoggedIn(): boolean {
+		return !!this.getToken();
+	}
 
-  register(
-    name: string,
-    email: string,
-    phoneNumber: string,
-    password: string,
-  ): Observable<any> {
-    const body = { name, email, phoneNumber, password,  };
-    return this.http.post(`${this.apiUrl}/register`, body);
-  }
+	logout(): void {
+		localStorage.removeItem(this.tokenKey);
+		localStorage.removeItem('email');
+		sessionStorage.removeItem('userEmail');
+		localStorage.removeItem('role');
+		this.router.navigate(['/home']);
+	}
 
-  changeStatusByEmail(email: string): Observable<any> {
-    const token = this.getToken();
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put(`${this.apiUrl}/status/${email}`, {}, { headers });
-  }
+	register(
+		name: string,
+		email: string,
+		phoneNumber: string,
+		password: string
+	): Observable<any> {
+		const body = { name, email, phoneNumber, password };
+		return this.http.post(`${this.apiUrl}/register`, body);
+	}
 
-  changeStatusByEmail2(email: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/status2/${email}`, {});
-  }
+	changeStatusByEmail(email: string): Observable<any> {
+		const token = this.getToken();
+		const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+		return this.http.put(`${this.apiUrl}/status/${email}`, {}, { headers });
+	}
 
-  getUserEmail(): string | null {
-    const token = this.getToken();
-    if (!token) return null;
-    const decodedToken: any = jwtDecode(token);
-    return decodedToken.email || null;
-  }
+	changeStatusByEmail2(email: string): Observable<any> {
+		return this.http.put(`${this.apiUrl}/status2/${email}`, {});
+	}
 
-  getUserID(): string | null {
-    const token = this.getToken();
-    if (!token) return null;
-    const decodedToken: any = jwtDecode(token);
-    return decodedToken.userID || null;
-  }
+	getUserEmail(): string | null {
+		const token = this.getToken();
+		if (!token) return null;
+		const decodedToken: any = jwtDecode(token);
+		return decodedToken.email || null;
+	}
+
+	getUserID(): string | null {
+		const token = this.getToken();
+		if (!token) return null;
+		const decodedToken: any = jwtDecode(token);
+		return decodedToken.userID || null;
+	}
 
   getUserStatus(): string | null {
     const token = this.getToken();
@@ -160,7 +125,6 @@ export class AuthenticatorService {
     const decodedToken: any = jwtDecode(token);
     // console.log('status @@@ decoded==> :', decodedToken.userStatus);
 
-    return decodedToken.userStatus || null;
-  }
+		return decodedToken.userStatus || null;
+	}
 }
-

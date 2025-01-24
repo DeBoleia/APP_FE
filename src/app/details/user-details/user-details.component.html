@@ -1,7 +1,5 @@
 <div class="utilizador-details-container">
 	<div class="details-header">
-		<!-- <h2 id="title">Personal Information</h2> -->
-		<!-- <button mat-button (click)="editUtilizador(user)">Edit</button> -->
 	</div>
 
 	<br>
@@ -16,8 +14,6 @@
 								<h3 style="margin: 0;">Personal Info</h3>
 							</div>
 						</div>
-
-
 
 						<mat-divider></mat-divider><br>
 						<br>
@@ -47,7 +43,7 @@
 								[routerLink]="['/change-password']">
 								<i class="bi bi-lock"></i> Change Password
 							</button>
-							<button type="button" class="btn btn-primary"
+							<button  style="background-color: #bebebe; color: black; padding: 10px 15px; border: none; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px;"
 								*ngIf="authenticatorService.isLoggedIn() && (authenticatorService.getUserRole() === 'admin')"
 								[routerLink]="['/user']">
 								<i class="bi bi-arrow-left"></i> Go Back
@@ -58,8 +54,6 @@
 				</mat-card>
 			</div>
 
-
-
 			<div class="table-cell">
 				<mat-card class="borda-customizada">
 					<mat-card-content style="text-align: center;">
@@ -68,7 +62,7 @@
 							style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
 
 						<ng-template #defaultImage>
-							<img src="/perfilProfile.jpg" alt="Default Profile Picture"
+							<img src="/avatar.png" alt="Default Profile Picture"
 								style="width: 400px; height: 400px; border-radius: 50%; object-fit: cover;">
 						</ng-template>
 					</mat-card-content>
@@ -144,15 +138,13 @@
 
 	<br>
 
-
-
 	<mat-card-content *ngIf="user?.driversLicense && user.driversLicense !== 'Not Provided'">
 		<form [formGroup]="userForm">
 
 			<div formArrayName="cars" class="cars-container">
 				<mat-card class="borda-customizada" *ngFor="let carCtrl of carsFormArray.controls; let i = index"
 					[formGroupName]="i">
-					<!-- class="car-card" -->
+
 					<mat-card-header>
 						<div style="display: flex; align-items: center; position: relative; width: 100%;">
 							<div style="flex: 1;">
@@ -250,10 +242,5 @@
 	</mat-card-content>
 
 	<br>
-
-
-
 	<br>
-
-
 </div>

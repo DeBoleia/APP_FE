@@ -428,12 +428,11 @@
     <p>For any further questions regarding the right to erasure or our data protection practices, please do not hesitate
         to contact us at <strong>{{email}}</strong>.</p>
 
-
-    <!-- Botão apenas se não estiver logado -->
-    <button class="btn btn-primary" *ngIf="!isLoggedIn" (click)="voltarParaRegisto()">
-        Go back to Register
+    <button
+        style="background-color: #bebebe; color: black; padding: 10px 15px; border: none; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px;"
+        *ngIf="!isLoggedIn" (click)="voltarParaRegisto()"><i class="bi bi-arrow-left"></i>
+        Back to Register
     </button>
     <br><br><br>
-
 
 </div>
